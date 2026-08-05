@@ -2,19 +2,21 @@ name: omniscribe
 
 services:
   backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
       - DATABASE_URL=postgresql://user:password@db:5432/omniscribe
     depends_on:
       - db
+
   frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend/web/:/app/web/
-    ports:
-      - "5173:5173"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+
   db:
     image: postgres:15
     environment:
