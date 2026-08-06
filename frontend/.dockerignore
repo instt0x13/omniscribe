@@ -1,0 +1,15 @@
+# Локально установленные зависимости и артефакты сборок
+node_modules/
+dist/
+build/
+web/dist/
+
+# Локальные логи и кэши
+.npm/
+*.log
+
+# Файлы IDE и Git
+.git/
+.gitignore
+.vscode/
+.idea/

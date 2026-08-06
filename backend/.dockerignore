@@ -1,0 +1,17 @@
+# Виртуальные окружения Python
+.venv/
+venv/
+env/
+ENV/
+
+# Кэш Python и скомпилированные файлы
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Файлы IDE и Git
+.git/
+.gitignore
+.vscode/
+.idea/
