@@ -1,7 +1,7 @@
 # 1. Зависимости (базовый слой)
 FROM node:22-alpine AS base
 WORKDIR /app
-COPY config/package*.json ./
+COPY package*.json ./
 RUN npm ci
 
 # 2. DEV: Режим разработки (Node.js + HMR)
