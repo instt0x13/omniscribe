@@ -5,6 +5,9 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - /app/.venv
+      - /app/venv
+      - /app/env
 
   frontend:
     build:

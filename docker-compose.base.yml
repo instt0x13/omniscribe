@@ -6,6 +6,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
+      - PYTHONDONTWRITEBYTECODE=1 # Запрещает Python генерировать __pycache__
+      - PYTHONUNBUFFERED=1        # Немедленный вывод логов Python в консоль
       - DATABASE_URL=postgresql://user:password@db:5432/omniscribe
     depends_on:
       - db
