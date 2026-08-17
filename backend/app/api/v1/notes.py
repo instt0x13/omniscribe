@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.db.session import get_db
-from app.services.note_service import NoteService
-from app.repositories.note_repository import NoteRepository
-from app.schemas.note import NoteCreate, NoteResponse
+from app.db import get_db
+from app.services import NoteService
+from app.repositories import NoteRepository
+from app.schemas import NoteCreate, NoteResponse
 
 router = APIRouter(prefix="/notes", tags=["notes"])
 

@@ -1,5 +1,5 @@
-from app.repositories.note_repository import NoteRepository
-from app.schemas.note import NoteCreate, NoteResponse
+from app.repositories import NoteRepository
+from app.schemas import NoteCreate, NoteResponse
 
 class NoteService:
     def __init__(self, repository: NoteRepository):
