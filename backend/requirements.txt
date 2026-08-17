@@ -30,10 +30,15 @@ pydantic==2.13.4
     # via
     #   -r requirements.in
     #   fastapi
+    #   pydantic-settings
 pydantic-core==2.46.4
     # via pydantic
+pydantic-settings==2.15.0
+    # via -r requirements.in
 python-dotenv==1.2.2
-    # via uvicorn
+    # via
+    #   pydantic-settings
+    #   uvicorn
 pyyaml==6.0.3
     # via uvicorn
 sqlalchemy==2.0.51
@@ -42,15 +47,19 @@ starlette==1.5.0
     # via fastapi
 typing-extensions==4.16.0
     # via
+    #   anyio
     #   fastapi
+    #   psycopg
     #   pydantic
     #   pydantic-core
     #   sqlalchemy
+    #   starlette
     #   typing-inspection
 typing-inspection==0.4.2
     # via
     #   fastapi
     #   pydantic
+    #   pydantic-settings
 tzdata==2026.3
     # via psycopg
 uvicorn==0.52.1
