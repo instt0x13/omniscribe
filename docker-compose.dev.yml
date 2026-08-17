@@ -5,10 +5,6 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-      # Изолируем возможные локальные окружения Python на хосте:
-      - /app/.venv
-      - /app/venv
-      - /app/env
 
   frontend:
     build:
