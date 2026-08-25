@@ -27,13 +27,13 @@
      labelstyle="below"
      inkscape:zoom="0.64630631"
      inkscape:cx="440.96738"
-     inkscape:cy="288.56286"
+     inkscape:cy="287.01561"
      inkscape:window-width="1366"
      inkscape:window-height="715"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="svg1" />
   <defs
      id="defs1">
     <linearGradient
@@ -127,7 +127,7 @@
   </defs>
   <path
      sodipodi:type="star"
-     style="fill:url(#radialGradient11);fill-opacity:1;stroke:#141414;stroke-width:1;stroke-dasharray:none;stroke-opacity:0.60664821"
+     style="display:none;fill:url(#radialGradient11);fill-opacity:1;stroke:#141414;stroke-width:1;stroke-dasharray:none;stroke-opacity:0.606648"
      id="path9"
      inkscape:flatsided="true"
      sodipodi:sides="8"
@@ -141,6 +141,12 @@
      inkscape:randomized="0"
      d="M 91.473687,126.78947 40.209212,126.65812 4.052631,90.315789 4.1839788,39.051314 40.526313,2.894733 91.790788,3.0260808 127.94737,39.368415 127.81602,90.63289 Z"
      transform="translate(1.7333333,2.8912312)" />
+  <circle
+     style="fill:#1a1a1a;stroke-width:0.264583"
+     id="path1"
+     cx="67.73333"
+     cy="67.73333"
+     r="64.272285" />
   <g
      inkscape:label="Слой 1"
      inkscape:groupmode="layer"
