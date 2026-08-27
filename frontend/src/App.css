@@ -9,20 +9,33 @@
   --radius: 8px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   background: var(--bg);
   color: var(--text);
   padding: 2rem 1rem;
 }
 
-main { max-width: 800px; margin: 0 auto; }
+main {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-header { margin-bottom: 2rem; }
+header {
+  margin-bottom: 2rem;
+}
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border);
@@ -38,10 +51,26 @@ button {
   border-radius: var(--radius);
   cursor: pointer;
   font-weight: 500;
-  &:hover { background: var(--primary-hover); }
+  &:hover {
+    background: var(--primary-hover);
+  }
 }
 
-.subtitle { color: var(--muted); }
+dialog {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 100%;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.subtitle {
+  color: var(--muted);
+}
 
 .notes-list {
   display: flex;

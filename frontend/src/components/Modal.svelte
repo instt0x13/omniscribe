@@ -7,29 +7,29 @@
   }
 
   let { onclose, children }: Props = $props();
+  let dialogEl = $state<HTMLDialogElement | null>(null);
+
+  // Автоматически открываем dialog при монтировании компонента
+  $effect(() => {
+    dialogEl?.showModal();
+  });
 </script>
 
-<div class="modal-overlay" onclick={onclose} role="presentation">
-  <div class="modal-content" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+<dialog 
+  bind:this={dialogEl} 
+  onclick={onclose}
+>
+  <div class="modal-content">
     {@render children?.()}
   </div>
-</div>
+</dialog>
 
 <style>
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: grid;
-    place-items: center;
-    z-index: 100;
-  }
-
   .modal-content {
     background: var(--panel);
     padding: 1.5rem;
     border-radius: var(--radius);
-    width: min(100% - 2rem, 650px);
+    width: min(calc(100vw - 2rem), 650px);
     max-height: 85vh;
     display: flex;
     flex-direction: column;
