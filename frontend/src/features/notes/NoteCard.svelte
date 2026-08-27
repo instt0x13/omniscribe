@@ -15,3 +15,23 @@
   </div>
   <button class="btn-icon" onclick={oncopy} title="Скопировать">📋</button>
 </div>
+
+<style>
+  .note-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .note-title {
+    flex-grow: 1;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover { color: var(--primary); }
+  }
+  
+</style>

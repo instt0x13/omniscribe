@@ -20,3 +20,12 @@
   <textarea bind:value={content} placeholder="Контент (Markdown)" rows="3"></textarea>
   <button type="submit">Добавить заметку</button>
 </form>
+
+<style>
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+</style>

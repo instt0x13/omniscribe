@@ -79,3 +79,10 @@
     />
   </Modal>
 {/if}
+
+<style>
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.2rem;
+  }
+</style>

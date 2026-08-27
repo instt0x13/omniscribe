@@ -44,3 +44,21 @@
 {:else}
   <div class="note-body">{@html marked(note.content)}</div>
 {/if}
+
+<style>
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .modal-actions { display: flex; gap: 0.5rem; }
+
+.note-body, .note-editor {
+  overflow-y: auto;
+  line-height: 1.6;
+}
+.note-editor { min-height: 300px; resize: vertical; }
+
+</style>
