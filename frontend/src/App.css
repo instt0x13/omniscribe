@@ -7,6 +7,19 @@
   --primary-hover: #1d4ed8;
   --border: #e2e8f0;
   --radius: 8px;
+  --backdrop: rgba(0, 0, 0, 0.4);
+}
+
+/* Тёмная тема */
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --border: #334155;
+  --backdrop: rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -16,10 +29,7 @@
 }
 
 body {
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   padding: 2rem 1rem;
@@ -40,6 +50,8 @@ textarea {
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
   font: inherit;
 }
 
@@ -62,9 +74,9 @@ dialog {
   background: transparent;
   max-width: 100%;
   margin: auto;
+  color: var(--text);
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--backdrop);
 }
-
