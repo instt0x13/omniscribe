@@ -13,11 +13,19 @@
   $effect(() => {
     dialogEl?.showModal();
   });
+
+  // Закрытие по клику на фон (::backdrop)
+  function handleBackdropClick(e: MouseEvent) {
+    if (e.target === dialogEl) {
+      onclose();
+    }
+  }
 </script>
 
 <dialog 
   bind:this={dialogEl} 
-  onclick={onclose}
+  onclick={handleBackdropClick}
+  onclose={onclose}
 >
   <div class="modal-content">
     {@render children?.()}
