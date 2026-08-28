@@ -5,7 +5,7 @@
   
   import Modal from "$components/Modal.svelte";
   import ThemeToggle from "$components/ThemeToggle.svelte";
-  import NoteCard from "$features/notes/NoteCard.svelte";
+  import NotePreview from "$features/notes/NotePreview.svelte";
   import NoteForm from "$features/notes/NoteForm.svelte";
   import NoteView from "$features/notes/NoteView.svelte";
 
@@ -61,7 +61,7 @@
 
   <div class="notes-list">
     {#each notes as note (note.id)}
-      <NoteCard 
+      <NotePreview 
         title={note.title} 
         content={note.content} 
         onopen={() => page(`/note/${note.id}`)}
