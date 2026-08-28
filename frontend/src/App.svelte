@@ -83,6 +83,11 @@
 <style>
   .subtitle {
     color: var(--muted);
-    font-size: 1.2rem;
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 </style>
