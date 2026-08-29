@@ -3,11 +3,8 @@
   import page from "page";
   import { fetchNotes, createNote, updateNote, type Note } from "$api/notes";
   
-  import Modal from "$components/Modal.svelte";
-  import ThemeToggle from "$components/ThemeToggle.svelte";
-  import NotePreview from "$features/notes/NotePreview.svelte";
-  import NoteForm from "$features/notes/NoteForm.svelte";
-  import NoteView from "$features/notes/NoteView.svelte";
+  import { Modal, ThemeToggle } from "$components";
+  import { NotePreview, NoteForm, NoteView } from "$features/notes";
 
   let notes = $state<Note[]>([]);
   let activeNoteId = $state<number | null>(null);
@@ -73,11 +70,11 @@
 
 {#if currentNote}
   <Modal onclose={() => page("/")}>
-    <NoteView 
-      note={currentNote} 
-      onsave={handleUpdate} 
-      onclose={() => page("/")} 
-      oncopy={copyText} 
+    <NoteView
+      note={currentNote}
+      onsave={handleUpdate}
+      onclose={() => page("/")}
+      oncopy={copyText}
     />
   </Modal>
 {/if}
