@@ -12,8 +12,8 @@
 
   let { note, onsave, onclose, oncopy }: Props = $props();
   let isEditing = $state(false);
-  let editTitle = $state(note.title);
-  let editContent = $state(note.content);
+  let editTitle = $derived(note.title);
+  let editContent = $derived(note.content);
 
   async function handleSave() {
     await onsave({ title: editTitle, content: editContent });
