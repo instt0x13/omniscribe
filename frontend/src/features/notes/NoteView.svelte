@@ -1,6 +1,7 @@
 <script lang="ts">
   import { marked } from "marked";
   import type { Note } from "$api/notes";
+  import {Button} from "$components";
 
   interface Props {
     note: Note;
@@ -28,13 +29,13 @@
   {/if}
   
   <div class="modal-actions">
-    <button class="btn-icon" onclick={() => oncopy(isEditing ? editContent : note.content)}>📋</button>
+    <Button variant="icon" onclick={() => oncopy(isEditing ? editContent : note.content)} title="Скопировать">📋</Button>
     {#if isEditing}
-      <button onclick={handleSave}>Сохранить</button>
-      <button class="btn-secondary" onclick={() => (isEditing = false)}>Отмена</button>
+      <Button onclick={handleSave}>Сохранить</Button>
+      <Button variant="secondary" onclick={() => (isEditing = false)}>Отмена</Button>
     {:else}
-      <button onclick={() => (isEditing = true)}>Редактировать</button>
-      <button class="btn-secondary" onclick={onclose}>Закрыть</button>
+      <Button onclick={() => (isEditing = true)}>Редактировать</Button>
+      <Button variant="secondary" onclick={onclose}>Закрыть</Button>
     {/if}
   </div>
 </div>

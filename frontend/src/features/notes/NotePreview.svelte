@@ -1,4 +1,6 @@
 <script lang="ts">
+  import {Button} from "$components";
+
   interface Props {
     title: string;
     content: string;
@@ -13,7 +15,7 @@
   <div class="note-title" onclick={onopen} role="button" tabindex="0" onkeydown={(e) => e.key === 'Enter' && onopen()}>
     <span>{title}</span>
   </div>
-  <button class="btn-icon" onclick={oncopy} title="Скопировать">📋</button>
+  <Button variant="icon" onclick={oncopy} title="Скопировать">📋</Button>
 </div>
 
 <style>
