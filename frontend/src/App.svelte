@@ -1,9 +1,9 @@
 <script lang="ts">
   import { marked } from "marked";
   import page from "page";
-  import { fetchNotes, createNote, updateNote, type Note } from "$lib/api/notes";
+  import { fetchNotes, createNote, updateNote, type Note } from "$lib/shared/api/notes";
   
-  import { Modal, ThemeToggle } from "$lib/components";
+  import { Modal, ThemeToggle } from "$lib/shared/ui";
   import { NotePreview, NoteForm, NoteView } from "$lib/features/notes";
 
   let notes = $state<Note[]>([]);

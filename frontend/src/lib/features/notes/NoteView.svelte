@@ -1,7 +1,7 @@
 <script lang="ts">
   import { marked } from "marked";
-  import type { Note } from "$lib/api/notes";
-  import {Button} from "$lib/components";
+  import type { Note } from "$lib/shared/api/notes";
+  import {Button} from "$lib/shared/ui";
 
   interface Props {
     note: Note;

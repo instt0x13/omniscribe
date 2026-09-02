@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {Button} from "$lib/components";
+  import {Button} from "$lib/shared/ui";
 
   interface Props {
     onsubmit: (data: { title: string; content: string }) => Promise<void>;
