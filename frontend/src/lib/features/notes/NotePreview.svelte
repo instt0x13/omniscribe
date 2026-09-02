@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {Button} from "$components";
+  import {Button} from "$lib/components";
 
   interface Props {
     title: string;

@@ -1,10 +1,10 @@
 <script lang="ts">
   import { marked } from "marked";
   import page from "page";
-  import { fetchNotes, createNote, updateNote, type Note } from "$api/notes";
+  import { fetchNotes, createNote, updateNote, type Note } from "$lib/api/notes";
   
-  import { Modal, ThemeToggle } from "$components";
-  import { NotePreview, NoteForm, NoteView } from "$features/notes";
+  import { Modal, ThemeToggle } from "$lib/components";
+  import { NotePreview, NoteForm, NoteView } from "$lib/features/notes";
 
   let notes = $state<Note[]>([]);
   let activeNoteId = $state<number | null>(null);
