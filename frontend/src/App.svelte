@@ -1,12 +1,11 @@
 <script lang="ts">
   import { marked } from "marked";
   import page from "page";
-  import { fetchNotes, createNote, updateNote, type Note } from "$lib/shared/api/notes";
   
   import { Modal, ThemeToggle } from "$lib/shared/ui";
-  import { NotePreview, NoteForm, NoteView } from "$lib/features/notes";
+  import { NotePreview, NoteForm, NoteView, noteApi } from "$lib/features/note";
 
-  let notes = $state<Note[]>([]);
+  let notes = $state<noteApi.Note[]>([]);
   let activeNoteId = $state<number | null>(null);
 
   let currentNote = $derived(
@@ -16,18 +15,18 @@
   marked.setOptions({ gfm: true, breaks: true });
 
   async function loadNotes() {
-    try { notes = await fetchNotes(); } 
+    try { notes = await noteApi.fetchNotes(); } 
     catch (err) { console.error(err); }
   }
 
   async function handleCreate(data: { title: string; content: string }) {
-    await createNote(data);
+    await noteApi.createNote(data);
     await loadNotes();
   }
 
   async function handleUpdate(data: { title: string; content: string }) {
     if (!activeNoteId) return;
-    await updateNote(activeNoteId, data);
+    await noteApi.updateNote(activeNoteId, data);
     await loadNotes();
   }
 
