@@ -3,9 +3,9 @@
   import page from "page";
   
   import { Modal, ThemeToggle } from "$lib/shared/ui";
-  import { NotePreview, NoteForm, NoteView, noteApi } from "$lib/features/note";
+  import { NotePreview, NoteForm, NoteView, noteApi, type Note } from "$lib/features/note";
 
-  let notes = $state<noteApi.Note[]>([]);
+  let notes = $state<Note[]>([]);
   let activeNoteId = $state<number | null>(null);
 
   let currentNote = $derived(

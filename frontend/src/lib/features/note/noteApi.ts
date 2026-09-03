@@ -1,10 +1,6 @@
 const API_URL = "http://localhost:8000/notes";
 
-export interface Note {
-  id: number;
-  title: string;
-  content: string;
-}
+import type { Note } from './noteTypes';
 
 export async function fetchNotes(): Promise<Note[]> {
   const res = await fetch(API_URL);

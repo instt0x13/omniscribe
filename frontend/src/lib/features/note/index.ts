@@ -1,6 +1,6 @@
 export * as noteApi from './noteApi';
+export type { Note } from './noteTypes';
 //export { notesStore } from './notesStore.svelte';
-//export { default as NoteList } from './ui/NoteList.svelte';
 
 // компоненты для работы с заметками
 export { default as NotePreview } from "./NotePreview.svelte";
