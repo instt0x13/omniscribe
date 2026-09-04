@@ -6,5 +6,4 @@ export type { Note } from './noteTypes';
 
 // компоненты для работы с заметками
 export { default as NotePreview } from "./NotePreview.svelte";
-export { default as NoteForm } from "./NoteForm.svelte";
-export { default as NoteView } from "./NoteView.svelte";
+export { default as NoteCard } from "./NoteCard.svelte";

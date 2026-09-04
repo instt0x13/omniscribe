@@ -1,21 +1,32 @@
 <script lang="ts">
-  import {Button} from "$lib/shared/ui";
+  import { Button } from "$lib/shared/ui";
 
   interface Props {
     title: string;
     content: string;
     onopen: () => void;
-    oncopy: () => void;
   }
 
-  let { title, onopen, oncopy }: Props = $props();
+  let { title, content, onopen }: Props = $props();
+
+  function handleCopy() {
+    navigator.clipboard.writeText(content)
+      .then(() => alert("Скопировано! 🎉"))
+      .catch(() => alert("Ошибка копирования"));
+  }
 </script>
 
 <div class="note-preview">
-  <div class="note-title" onclick={onopen} role="button" tabindex="0" onkeydown={(e) => e.key === 'Enter' && onopen()}>
+  <div 
+    class="note-title" 
+    onclick={onopen} 
+    role="button" 
+    tabindex="0" 
+    onkeydown={(e) => e.key === 'Enter' && onopen()}
+  >
     <span>{title}</span>
   </div>
-  <Button variant="icon" onclick={oncopy} title="Скопировать">📋</Button>
+  <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 </div>
 
 <style>
@@ -35,5 +46,4 @@
     cursor: pointer;
     &:hover { color: var(--primary); }
   }
-  
 </style>
