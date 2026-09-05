@@ -1,21 +1,19 @@
 <script lang="ts">
   import { marked } from "marked";
   import { Button } from "$lib/shared/ui";
-  import { noteApi, type Note } from "$lib/features/note";
+  import { noteApi, notesStore, type Note } from "$lib/features/note";
 
   interface Props {
-    note?: Note | null; // Если не передан — режим создания
+    note?: Note | null;
     onclose?: () => void;
-    onreload?: () => Promise<void>;
   }
 
-  let { note = null, onclose, onreload }: Props = $props();
+  let { note = null, onclose }: Props = $props();
 
   let isEditing = $derived(!note);
   let title = $state("");
   let content = $state("");
 
-  // Синхронизация полей при открытии существующей заметки
   $effect(() => {
     title = note?.title ?? "";
     content = note?.content ?? "";
@@ -31,12 +29,9 @@
         isEditing = false;
       } else {
         await noteApi.createNote({ title, content });
-        title = "";
-        content = "";
-        // Если передан проп onclose, закрываем форму создания после сохранения
-        if (onclose) onclose(); 
       }
-      if (onreload) await onreload();
+      await notesStore.loadNotes();
+      if (onclose) onclose(); // Закрываем карточку
     } catch (err) {
       console.error("Ошибка сохранения заметки:", err);
     }
@@ -48,7 +43,6 @@
       content = note.content;
       isEditing = false;
     } else if (onclose) {
-      // Закрываем форму создания при клике на "Отмена"
       onclose();
     }
   }
@@ -71,6 +65,7 @@
 
     <div class="card-actions">
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
+
       {#if isEditing}
         <Button onclick={handleSave}>{note ? "Сохранить" : "Добавить"}</Button>
         <Button variant="secondary" onclick={handleCancel}>Отмена</Button>

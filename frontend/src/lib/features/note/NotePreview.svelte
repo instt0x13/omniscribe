@@ -1,16 +1,16 @@
 <script lang="ts">
   import { Button } from "$lib/shared/ui";
+  import type { Note } from "./noteTypes";
 
   interface Props {
-    title: string;
-    content: string;
-    onopen: () => void;
+    note: Note;
+    onopen: () => void; // Вызываем событие клика
   }
 
-  let { title, content, onopen }: Props = $props();
+  let { note, onopen }: Props = $props();
 
   function handleCopy() {
-    navigator.clipboard.writeText(content)
+    navigator.clipboard.writeText(note.content)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
   }
@@ -24,7 +24,7 @@
     tabindex="0" 
     onkeydown={(e) => e.key === 'Enter' && onopen()}
   >
-    <span>{title}</span>
+    <span>{note.title}</span>
   </div>
   <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 </div>

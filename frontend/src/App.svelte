@@ -3,33 +3,21 @@
   import page from "page";
 
   import { Modal, ThemeToggle, Button } from "$lib/shared/ui";
-  import { NotePreview, NoteCard, noteApi, type Note } from "$lib/features/note";
-
-  let notes = $state<Note[]>([]);
-  let activeNoteId = $state<number | null>(null);
-  
-  // Флаг для модального окна создания
-  let isCreating = $state(false);
-
-  let currentNote = $derived(
-    activeNoteId !== null ? notes.find((n) => n.id === activeNoteId) ?? null : null
-  );
+  import { NotePreview, NoteCard, notesStore } from "$lib/features/note";
 
   marked.setOptions({ gfm: true, breaks: true });
 
-  async function loadNotes() {
-    try {
-      notes = await noteApi.fetchNotes();
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  // Глобальный роутинг верхнего уровня
+  page("/", () => {
+    notesStore.setActiveNoteId(null);
+  });
 
-  page("/", () => (activeNoteId = null));
-  page("/note/:id", (ctx) => (activeNoteId = Number(ctx.params.id)));
+  page("/note/:id", (ctx) => {
+    notesStore.setActiveNoteId(Number(ctx.params.id));
+  });
 
   $effect(() => {
-    loadNotes();
+    notesStore.loadNotes();
     page.start();
     return () => page.stop();
   });
@@ -42,41 +30,35 @@
     <p class="subtitle">Удобный менеджер заметок</p>
   </header>
 
-  <!-- Кнопка вызова модального окна создания -->
   <div class="actions-bar">
-    <Button onclick={() => (isCreating = true)}>
+    <Button onclick={() => notesStore.openCreateModal()}>
       + Создать заметку
     </Button>
   </div>
 
   <div class="notes-list">
-    {#each notes as note (note.id)}
+    {#each notesStore.notes as note (note.id)}
       <NotePreview 
-        title={note.title} 
-        content={note.content} 
-        onopen={() => page(`/note/${note.id}`)}
+        {note} 
+        onopen={() => page(`/note/${note.id}`)} 
       />
     {/each}
   </div>
 </main>
 
-<!-- 1. Модалка для создания новой заметки -->
-{#if isCreating}
-  <Modal onclose={() => (isCreating = false)}>
-    <NoteCard 
-      onreload={loadNotes} 
-      onclose={() => (isCreating = false)} 
-    />
+<!-- 1. Модалка создания (закрывается через стор, без смены URL) -->
+{#if notesStore.isCreating}
+  <Modal onclose={() => notesStore.closeCreateModal()}>
+    <NoteCard onclose={() => notesStore.closeCreateModal()} />
   </Modal>
 {/if}
 
-<!-- 2. Модалка для просмотра/редактирования существенной заметки -->
-{#if currentNote}
+<!-- 2. Модалка просмотра по URL (закрывается сбросом роута в root `/`) -->
+{#if notesStore.currentNote}
   <Modal onclose={() => page("/")}>
-    <NoteCard
-      note={currentNote}
-      onclose={() => page("/")}
-      onreload={loadNotes}
+    <NoteCard 
+      note={notesStore.currentNote} 
+      onclose={() => page("/")} 
     />
   </Modal>
 {/if}
