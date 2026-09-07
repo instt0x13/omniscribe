@@ -2,12 +2,11 @@
   import { marked } from "marked";
   import page from "page";
 
-  import { Modal, ThemeToggle, Button } from "$lib/shared/ui";
+  import { Modal, ThemeToggle, Button, Header } from "$lib/shared/ui";
   import { NotePreview, NoteCard, notesStore } from "$lib/features/note";
 
   marked.setOptions({ gfm: true, breaks: true });
 
-  // Глобальный роутинг верхнего уровня
   page("/", () => {
     notesStore.setActiveNoteId(null);
   });
@@ -23,19 +22,25 @@
   });
 </script>
 
-<main>
-  <header>
+<Header>
+  {#snippet left()}
     <ThemeToggle />
-    <h1>OmniScribe</h1>
-    <p class="subtitle">Удобный менеджер заметок</p>
-  </header>
+  {/snippet}
 
-  <div class="actions-bar">
+  {#snippet center()}
+    <div class="brand">
+      <h1>OmniScribe</h1>
+    </div>
+  {/snippet}
+
+  {#snippet right()}
     <Button onclick={() => notesStore.openCreateModal()}>
       + Создать заметку
     </Button>
-  </div>
+  {/snippet}
+</Header>
 
+<main>
   <div class="notes-list">
     {#each notesStore.notes as note (note.id)}
       <NotePreview 
@@ -46,14 +51,13 @@
   </div>
 </main>
 
-<!-- 1. Модалка создания (закрывается через стор, без смены URL) -->
+<!-- Модальные окна -->
 {#if notesStore.isCreating}
   <Modal onclose={() => notesStore.closeCreateModal()}>
     <NoteCard onclose={() => notesStore.closeCreateModal()} />
   </Modal>
 {/if}
 
-<!-- 2. Модалка просмотра по URL (закрывается сбросом роута в root `/`) -->
 {#if notesStore.currentNote}
   <Modal onclose={() => page("/")}>
     <NoteCard 
@@ -64,12 +68,13 @@
 {/if}
 
 <style>
-  .subtitle {
-    color: var(--muted);
+  .brand h1 {
+    font-size: 1.25rem;
+    margin: 0;
   }
 
-  .actions-bar {
-    margin-bottom: 1.5rem;
+  main {
+    padding-top: 1.5rem;
   }
 
   .notes-list {
