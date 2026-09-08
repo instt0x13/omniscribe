@@ -5,5 +5,5 @@ export type { Note } from './noteTypes';
 export { notesStore } from './notesStore.svelte';
 
 // компоненты для работы с заметками
-export { default as NotePreview } from "./NotePreview.svelte";
-export { default as NoteCard } from "./NoteCard.svelte";
+export { default as NotePreview } from "./ui/NotePreview.svelte";
+export { default as NoteCard } from "./ui/NoteCard.svelte";

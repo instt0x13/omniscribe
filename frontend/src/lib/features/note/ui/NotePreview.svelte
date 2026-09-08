@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button } from "$lib/shared/ui";
-  import type { Note } from "./noteTypes";
+  import type { Note } from "../noteTypes";
 
   interface Props {
     note: Note;

@@ -1,7 +1,10 @@
 <script lang="ts">
   import { marked } from "marked";
   import { Button } from "$lib/shared/ui";
-  import { noteApi, notesStore, type Note } from "$lib/features/note";
+
+  import { type Note } from "../noteTypes";
+  import * as noteApi from "../noteApi";
+  import { notesStore } from "../notesStore.svelte";
 
   interface Props {
     note?: Note | null;
