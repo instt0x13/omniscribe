@@ -2,8 +2,8 @@
   import { marked } from "marked";
   import page from "page";
 
-  import { Modal, ThemeToggle, Button, Header } from "$lib/shared/ui";
-  import { NotePreview, NoteCard, notesStore, NoteItem } from "$lib/features/note";
+  import { ThemeToggle, Button, Header } from "$lib/shared/ui";
+  import { NoteList, notesStore } from "$lib/features/note";
 
   marked.setOptions({ gfm: true, breaks: true });
 
@@ -16,7 +16,6 @@
   });
 
   $effect(() => {
-    notesStore.loadNotes();
     page.start();
     return () => page.stop();
   });
@@ -34,35 +33,13 @@
   {/snippet}
 
   {#snippet right()}
-    <Button onclick={() => notesStore.openCreateModal()}>
-      + Создать заметку
-    </Button>
+    <h2>Заметки</h2>
   {/snippet}
 </Header>
 
 <main>
-  <div class="notes-list">
-    {#each notesStore.notes as note (note.id)}
-      <NotePreview 
-        {note} 
-        onopen={() => page(`/note/${note.id}`)} 
-      />
-    {/each}
-  </div>
+  <NoteList />
 </main>
-
-<!-- Модальные окна -->
-{#if notesStore.isCreating}
-  <Modal onclose={() => notesStore.closeCreateModal()}>
-    <NoteCard noteItem={new NoteItem({ id: 0, title: "", content: "" })} />
-  </Modal>
-{/if}
-
-{#if notesStore.currentNote}
-  <Modal onclose={() => page("/")}>
-    <NoteCard noteItem={new NoteItem(notesStore.currentNote)} />
-  </Modal>
-{/if}
 
 <style>
   .brand h1 {
@@ -72,11 +49,5 @@
 
   main {
     padding-top: 1.5rem;
-  }
-
-  .notes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
   }
 </style>
