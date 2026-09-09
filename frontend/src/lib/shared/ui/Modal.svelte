@@ -22,17 +22,59 @@
   }
 </script>
 
-<dialog 
-  bind:this={dialogEl} 
-  onclick={handleBackdropClick}
-  onclose={onclose}
->
-  <div class="modal-content">
-    {@render children?.()}
+<dialog bind:this={dialogEl} {onclose}>
+  <div class="modal-wrapper">
+    <button class="close-btn" onclick={onclose} aria-label="Закрыть">
+      ✕
+    </button>
+
+    <div class="modal-content">
+      {@render children?.()}
+    </div>
   </div>
 </dialog>
 
 <style>
+  dialog {
+    background: transparent;
+    border: none;
+    padding: 0;
+    overflow: visible;
+    max-width: none;
+    max-height: none;
+  }
+
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -3rem;
+    right: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  }
+
   .modal-content {
     background: var(--panel);
     padding: 1.5rem;
@@ -42,5 +84,6 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow-y: auto;
   }
 </style>
