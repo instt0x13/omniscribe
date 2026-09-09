@@ -2,56 +2,27 @@
   import { marked } from "marked";
   import { Button } from "$lib/shared/ui";
 
-  import { type Note } from "../noteTypes";
-  import * as noteApi from "../noteApi";
-  import { notesStore } from "../notesStore.svelte";
+  import { NoteItem } from "../classes/NoteItem.svelte";
 
   interface Props {
-    note?: Note | null;
-    onclose?: () => void;
+    noteItem: NoteItem;
   }
 
-  let { note = null, onclose }: Props = $props();
-
-  let isEditing = $derived(!note);
-  let title = $state("");
-  let content = $state("");
-
-  $effect(() => {
-    title = note?.title ?? "";
-    content = note?.content ?? "";
-    isEditing = !note;
-  });
+  let { noteItem }: Props = $props();
+  let isEditing = $state(false);
 
   async function handleSave() {
-    if (!title.trim()) return;
-
-    try {
-      if (note) {
-        await noteApi.updateNote(note.id, { title, content });
-        isEditing = false;
-      } else {
-        await noteApi.createNote({ title, content });
-      }
-      await notesStore.loadNotes();
-      if (onclose) onclose(); // Закрываем карточку
-    } catch (err) {
-      console.error("Ошибка сохранения заметки:", err);
-    }
+    const success = await noteItem.save();
+    if (success) isEditing = false;
   }
 
   function handleCancel() {
-    if (note) {
-      title = note.title;
-      content = note.content;
-      isEditing = false;
-    } else if (onclose) {
-      onclose();
-    }
+    noteItem.reset();
+    isEditing = false;
   }
 
   function handleCopy() {
-    const textToCopy = isEditing ? content : (note?.content ?? content);
+    const textToCopy = noteItem.content;
     navigator.clipboard.writeText(textToCopy)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
@@ -61,20 +32,19 @@
 <div class="note-card">
   <div class="card-header">
     {#if isEditing}
-      <input bind:value={title} class="title-input" placeholder="Заголовок..." />
+      <input bind:value={noteItem.title} class="title-input" placeholder="Заголовок..." />
     {:else}
-      <h2>{note?.title}</h2>
+      <h2>{noteItem.title}</h2>
     {/if}
 
     <div class="card-actions">
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 
       {#if isEditing}
-        <Button onclick={handleSave}>{note ? "Сохранить" : "Добавить"}</Button>
+        <Button onclick={handleSave}>{noteItem ? "Сохранить" : "Добавить"}</Button>
         <Button variant="secondary" onclick={handleCancel}>Отмена</Button>
       {:else}
         <Button onclick={() => (isEditing = true)}>Редактировать</Button>
-        <Button variant="secondary" onclick={onclose}>Закрыть</Button>
       {/if}
     </div>
   </div>
@@ -82,13 +52,13 @@
   <div class="card-body">
     {#if isEditing}
       <textarea
-        bind:value={content}
+        bind:value={noteItem.content}
         class="note-editor"
         placeholder="Контент (Markdown)"
         rows="4"
       ></textarea>
-    {:else if note}
-      <div class="note-body">{@html marked(note.content)}</div>
+    {:else}
+      <div class="note-body">{@html marked(noteItem.content)}</div>
     {/if}
   </div>
 </div>

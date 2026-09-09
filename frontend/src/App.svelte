@@ -3,7 +3,7 @@
   import page from "page";
 
   import { Modal, ThemeToggle, Button, Header } from "$lib/shared/ui";
-  import { NotePreview, NoteCard, notesStore } from "$lib/features/note";
+  import { NotePreview, NoteCard, notesStore, NoteItem } from "$lib/features/note";
 
   marked.setOptions({ gfm: true, breaks: true });
 
@@ -54,16 +54,13 @@
 <!-- Модальные окна -->
 {#if notesStore.isCreating}
   <Modal onclose={() => notesStore.closeCreateModal()}>
-    <NoteCard onclose={() => notesStore.closeCreateModal()} />
+    <NoteCard noteItem={new NoteItem({ id: 0, title: "", content: "" })} />
   </Modal>
 {/if}
 
 {#if notesStore.currentNote}
   <Modal onclose={() => page("/")}>
-    <NoteCard 
-      note={notesStore.currentNote} 
-      onclose={() => page("/")} 
-    />
+    <NoteCard noteItem={new NoteItem(notesStore.currentNote)} />
   </Modal>
 {/if}
 
