@@ -28,6 +28,10 @@
     openedNoteItem = new NoteItem(note);
   }
 
+  function createNote() {
+    openedNoteItem = new NoteItem();
+  }
+
   function closeNote() {
     openedNoteItem = null;
   }
@@ -45,7 +49,7 @@
 </script>
 
 <div class="notes-list">
-  <Button onclick={() => {}}>+ Создать заметку</Button>
+  <Button onclick={() => createNote()}>+ Создать заметку</Button>
   {#each notes as note (note.id)}
     <div class="note-preview">
       <div

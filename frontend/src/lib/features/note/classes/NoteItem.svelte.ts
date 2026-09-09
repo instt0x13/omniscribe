@@ -2,7 +2,7 @@ import * as noteApi from '../noteApi';
 import type { Note } from '../noteTypes';
 
 export class NoteItem {
-  id: number;
+  id: number | null = null;
 
   // Исходное состояние для сброса (reset)
   private initialData = $state<Note>({
@@ -20,6 +20,7 @@ export class NoteItem {
   error = $state<string | null>(null);
 
   constructor(data: Note) {
+    data = data || { id: null, title: "", content: "" };
     this.id = data.id;
     this.title = data.title;
     this.content = data.content;
@@ -44,17 +45,21 @@ export class NoteItem {
     this.error = null;
 
     try {
-      await noteApi.updateNote(this.id, {
-        title: this.title,
-        content: this.content
-      });
+      let result: Note | null = null;
+      if (this.id !== null) {
+        result = await noteApi.updateNote(this.id, {
+          title: this.title,
+          content: this.content,
+        });
+      } else {
+        result = await noteApi.createNote({
+          title: this.title,
+          content: this.content,
+        });
+      }
 
       // Обновляем контрольную точку исходных данных
-      this.initialData = {
-        id: this.id,
-        title: this.title,
-        content: this.content
-      };
+      this.initialData = { ...result };
       return true;
     } catch (err) {
       this.error = err instanceof Error ? err.message : 'Ошибка сохранения';

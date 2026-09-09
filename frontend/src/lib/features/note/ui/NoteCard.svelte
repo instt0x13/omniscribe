@@ -9,16 +9,19 @@
   }
 
   let { noteItem }: Props = $props();
-  let isEditing = $state(false);
+  let isNewNote = $derived(noteItem.id === null);
+  let isManuallyEditing = $state(false);
+
+  let isInEditMode = $derived(isNewNote || isManuallyEditing);
 
   async function handleSave() {
     const success = await noteItem.save();
-    if (success) isEditing = false;
+    if (success) isManuallyEditing = false;
   }
 
   function handleCancel() {
     noteItem.reset();
-    isEditing = false;
+    isManuallyEditing = false;
   }
 
   function handleCopy() {
@@ -31,26 +34,27 @@
 
 <div class="note-card">
   <div class="card-header">
-    {#if isEditing}
+    {#if isInEditMode}
       <input bind:value={noteItem.title} class="title-input" placeholder="Заголовок..." />
     {:else}
       <h2>{noteItem.title}</h2>
     {/if}
+    <h3 class="note-id">ID: {isNewNote ? " (новая)" : noteItem.id}</h3>
 
     <div class="card-actions">
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 
-      {#if isEditing}
-        <Button onclick={handleSave}>{noteItem ? "Сохранить" : "Добавить"}</Button>
+      {#if isInEditMode}
+        <Button onclick={handleSave}>{isNewNote ? "Добавить" : "Сохранить"}</Button>
         <Button variant="secondary" onclick={handleCancel}>Отмена</Button>
       {:else}
-        <Button onclick={() => (isEditing = true)}>Редактировать</Button>
+        <Button onclick={() => (isManuallyEditing = true)}>Редактировать</Button>
       {/if}
     </div>
   </div>
 
   <div class="card-body">
-    {#if isEditing}
+    {#if isInEditMode}
       <textarea
         bind:value={noteItem.content}
         class="note-editor"
