@@ -68,6 +68,7 @@
     color: white;
     font-size: 1.25rem;
     line-height: 1;
+    user-select: none;
     cursor: pointer;
     border-radius: 50%;
     &:hover {
