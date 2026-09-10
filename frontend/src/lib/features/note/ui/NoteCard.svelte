@@ -2,32 +2,42 @@
   import { marked } from "marked";
   import { Button } from "$lib/shared/ui";
 
-  import { NoteItem } from "../classes/NoteItem.svelte";
+  import { NoteEntity } from '../classes/NoteEntity.svelte';
+
+  interface Props { note: NoteEntity }
+  let { note }: Props = $props();
+
+  // снимок "эталона" для dirty/reset
+  // svelte-ignore state_referenced_locally
+  let baseline = $state({ title: note.title, content: note.content });
+  let isManuallyEditing = $state(false);
+
+  let isDirty = $derived(
+    note.title !== baseline.title || note.content !== baseline.content
+  );
+  let isValid = $derived(note.title.trim().length > 0);
+  let isInEditMode = $derived(note.isNew || isManuallyEditing);
 
   marked.setOptions({ gfm: true, breaks: true });
 
-  interface Props {
-    noteItem: NoteItem;
-  }
-
-  let { noteItem }: Props = $props();
-  let isNewNote = $derived(noteItem.id === null);
-  let isManuallyEditing = $state(false);
-
-  let isInEditMode = $derived(isNewNote || isManuallyEditing);
-
   async function handleSave() {
-    const success = await noteItem.save();
-    if (success) isManuallyEditing = false;
+    if (!isValid || !isDirty) return;
+    const ok = await note.save();
+    if (ok) {
+      baseline = { title: note.title, content: note.content };
+      isManuallyEditing = false;
+    }
   }
 
   function handleCancel() {
-    noteItem.reset();
+    note.title = baseline.title;
+    note.content = baseline.content;
+    note.error = null;
     isManuallyEditing = false;
   }
 
   function handleCopy() {
-    const textToCopy = noteItem.content;
+    const textToCopy = note.content;
     navigator.clipboard.writeText(textToCopy)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
@@ -37,17 +47,17 @@
 <div class="note-card">
   <div class="card-header">
     {#if isInEditMode}
-      <input bind:value={noteItem.title} class="title-input" placeholder="Заголовок..." />
+      <input bind:value={note.title} class="title-input" placeholder="Заголовок..." />
     {:else}
-      <h2>{noteItem.title}</h2>
+      <h2>{note.title}</h2>
     {/if}
-    <h3 class="note-id">ID: {isNewNote ? " (новая)" : noteItem.id}</h3>
+    <h3 class="note-id">ID: {note.isNew ? " (новая)" : note.id}</h3>
 
     <div class="card-actions">
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 
       {#if isInEditMode}
-        <Button onclick={handleSave}>{isNewNote ? "Добавить" : "Сохранить"}</Button>
+        <Button onclick={handleSave}>{note.isNew ? "Добавить" : "Сохранить"}</Button>
         <Button variant="secondary" onclick={handleCancel}>Отмена</Button>
       {:else}
         <Button onclick={() => (isManuallyEditing = true)}>Редактировать</Button>
@@ -58,13 +68,13 @@
   <div class="card-body">
     {#if isInEditMode}
       <textarea
-        bind:value={noteItem.content}
+        bind:value={note.content}
         class="note-editor"
         placeholder="Контент (Markdown)"
         rows="4"
       ></textarea>
     {:else}
-      <div class="note-body">{@html marked(noteItem.content)}</div>
+      <div class="note-body">{@html marked(note.content)}</div>
     {/if}
   </div>
 </div>

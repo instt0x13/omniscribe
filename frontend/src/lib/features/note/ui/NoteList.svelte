@@ -3,7 +3,7 @@
 
   import * as noteApi from "../noteApi";
   import type { Note } from "../noteTypes";
-  import { NoteItem } from "../classes/NoteItem.svelte";
+  import { NoteEntity } from "../classes/NoteEntity.svelte";
 
   import { default as NoteCard } from "./NoteCard.svelte";
 
@@ -14,7 +14,7 @@
   let { id }: Props = $props();
 
   let notes = $state<Note[]>([]);
-  let openedNoteItem = $state<NoteItem | null>(null);
+  let openedNoteItem = $state<NoteEntity | null>(null);
 
   async function loadNotes() {
     try {
@@ -25,11 +25,11 @@
   }
 
   function openNote(note: Note) {
-    openedNoteItem = new NoteItem(note);
+    openedNoteItem = new NoteEntity(note);
   }
 
   function createNote() {
-    openedNoteItem = new NoteItem();
+    openedNoteItem = new NoteEntity();
   }
 
   function closeNote() {
@@ -74,7 +74,7 @@
 
 {#if openedNoteItem}
   <Modal onclose={closeNote}>
-    <NoteCard noteItem={openedNoteItem} />
+    <NoteCard note={openedNoteItem} />
   </Modal>
 {/if}
 
