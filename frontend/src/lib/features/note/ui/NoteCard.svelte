@@ -2,42 +2,54 @@
   import { marked } from "marked";
   import { Button } from "$lib/shared/ui";
 
+  import type { Note } from "../noteTypes";
   import { NoteEntity } from '../classes/NoteEntity.svelte';
 
-  interface Props { note: NoteEntity }
+  interface Props { note: Note | null }
   let { note }: Props = $props();
+
+  // svelte-ignore state_referenced_locally
+  let noteEntity = $state<NoteEntity>(new NoteEntity(note ? note : { title: "", content: "" }));
 
   // снимок "эталона" для dirty/reset
   // svelte-ignore state_referenced_locally
-  let baseline = $state({ title: note.title, content: note.content });
+  let baseline = $state({ title: noteEntity.title, content: noteEntity.content });
   let isManuallyEditing = $state(false);
 
   let isDirty = $derived(
-    note.title !== baseline.title || note.content !== baseline.content
+    noteEntity.title !== baseline.title || noteEntity.content !== baseline.content
   );
-  let isValid = $derived(note.title.trim().length > 0);
-  let isInEditMode = $derived(note.isNew || isManuallyEditing);
+  let isValid = $derived(noteEntity.title.trim().length > 0);
+  let isInEditMode = $derived(noteEntity.isNew || isManuallyEditing);
 
   marked.setOptions({ gfm: true, breaks: true });
 
+  export function requestClose(): boolean {
+    if (isDirty) {
+      return confirm("У вас есть несохраненные изменения. Вы уверены, что хотите закрыть?");
+    } else {
+      return true;
+    }
+  }
+
   async function handleSave() {
     if (!isValid || !isDirty) return;
-    const ok = await note.save();
+    const ok = await noteEntity.save();
     if (ok) {
-      baseline = { title: note.title, content: note.content };
+      baseline = { title: noteEntity.title, content: noteEntity.content };
       isManuallyEditing = false;
     }
   }
 
   function handleCancel() {
-    note.title = baseline.title;
-    note.content = baseline.content;
-    note.error = null;
+    noteEntity.title = baseline.title;
+    noteEntity.content = baseline.content;
+    noteEntity.error = null;
     isManuallyEditing = false;
   }
 
   function handleCopy() {
-    const textToCopy = note.content;
+    const textToCopy = noteEntity.content;
     navigator.clipboard.writeText(textToCopy)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
@@ -47,18 +59,18 @@
 <div class="note-card">
   <div class="card-header">
     {#if isInEditMode}
-      <input bind:value={note.title} class="title-input" placeholder="Заголовок..." />
+      <input bind:value={noteEntity.title} class="title-input" placeholder="Заголовок..." />
     {:else}
-      <h2>{note.title}</h2>
+      <h2>{noteEntity.title}</h2>
     {/if}
-    <h3 class="note-id">ID: {note.isNew ? " (новая)" : note.id}</h3>
+    <h3 class="note-id">ID: {noteEntity.isNew ? " (новая)" : noteEntity.id}</h3>
 
     <div class="card-actions">
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 
       {#if isInEditMode}
         {#if isDirty && isValid}
-          <Button onclick={handleSave}>{note.isNew ? "Добавить" : "Сохранить"}</Button>
+          <Button onclick={handleSave}>{noteEntity.isNew ? "Добавить" : "Сохранить"}</Button>
         {/if}
         <Button variant="secondary" onclick={handleCancel}>{isDirty ? "Отмена" : "Назад"}</Button>
       {:else}
@@ -70,13 +82,13 @@
   <div class="card-body">
     {#if isInEditMode}
       <textarea
-        bind:value={note.content}
+        bind:value={noteEntity.content}
         class="note-editor"
         placeholder="Контент (Markdown)"
         rows="4"
       ></textarea>
     {:else}
-      <div class="note-body">{@html marked(note.content)}</div>
+      <div class="note-body">{@html marked(noteEntity.content)}</div>
     {/if}
   </div>
 </div>

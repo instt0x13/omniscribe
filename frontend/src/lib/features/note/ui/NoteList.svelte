@@ -3,18 +3,16 @@
 
   import * as noteApi from "../noteApi";
   import type { Note } from "../noteTypes";
-  import { NoteEntity } from "../classes/NoteEntity.svelte";
 
   import { default as NoteCard } from "./NoteCard.svelte";
 
-  interface Props {
-    id?: Number | null;
-  }
+  interface Props { }
 
-  let { id }: Props = $props();
+  let { }: Props = $props();
 
   let notes = $state<Note[]>([]);
-  let openedNoteItem = $state<NoteEntity | null>(null);
+  let activeNoteId = $state<number | 'new' | null>(null);
+  let noteCard: NoteCard | null = $state(null);
 
   async function loadNotes() {
     try {
@@ -24,16 +22,14 @@
     }
   }
 
-  function openNote(note: Note) {
-    openedNoteItem = new NoteEntity(note);
-  }
-
-  function createNote() {
-    openedNoteItem = new NoteEntity();
+  function openNote(note: Note | null = null) {
+    activeNoteId = note ? note.id : "new";
   }
 
   function closeNote() {
-    openedNoteItem = null;
+    if (noteCard && !noteCard.requestClose()) return;
+    activeNoteId = null;
+    noteCard = null
   }
 
   function handleCopy(text: string) {
@@ -49,7 +45,7 @@
 </script>
 
 <div class="notes-list">
-  <Button onclick={() => createNote()}>+ Создать заметку</Button>
+  <Button onclick={() => openNote()}>+ Создать заметку</Button>
   {#each notes as note (note.id)}
     <div class="note-preview">
       <div
@@ -72,9 +68,12 @@
   {/each}
 </div>
 
-{#if openedNoteItem}
+{#if activeNoteId !== null}
   <Modal onclose={closeNote}>
-    <NoteCard note={openedNoteItem} />
+    <NoteCard
+      bind:this={noteCard}
+      note={notes.find((n) => n.id === activeNoteId) ?? null}
+    />
   </Modal>
 {/if}
 
