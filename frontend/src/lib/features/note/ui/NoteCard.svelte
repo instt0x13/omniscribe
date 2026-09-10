@@ -4,6 +4,8 @@
 
   import { NoteItem } from "../classes/NoteItem.svelte";
 
+  marked.setOptions({ gfm: true, breaks: true });
+
   interface Props {
     noteItem: NoteItem;
   }

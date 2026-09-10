@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { marked } from "marked";
   import page from "page";
 
   import { ThemeToggle, Button, Header } from "$lib/shared/ui";
   import { NoteList, notesStore } from "$lib/features/note";
-
-  marked.setOptions({ gfm: true, breaks: true });
 
   page("/", () => {
     notesStore.setActiveNoteId(null);
