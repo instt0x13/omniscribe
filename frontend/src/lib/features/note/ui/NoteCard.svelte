@@ -57,8 +57,10 @@
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 
       {#if isInEditMode}
-        <Button onclick={handleSave}>{note.isNew ? "Добавить" : "Сохранить"}</Button>
-        <Button variant="secondary" onclick={handleCancel}>Отмена</Button>
+        {#if isDirty && isValid}
+          <Button onclick={handleSave}>{note.isNew ? "Добавить" : "Сохранить"}</Button>
+        {/if}
+        <Button variant="secondary" onclick={handleCancel}>{isDirty ? "Отмена" : "Назад"}</Button>
       {:else}
         <Button onclick={() => (isManuallyEditing = true)}>Редактировать</Button>
       {/if}
