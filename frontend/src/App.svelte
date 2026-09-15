@@ -1,7 +1,8 @@
 <script lang="ts">
   import page from "page";
 
-  import { ThemeToggle, Button, Header } from "$lib/shared/ui";
+  import { Header } from "$lib/shared/ui";
+  import { ThemeToggle } from "$lib/features/theme";
   import { NoteList, notesStore } from "$lib/features/note";
 
   page("/", () => {

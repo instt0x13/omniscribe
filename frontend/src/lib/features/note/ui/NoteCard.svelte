@@ -1,6 +1,6 @@
 <script lang="ts">
   import { marked } from "marked";
-  import { Button } from "$lib/shared/ui";
+  import { Button, ConfirmDialog } from "$lib/shared/ui";
 
   import type { Note } from "../noteTypes";
   import { NoteEntity } from '../classes/NoteEntity.svelte';

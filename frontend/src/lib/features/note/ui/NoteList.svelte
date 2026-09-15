@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Modal } from "$lib/shared/ui";
+  import { Button, Dialog } from "$lib/shared/ui";
 
   import * as noteApi from "../noteApi";
   import type { Note } from "../noteTypes";
@@ -29,7 +29,7 @@
   function closeNote() {
     if (noteCard && !noteCard.requestClose()) return;
     activeNoteId = null;
-    noteCard = null
+    noteCard = null;
   }
 
   function handleCopy(text: string) {
@@ -68,14 +68,12 @@
   {/each}
 </div>
 
-{#if activeNoteId !== null}
-  <Modal onclose={closeNote}>
-    <NoteCard
-      bind:this={noteCard}
-      note={notes.find((n) => n.id === activeNoteId) ?? null}
-    />
-  </Modal>
-{/if}
+<Dialog open={!!activeNoteId} onrequestclose={closeNote}>
+  <NoteCard
+    bind:this={noteCard}
+    note={notes.find((n) => n.id === activeNoteId) ?? null}
+  />
+</Dialog>
 
 <style>
   .notes-list {

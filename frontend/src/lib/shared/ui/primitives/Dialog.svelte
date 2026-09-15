@@ -2,32 +2,33 @@
   import type { Snippet } from "svelte";
 
   interface Props {
-    onclose: () => void;
+    open: boolean;
+    onrequestclose: () => void;   // «пользователь хочет закрыть»
     children?: Snippet;
   }
+  let { open, onrequestclose, children }: Props = $props();
 
-  let { onclose, children }: Props = $props();
   let dialogEl = $state<HTMLDialogElement | null>(null);
 
-  // Автоматически открываем dialog при монтировании компонента
   $effect(() => {
-    dialogEl?.showModal();
+    if (!dialogEl) return;
+    if (open && !dialogEl.open) dialogEl.showModal();
+    if (!open && dialogEl.open) dialogEl.close();
   });
 
-  // Закрытие по клику на фон (::backdrop)
   function handleBackdropClick(e: MouseEvent) {
-    if (e.target === dialogEl) {
-      onclose();
-    }
+    if (e.target === dialogEl) onrequestclose();
   }
 </script>
 
-<dialog bind:this={dialogEl} {onclose}>
+<dialog
+  bind:this={dialogEl}
+  onclick={handleBackdropClick}
+  oncancel={(e) => { e.preventDefault(); onrequestclose(); }}
+  onclose={onrequestclose}
+>
   <div class="modal-wrapper">
-    <button class="close-btn" onclick={onclose} aria-label="Закрыть">
-      ✕
-    </button>
-
+    <button class="close-btn" onclick={onrequestclose} aria-label="Закрыть">✕</button>
     <div class="modal-content">
       {@render children?.()}
     </div>
