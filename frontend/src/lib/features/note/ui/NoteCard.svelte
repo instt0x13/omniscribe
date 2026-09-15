@@ -3,14 +3,24 @@
   import { Button } from "$lib/shared/ui";
   import type { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
 
-  interface Props { session: NoteEditorSession }
-  let { session }: Props = $props();
+  interface Props { session: NoteEditorSession, onsave?: () => void, oncancel?: () => void }
+  let { session, onsave, oncancel }: Props = $props();
 
   marked.setOptions({ gfm: true, breaks: true });
 
   function handleCopy() {
     navigator.clipboard.writeText(session.entity.content)
       .then(() => alert("Скопировано! 🎉"));
+  }
+  
+  async function handleSave() {
+    const ok = await session.save();
+    if (ok) onsave?.();
+  }
+
+  function handleCancel() {
+    session.cancel();
+    oncancel?.();
   }
 </script>
 
@@ -28,9 +38,13 @@
 
       {#if session.isInEditMode}
         {#if session.isDirty && session.isValid}
-          <Button onclick={() => session.save()}>{session.entity.isNew ? "Добавить" : "Сохранить"}</Button>
+          <Button onclick={handleSave}>
+            {session.entity.isNew ? "Добавить" : "Сохранить"}
+          </Button>
         {/if}
-        <Button variant="secondary" onclick={() => session.cancel()}>{session.isDirty ? "Отмена" : "Назад"}</Button>
+        <Button variant="secondary" onclick={handleCancel}>
+          {session.isDirty ? "Отмена" : "Назад"}
+        </Button>
       {:else}
         <Button onclick={() => (session.isManuallyEditing = true)}>Редактировать</Button>
       {/if}

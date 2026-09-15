@@ -21,10 +21,10 @@
       isConfirmOpen = true;
       return;
     }
-    reallyClose();
+      reallyClose();
   }
 
-  function reallyClose() {
+  async function reallyClose() {
     isConfirmOpen = false;
     activeNoteSession = null;
   }
@@ -33,6 +33,13 @@
     navigator.clipboard.writeText(text)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
+  }
+
+  async function handleSave() {
+    const ok = await activeNoteSession?.save();
+    if (ok) {
+      store.refresh();
+    }
   }
 
   $effect(() => {
@@ -72,7 +79,7 @@
 
 {#if activeNoteSession}
   <Dialog open={true} onrequestclose={closeNote}>
-    <NoteCard session={activeNoteSession} />
+    <NoteCard session={activeNoteSession} onsave={handleSave} />
   </Dialog>
 {/if}
 

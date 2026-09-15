@@ -46,6 +46,13 @@
     }
   }
 
+  async function handleSave(session: NoteEditorSession) {
+    const ok = await session.save();
+    if (ok) {
+      store.refresh();
+    }
+  }
+
   $effect(() => {
     store.load();
   });
@@ -110,7 +117,7 @@
 
     <div class="tabs-content">
       {#if activeSession}
-        <NoteCard session={activeSession} />
+        <NoteCard session={activeSession} onsave={() => handleSave(activeSession!)} />
       {:else}
         <p>Нет открытых заметок.</p>
       {/if}
