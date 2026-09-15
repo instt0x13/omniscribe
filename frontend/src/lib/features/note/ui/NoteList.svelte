@@ -11,20 +11,21 @@
   const store = new NotesStore();
   let activeNoteSession = $state<NoteEditorSession | null>(null);
   let isConfirmOpen = $state(false);
+  let isConfirmDeletingId = $state<number | null>(null);
 
   function openNote(note: Note | null = null) {
     activeNoteSession = new NoteEditorSession(note);
   }
 
-  function closeNote() {
+  function requestClose() {
     if (activeNoteSession?.isDirty) {
       isConfirmOpen = true;
       return;
     }
-      reallyClose();
+      handleClose();
   }
 
-  async function reallyClose() {
+  async function handleClose() {
     isConfirmOpen = false;
     activeNoteSession = null;
   }
@@ -33,6 +34,15 @@
     navigator.clipboard.writeText(text)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
+  }
+
+  function requestDelete(id: number) {
+    isConfirmDeletingId = id;
+  }
+
+  function handleDeleteById() {
+    store.deleteById(isConfirmDeletingId!);
+    isConfirmDeletingId = null;
   }
 
   async function handleSave() {
@@ -72,13 +82,20 @@
         >
           📋
         </Button>
+        <Button
+          title="Удалить"
+          variant="icon"
+          onclick={() => requestDelete(note.id)}
+        >
+          🗑️
+        </Button>
       </div>
     {/each}
   {/if}
 </div>
 
 {#if activeNoteSession}
-  <Dialog open={true} onrequestclose={closeNote}>
+  <Dialog open={true} onrequestclose={requestClose}>
     <NoteCard session={activeNoteSession} onsave={handleSave} />
   </Dialog>
 {/if}
@@ -86,8 +103,16 @@
 {#if isConfirmOpen}
   <ConfirmDialog
     message="У вас есть несохранённые изменения. Закрыть без сохранения?"
-    onconfirm={reallyClose}
+    onconfirm={handleClose}
     oncancel={() => (isConfirmOpen = false)}
+  />
+{/if}
+
+{#if isConfirmDeletingId !== null}
+  <ConfirmDialog
+    message="Вы уверены, что хотите удалить эту заметку?"
+    onconfirm={handleDeleteById}
+    oncancel={() => (isConfirmDeletingId = null)}
   />
 {/if}
 
