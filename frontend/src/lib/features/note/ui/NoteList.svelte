@@ -4,6 +4,7 @@
   import * as noteApi from "../noteApi";
   import type { Note } from "../noteTypes";
 
+  import { NoteEntity } from "../classes/NoteEntity.svelte";
   import { default as NoteCard } from "./NoteCard.svelte";
 
   interface Props { }
@@ -11,7 +12,7 @@
   let { }: Props = $props();
 
   let notes = $state<Note[]>([]);
-  let activeNoteId = $state<number | 'new' | null>(null);
+  let activeNoteEntity = $state<NoteEntity | null>(null);
   let noteCard: NoteCard | null = $state(null);
 
   async function loadNotes() {
@@ -23,12 +24,12 @@
   }
 
   function openNote(note: Note | null = null) {
-    activeNoteId = note ? note.id : "new";
+    activeNoteEntity = new NoteEntity(note ? note : { title: "", content: "" });
   }
 
   function closeNote() {
     if (noteCard && !noteCard.requestClose()) return;
-    activeNoteId = null;
+    activeNoteEntity = null;
     noteCard = null;
   }
 
@@ -68,12 +69,14 @@
   {/each}
 </div>
 
-<Dialog open={!!activeNoteId} onrequestclose={closeNote}>
-  <NoteCard
-    bind:this={noteCard}
-    note={notes.find((n) => n.id === activeNoteId) ?? null}
-  />
-</Dialog>
+{#if activeNoteEntity}
+  <Dialog open={true} onrequestclose={closeNote}>
+    <NoteCard
+      bind:this={noteCard}
+      noteEntity={activeNoteEntity}
+    />
+  </Dialog>
+{/if}
 
 <style>
   .notes-list {

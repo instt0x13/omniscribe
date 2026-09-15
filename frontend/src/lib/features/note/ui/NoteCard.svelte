@@ -5,11 +5,8 @@
   import type { Note } from "../noteTypes";
   import { NoteEntity } from '../classes/NoteEntity.svelte';
 
-  interface Props { note: Note | null }
-  let { note }: Props = $props();
-
-  // svelte-ignore state_referenced_locally
-  let noteEntity = $state<NoteEntity>(new NoteEntity(note ? note : { title: "", content: "" }));
+  interface Props { noteEntity: NoteEntity }
+  let { noteEntity }: Props = $props();
 
   // снимок "эталона" для dirty/reset
   // svelte-ignore state_referenced_locally
