@@ -36,3 +36,17 @@ export async function updateNote(id: number, note: Omit<Note, "id">): Promise<No
   }
   return res.json();
 }
+
+// Удалить заметку
+export async function deleteNote(id: number): Promise<void> {
+  const res = await fetch(`${appConfig.apiBaseUrl}/${id}`, {
+    method: "DELETE",
+  });
+  
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Заметка не найдена");
+    }
+    throw new Error("Ошибка удаления заметки");
+  }
+}

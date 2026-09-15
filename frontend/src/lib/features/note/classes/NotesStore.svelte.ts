@@ -23,6 +23,17 @@ export class NotesStore {
     return this.items.find((n) => n.id === id) ?? null;
   }
 
+  async deleteById(id: number) {
+    this.error = null;
+    try {
+      await noteApi.deleteNote(id);
+      this.items = this.items.filter((n) => n.id !== id);
+    } catch (err) {
+      this.error = err instanceof Error ? err.message : String(err);
+      console.error("Ошибка удаления заметки:", err);
+    }
+  }
+
   async refresh() {
     await this.load();
   }
