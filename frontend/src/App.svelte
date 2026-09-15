@@ -4,6 +4,8 @@
   import { Header } from "$lib/shared/ui";
   import { ThemeToggle } from "$lib/features/theme";
   import { NoteList, notesStore } from "$lib/features/note";
+    import NotesTabs from "$lib/features/note/ui/NotesTabs.svelte";
+    import Button from "$lib/shared/ui/primitives/Button.svelte";
 
   page("/", () => {
     notesStore.setActiveNoteId(null);
@@ -12,6 +14,8 @@
   page("/note/:id", (ctx) => {
     notesStore.setActiveNoteId(Number(ctx.params.id));
   });
+
+  let mode = $state<"list" | "tabs">("list");
 
   $effect(() => {
     page.start();
@@ -31,12 +35,22 @@
   {/snippet}
 
   {#snippet right()}
-    <h2>Заметки</h2>
+    <Button onclick={() => mode = mode === "list" ? "tabs" : "list"}>
+      {#if mode === "list"}
+        Вкладки 🗂️
+      {:else if mode === "tabs"}
+        Список 📑
+      {/if}
+    </Button>
   {/snippet}
 </Header>
 
 <main>
-  <NoteList />
+  {#if mode === "list"}
+    <NoteList />
+  {:else if mode === "tabs"}
+    <NotesTabs />
+  {/if}
 </main>
 
 <style>

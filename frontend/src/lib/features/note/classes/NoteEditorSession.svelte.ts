@@ -2,6 +2,7 @@ import { NoteEntity } from "./NoteEntity.svelte";
 import type { Note } from "../noteTypes";
 
 export class NoteEditorSession {
+  readonly localId = crypto.randomUUID();
   entity: NoteEntity;
   baseline = $state({ title: "", content: "" });
   isManuallyEditing = $state(false);
