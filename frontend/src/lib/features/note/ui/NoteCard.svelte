@@ -1,91 +1,52 @@
 <script lang="ts">
   import { marked } from "marked";
-  import { Button, ConfirmDialog } from "$lib/shared/ui";
+  import { Button } from "$lib/shared/ui";
+  import type { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
 
-  import type { Note } from "../noteTypes";
-  import { NoteEntity } from '../classes/NoteEntity.svelte';
-
-  interface Props { noteEntity: NoteEntity }
-  let { noteEntity }: Props = $props();
-
-  // снимок "эталона" для dirty/reset
-  // svelte-ignore state_referenced_locally
-  let baseline = $state({ title: noteEntity.title, content: noteEntity.content });
-  let isManuallyEditing = $state(false);
-
-  let isDirty = $derived(
-    noteEntity.title !== baseline.title || noteEntity.content !== baseline.content
-  );
-  let isValid = $derived(noteEntity.title.trim().length > 0);
-  let isInEditMode = $derived(noteEntity.isNew || isManuallyEditing);
+  interface Props { session: NoteEditorSession }
+  let { session }: Props = $props();
 
   marked.setOptions({ gfm: true, breaks: true });
 
-  export function requestClose(): boolean {
-    if (isDirty) {
-      return confirm("У вас есть несохраненные изменения. Вы уверены, что хотите закрыть?");
-    } else {
-      return true;
-    }
-  }
-
-  async function handleSave() {
-    if (!isValid || !isDirty) return;
-    const ok = await noteEntity.save();
-    if (ok) {
-      baseline = { title: noteEntity.title, content: noteEntity.content };
-      isManuallyEditing = false;
-    }
-  }
-
-  function handleCancel() {
-    noteEntity.title = baseline.title;
-    noteEntity.content = baseline.content;
-    noteEntity.error = null;
-    isManuallyEditing = false;
-  }
-
   function handleCopy() {
-    const textToCopy = noteEntity.content;
-    navigator.clipboard.writeText(textToCopy)
-      .then(() => alert("Скопировано! 🎉"))
-      .catch(() => alert("Ошибка копирования"));
+    navigator.clipboard.writeText(session.entity.content)
+      .then(() => alert("Скопировано! 🎉"));
   }
 </script>
 
 <div class="note-card">
   <div class="card-header">
-    {#if isInEditMode}
-      <input bind:value={noteEntity.title} class="title-input" placeholder="Заголовок..." />
+    {#if session.isInEditMode}
+      <input bind:value={session.entity.title} class="title-input" placeholder="Заголовок..." />
     {:else}
-      <h2>{noteEntity.title}</h2>
+      <h2>{session.entity.title}</h2>
     {/if}
-    <h3 class="note-id">ID: {noteEntity.isNew ? " (новая)" : noteEntity.id}</h3>
+    <h3 class="note-id">ID: {session.entity.isNew ? " (новая)" : session.entity.id}</h3>
 
     <div class="card-actions">
       <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
 
-      {#if isInEditMode}
-        {#if isDirty && isValid}
-          <Button onclick={handleSave}>{noteEntity.isNew ? "Добавить" : "Сохранить"}</Button>
+      {#if session.isInEditMode}
+        {#if session.isDirty && session.isValid}
+          <Button onclick={session.save}>{session.entity.isNew ? "Добавить" : "Сохранить"}</Button>
         {/if}
-        <Button variant="secondary" onclick={handleCancel}>{isDirty ? "Отмена" : "Назад"}</Button>
+        <Button variant="secondary" onclick={session.cancel}>{session.isDirty ? "Отмена" : "Назад"}</Button>
       {:else}
-        <Button onclick={() => (isManuallyEditing = true)}>Редактировать</Button>
+        <Button onclick={() => (session.isManuallyEditing = true)}>Редактировать</Button>
       {/if}
     </div>
   </div>
 
   <div class="card-body">
-    {#if isInEditMode}
+    {#if session.isInEditMode}
       <textarea
-        bind:value={noteEntity.content}
+        bind:value={session.entity.content}
         class="note-editor"
         placeholder="Контент (Markdown)"
         rows="4"
       ></textarea>
     {:else}
-      <div class="note-body">{@html marked(noteEntity.content)}</div>
+      <div class="note-body">{@html marked(session.entity.content)}</div>
     {/if}
   </div>
 </div>

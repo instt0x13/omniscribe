@@ -4,7 +4,7 @@
   import * as noteApi from "../noteApi";
   import type { Note } from "../noteTypes";
 
-  import { NoteEntity } from "../classes/NoteEntity.svelte";
+  import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import { default as NoteCard } from "./NoteCard.svelte";
 
   interface Props { }
@@ -12,8 +12,7 @@
   let { }: Props = $props();
 
   let notes = $state<Note[]>([]);
-  let activeNoteEntity = $state<NoteEntity | null>(null);
-  let noteCard: NoteCard | null = $state(null);
+  let activeNoteSession = $state<NoteEditorSession | null>(null);
 
   async function loadNotes() {
     try {
@@ -24,13 +23,18 @@
   }
 
   function openNote(note: Note | null = null) {
-    activeNoteEntity = new NoteEntity(note ? note : { title: "", content: "" });
+    activeNoteSession = new NoteEditorSession(note);
   }
 
   function closeNote() {
-    if (noteCard && !noteCard.requestClose()) return;
-    activeNoteEntity = null;
-    noteCard = null;
+    if (activeNoteSession?.isDirty) {
+      return;
+    }
+    reallyClose();
+  }
+
+  function reallyClose() {
+    activeNoteSession = null;
   }
 
   function handleCopy(text: string) {
@@ -69,12 +73,9 @@
   {/each}
 </div>
 
-{#if activeNoteEntity}
+{#if activeNoteSession}
   <Dialog open={true} onrequestclose={closeNote}>
-    <NoteCard
-      bind:this={noteCard}
-      noteEntity={activeNoteEntity}
-    />
+    <NoteCard session={activeNoteSession} />
   </Dialog>
 {/if}
 
