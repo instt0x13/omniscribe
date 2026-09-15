@@ -28,9 +28,9 @@
 
       {#if session.isInEditMode}
         {#if session.isDirty && session.isValid}
-          <Button onclick={session.save}>{session.entity.isNew ? "Добавить" : "Сохранить"}</Button>
+          <Button onclick={() => session.save()}>{session.entity.isNew ? "Добавить" : "Сохранить"}</Button>
         {/if}
-        <Button variant="secondary" onclick={session.cancel}>{session.isDirty ? "Отмена" : "Назад"}</Button>
+        <Button variant="secondary" onclick={() => session.cancel()}>{session.isDirty ? "Отмена" : "Назад"}</Button>
       {:else}
         <Button onclick={() => (session.isManuallyEditing = true)}>Редактировать</Button>
       {/if}
