@@ -4,17 +4,17 @@
   import { default as Dialog } from "../primitives/Dialog.svelte";
 
   interface Props {
-    content?: String;
+    message?: String;
     onconfirm: () => void;
     oncancel: () => void;
   }
 
-  let { content, onconfirm, oncancel }: Props = $props();
+  let { message, onconfirm, oncancel }: Props = $props();
 </script>
 
 <Dialog open={true} onrequestclose={oncancel}>
   <div class="confirm-dialog">
-    <p>{content}</p>
+    <p>{message}</p>
     <div class="button-group">
       <Button variant="primary" onclick={onconfirm}>
         Да

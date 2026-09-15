@@ -10,6 +10,7 @@
 
   const store = new NotesStore();
   let activeNoteSession = $state<NoteEditorSession | null>(null);
+  let isConfirmOpen = $state(false);
 
   function openNote(note: Note | null = null) {
     activeNoteSession = new NoteEditorSession(note);
@@ -17,12 +18,14 @@
 
   function closeNote() {
     if (activeNoteSession?.isDirty) {
+      isConfirmOpen = true;
       return;
     }
     reallyClose();
   }
 
   function reallyClose() {
+    isConfirmOpen = false;
     activeNoteSession = null;
   }
 
@@ -71,6 +74,14 @@
   <Dialog open={true} onrequestclose={closeNote}>
     <NoteCard session={activeNoteSession} />
   </Dialog>
+{/if}
+
+{#if isConfirmOpen}
+  <ConfirmDialog
+    message="У вас есть несохранённые изменения. Закрыть без сохранения?"
+    onconfirm={reallyClose}
+    oncancel={() => (isConfirmOpen = false)}
+  />
 {/if}
 
 <style>
