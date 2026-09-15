@@ -20,3 +20,6 @@ class NoteService:
     def update_note(self, note_id: int, note_data: NoteCreate) -> NoteResponse | None:
         note = self.repository.update(note_id, note_data)
         return NoteResponse.model_validate(note) if note else None
+
+    def delete_note(self, note_id: int) -> bool:
+        return self.repository.delete(note_id)

@@ -25,3 +25,10 @@ def update_note(note_id: int, note: NoteCreate, service: NoteService = Depends(g
     if not updated:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note not found")
     return updated
+
+@router.delete("/{note_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_note(note_id: int, service: NoteService = Depends(get_note_service)):
+    success = service.delete_note(note_id)
+    if not success:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note not found")
+    return None

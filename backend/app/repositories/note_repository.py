@@ -27,3 +27,11 @@ class NoteRepository:
             self.db.commit()
             self.db.refresh(db_note)
         return db_note
+
+    def delete(self, note_id: int) -> bool:
+        db_note = self.get_by_id(note_id)
+        if db_note:
+            self.db.delete(db_note)
+            self.db.commit()
+            return True
+        return False
