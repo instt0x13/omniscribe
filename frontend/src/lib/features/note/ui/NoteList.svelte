@@ -1,26 +1,15 @@
 <script lang="ts">
-  import { Button, Dialog } from "$lib/shared/ui";
+  import { Button, Dialog, ConfirmDialog } from "$lib/shared/ui";
 
-  import * as noteApi from "../noteApi";
   import type { Note } from "../noteTypes";
 
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
-  import { default as NoteCard } from "./NoteCard.svelte";
+  import { NotesStore } from "../classes/NotesStore.svelte";
 
-  interface Props { }
+  import NoteCard from "./NoteCard.svelte";
 
-  let { }: Props = $props();
-
-  let notes = $state<Note[]>([]);
+  const store = new NotesStore();
   let activeNoteSession = $state<NoteEditorSession | null>(null);
-
-  async function loadNotes() {
-    try {
-      notes = await noteApi.fetchNotes();
-    } catch (err) {
-      console.error("Ошибка загрузки заметок:", err);
-    }
-  }
 
   function openNote(note: Note | null = null) {
     activeNoteSession = new NoteEditorSession(note);
@@ -38,39 +27,44 @@
   }
 
   function handleCopy(text: string) {
-    navigator.clipboard
-      .writeText(text)
+    navigator.clipboard.writeText(text)
       .then(() => alert("Скопировано! 🎉"))
       .catch(() => alert("Ошибка копирования"));
   }
 
   $effect(() => {
-    loadNotes();
+    store.load();
   });
 </script>
 
 <div class="notes-list">
   <Button onclick={() => openNote()}>+ Создать заметку</Button>
-  {#each notes as note (note.id)}
-    <div class="note-preview">
-      <div
-        class="note-title"
-        onclick={() => openNote(note)}
-        role="button"
-        tabindex="0"
-        onkeydown={(e) => e.key === "Enter" && openNote(note)}
-      >
-        <span>{note.title}</span>
+  {#if store.isLoading}
+    <p>Загрузка…</p>
+  {:else if store.error}
+    <p class="error">{store.error}</p>
+  {:else}
+    {#each store.items as note (note.id)}
+      <div class="note-preview">
+        <div
+          class="note-title"
+          onclick={() => openNote(note)}
+          role="button"
+          tabindex="0"
+          onkeydown={(e) => e.key === "Enter" && openNote(note)}
+        >
+          <span>{note.title}</span>
+        </div>
+        <Button
+          title="Скопировать"
+          variant="icon"
+          onclick={() => handleCopy(note.content)}
+        >
+          📋
+        </Button>
       </div>
-      <Button
-        title="Скопировать"
-        variant="icon"
-        onclick={() => handleCopy(note.content)}
-      >
-        📋
-      </Button>
-    </div>
-  {/each}
+    {/each}
+  {/if}
 </div>
 
 {#if activeNoteSession}
