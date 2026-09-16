@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button } from "$lib/shared/ui";
 
-  import { default as Dialog } from "../primitives/Dialog.svelte";
+  import { default as Dialog } from "./Dialog.svelte";
 
   interface Props {
     message?: String;
