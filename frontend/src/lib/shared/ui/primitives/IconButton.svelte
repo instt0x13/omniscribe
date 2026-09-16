@@ -4,7 +4,7 @@
 
   interface Props extends HTMLButtonAttributes {
     children?: Snippet;
-    label: string; // для aria-label, т.к. содержимое — иконка
+    label: string;
   }
 
   let {
@@ -27,7 +27,7 @@
 
 <style>
   .icon-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 2rem;
@@ -35,21 +35,21 @@
     padding: 0;
     background: transparent;
     border: none;
-    color: white;
+    color: inherit;
     font-size: 1.25rem;
     line-height: 1;
     user-select: none;
     cursor: pointer;
     border-radius: 50%;
-    transition: background 0.15s ease;
   }
 
   .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: currentColor;
+    background: color-mix(in srgb, currentColor 20%, transparent);
   }
 
   .icon-btn:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline: 2px solid currentColor;
     outline-offset: 2px;
   }
 
