@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, ConfirmDialog } from "$lib/shared/ui";
+  import { Button, ModalConfirm } from "$lib/shared/ui";
   import type { Note } from "../noteTypes";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import { NotesStore } from "../classes/NotesStore.svelte";
@@ -126,7 +126,7 @@
 </div>
 
 {#if pendingCloseSession}
-  <ConfirmDialog
+  <ModalConfirm
     message="У вас есть несохранённые изменения. Закрыть без сохранения?"
     onconfirm={() => pendingCloseSession && closeTab(pendingCloseSession)}
     oncancel={() => (pendingCloseSession = null)}

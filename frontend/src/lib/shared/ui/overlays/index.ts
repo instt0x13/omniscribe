@@ -1,2 +1,2 @@
-export { default as ConfirmDialog } from "./ConfirmDialog.svelte";
-export { default as Dialog } from "./Dialog.svelte";
+export { default as ModalConfirm } from "./ModalConfirm.svelte";
+export { default as Modal } from "./Modal.svelte";

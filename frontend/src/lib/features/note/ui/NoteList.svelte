@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Dialog, ConfirmDialog } from "$lib/shared/ui";
+  import { Button, Modal, ModalConfirm } from "$lib/shared/ui";
 
   import type { Note } from "../noteTypes";
 
@@ -95,13 +95,13 @@
 </div>
 
 {#if activeNoteSession}
-  <Dialog onrequestclose={requestClose}>
+  <Modal onrequestclose={requestClose}>
     <NoteCard session={activeNoteSession} onsave={handleSave} />
-  </Dialog>
+  </Modal>
 {/if}
 
 {#if isConfirmOpen}
-  <ConfirmDialog
+  <ModalConfirm
     message="У вас есть несохранённые изменения. Закрыть без сохранения?"
     onconfirm={handleClose}
     oncancel={() => (isConfirmOpen = false)}
@@ -109,7 +109,7 @@
 {/if}
 
 {#if isConfirmDeletingId !== null}
-  <ConfirmDialog
+  <ModalConfirm
     message="Вы уверены, что хотите удалить эту заметку?"
     onconfirm={handleDeleteById}
     oncancel={() => (isConfirmDeletingId = null)}
