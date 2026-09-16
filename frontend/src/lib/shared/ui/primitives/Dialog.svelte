@@ -2,11 +2,11 @@
   import type { Snippet } from "svelte";
 
   interface Props {
-    open: boolean;
+    open?: boolean;
     onrequestclose: () => void;   // «пользователь хочет закрыть»
     children?: Snippet;
   }
-  let { open, onrequestclose, children }: Props = $props();
+  let { open = true, onrequestclose, children }: Props = $props();
 
   let dialogEl = $state<HTMLDialogElement | null>(null);
 

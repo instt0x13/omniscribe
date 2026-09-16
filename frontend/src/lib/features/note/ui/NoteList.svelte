@@ -95,7 +95,7 @@
 </div>
 
 {#if activeNoteSession}
-  <Dialog open={true} onrequestclose={requestClose}>
+  <Dialog onrequestclose={requestClose}>
     <NoteCard session={activeNoteSession} onsave={handleSave} />
   </Dialog>
 {/if}
