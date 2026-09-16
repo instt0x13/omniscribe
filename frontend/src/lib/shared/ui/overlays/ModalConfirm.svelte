@@ -1,5 +1,7 @@
 <script lang="ts">
   import { Button } from "$lib/shared/ui";
+  import Icon from "../primitives/Icon.svelte";
+  import IconButton from "../primitives/IconButton.svelte";
 
   import { default as Modal } from "./Modal.svelte";
 
@@ -16,14 +18,20 @@
   <div class="confirm-dialog">
     <p>{message}</p>
   </div>
-    {#snippet bottom()}
+    {#snippet top()}
       <div class="button-group">
-        <Button variant="primary" onclick={onconfirm}>
-          Да
-        </Button>
-        <Button variant="secondary" onclick={oncancel}>
-          Нет
-        </Button>
+        <IconButton label="Согласиться" onclick={onconfirm}>
+          <Icon name="check" />
+        </IconButton>
+        <IconButton label="Отказаться" onclick={oncancel}>
+          <Icon name="arrowRight" />
+        </IconButton>
       </div>
     {/snippet}
 </Modal>
+
+<style>
+  .button-group {
+    margin-left: auto;
+  }
+</style>
