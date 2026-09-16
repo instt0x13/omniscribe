@@ -22,7 +22,7 @@ export async function createNote(note: Omit<Note, "id">): Promise<Note> {
 
 // Обновить заметку (возвращает обновленную заметку)
 export async function updateNote(id: number, note: Omit<Note, "id">): Promise<Note> {
-  const res = await fetch(`${appConfig.apiBaseUrl}/${id}`, {
+  const res = await fetch(`${appConfig.apiBaseUrl}${id}/`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(note),
