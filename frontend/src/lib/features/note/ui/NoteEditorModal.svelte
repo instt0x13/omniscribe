@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Modal, Icon, IconButton } from "$lib/shared/ui";
+  import { Modal, Icon, IconButton, SplitRow } from "$lib/shared/ui";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import NoteCard from "./NoteCard.svelte";
 
@@ -11,7 +11,6 @@
   }
   let { session, onclose, onsave, oncancel }: Props = $props();
 
-  
   function handleCopy() {
     navigator.clipboard.writeText(session.entity.content)
       .then(() => alert("Скопировано! 🎉"));
@@ -31,7 +30,8 @@
 <Modal onrequestclose={onclose}>
   <NoteCard session={session} onsave={onsave} />
   {#snippet top()}
-      <div class="button-group">
+    <SplitRow>
+      {#snippet right()}
         {#if session.isInEditMode}
           {#if session.isDirty && session.isValid}
           <IconButton label="Сохранить" onclick={handleSave}>
@@ -59,12 +59,7 @@
             <Icon name="close" />
           </IconButton>
         {/if}
-      </div>
+      {/snippet}
+    </SplitRow>
   {/snippet}
 </Modal>
-
-<style>
-  .button-group {
-    margin-left: auto;
-  }
-</style>
