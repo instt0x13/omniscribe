@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button } from "$lib/shared/ui";
   import Icon from "../primitives/Icon.svelte";
-  import IconButton from "../primitives/IconButton.svelte";
+  import IconButton from "../primitives/GhostButton.svelte";
 
   import { default as Modal } from "./Modal.svelte";
 

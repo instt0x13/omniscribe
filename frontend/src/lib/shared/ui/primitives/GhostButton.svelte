@@ -4,7 +4,7 @@
 
   interface Props extends HTMLButtonAttributes {
     children?: Snippet;
-    label: string;
+    label?: string;
   }
 
   let {
@@ -19,41 +19,42 @@
 <button
   {...rest}
   {type}
-  class={["icon-btn", className]}
+  class={["ghost-btn", className]}
   aria-label={label}
 >
   {@render children?.()}
 </button>
 
 <style>
-  .icon-btn {
+  .ghost-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
+    gap: 0.375rem;
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0.25rem;
     background: transparent;
     border: none;
     color: inherit;
+    font: inherit;
     font-size: 1.25rem;
     line-height: 1;
     user-select: none;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 999px; /* pill — корректно и для иконки, и для текста */
   }
 
-  .icon-btn:hover {
-    background: currentColor;
+  .ghost-btn:hover {
     background: color-mix(in srgb, currentColor 20%, transparent);
   }
 
-  .icon-btn:focus-visible {
+  .ghost-btn:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 2px;
   }
 
-  .icon-btn:disabled {
+  .ghost-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
