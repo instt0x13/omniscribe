@@ -4,8 +4,8 @@
   import { Header } from "$lib/shared/ui";
   import { ThemeToggle } from "$lib/features/theme";
   import { NoteList, notesStore } from "$lib/features/note";
-    import NotesTabs from "$lib/features/note/ui/NotesTabs.svelte";
-    import Button from "$lib/shared/ui/primitives/Button.svelte";
+  import NotesTabs from "$lib/features/note/ui/NotesTabs.svelte";
+  import Button from "$lib/shared/ui/primitives/Button.svelte";
 
   page("/", () => {
     notesStore.setActiveNoteId(null);
