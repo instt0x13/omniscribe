@@ -7,6 +7,7 @@
   import { NotesStore } from "../classes/NotesStore.svelte";
 
   import NoteCard from "./NoteCard.svelte";
+  import NoteEditorModal from "./NoteEditorModal.svelte";
 
   const store = new NotesStore();
   let activeNoteSession = $state<NoteEditorSession | null>(null);
@@ -95,9 +96,12 @@
 </div>
 
 {#if activeNoteSession}
-  <Modal onrequestclose={requestClose}>
-    <NoteCard session={activeNoteSession} onsave={handleSave} />
-  </Modal>
+  <NoteEditorModal
+    session={activeNoteSession}
+    onclose={requestClose}
+    onsave={handleSave}
+    oncancel={() => {}}
+  />
 {/if}
 
 {#if isConfirmOpen}
