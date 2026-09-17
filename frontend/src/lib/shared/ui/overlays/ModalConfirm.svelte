@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { Button } from "$lib/shared/ui";
-  import Icon from "../primitives/Icon.svelte";
-  import IconButton from "../primitives/GhostButton.svelte";
+  import { GhostButton, Icon, SplitRow } from "$lib/shared/ui";
 
   import { default as Modal } from "./Modal.svelte";
 
@@ -19,19 +17,15 @@
     <p>{message}</p>
   </div>
     {#snippet top()}
-      <div class="button-group">
-        <IconButton label="Согласиться" onclick={onconfirm}>
+      <SplitRow>
+      {#snippet right()}
+        <GhostButton label="Согласиться" onclick={onconfirm}>
           <Icon name="check" />
-        </IconButton>
-        <IconButton label="Отказаться" onclick={oncancel}>
-          <Icon name="arrowRight" />
-        </IconButton>
-      </div>
+        </GhostButton>
+        <GhostButton label="Отказаться" onclick={oncancel}>
+          <Icon name="chevronRight" />
+        </GhostButton>
+      {/snippet}
+      </SplitRow>
     {/snippet}
 </Modal>
-
-<style>
-  .button-group {
-    margin-left: auto;
-  }
-</style>
