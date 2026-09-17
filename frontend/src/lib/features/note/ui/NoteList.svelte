@@ -53,6 +53,10 @@
     }
   }
 
+  function handleCancel() {
+    activeNoteSession?.cancel();
+  }
+
   $effect(() => {
     store.load();
   });
@@ -100,7 +104,7 @@
     session={activeNoteSession}
     onclose={requestClose}
     onsave={handleSave}
-    oncancel={() => {}}
+    oncancel={handleCancel}
   />
 {/if}
 

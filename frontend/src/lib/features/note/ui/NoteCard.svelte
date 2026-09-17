@@ -1,27 +1,11 @@
 <script lang="ts">
   import { marked } from "marked";
-  import { Button } from "$lib/shared/ui";
   import type { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
 
-  interface Props { session: NoteEditorSession, onsave?: () => void, oncancel?: () => void }
-  let { session, onsave, oncancel }: Props = $props();
+  interface Props { session: NoteEditorSession}
+  let { session }: Props = $props();
 
   marked.setOptions({ gfm: true, breaks: true });
-
-  function handleCopy() {
-    navigator.clipboard.writeText(session.entity.content)
-      .then(() => alert("Скопировано! 🎉"));
-  }
-  
-  async function handleSave() {
-    const ok = await session.save();
-    if (ok) onsave?.();
-  }
-
-  function handleCancel() {
-    session.cancel();
-    oncancel?.();
-  }
 </script>
 
 <div class="note-card">
@@ -31,24 +15,6 @@
     {:else}
       <h2>{session.entity.title}</h2>
     {/if}
-    <h3 class="note-id">ID: {session.entity.isNew ? " (новая)" : session.entity.id}</h3>
-
-    <div class="card-actions">
-      <Button variant="icon" onclick={handleCopy} title="Скопировать">📋</Button>
-
-      {#if session.isInEditMode}
-        {#if session.isDirty && session.isValid}
-          <Button onclick={handleSave}>
-            {session.entity.isNew ? "Добавить" : "Сохранить"}
-          </Button>
-        {/if}
-        <Button variant="secondary" onclick={handleCancel}>
-          {session.isDirty ? "Отмена" : "Назад"}
-        </Button>
-      {:else}
-        <Button onclick={() => (session.isManuallyEditing = true)}>Редактировать</Button>
-      {/if}
-    </div>
   </div>
 
   <div class="card-body">
@@ -83,11 +49,6 @@
     width: 100%;
     font-size: 1.25rem;
     padding: 0.4rem 0.6rem;
-  }
-
-  .card-actions {
-    display: flex;
-    gap: 0.5rem;
   }
 
   .note-editor {

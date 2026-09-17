@@ -6,40 +6,28 @@
   interface Props {
     session: NoteEditorSession,
     onclose: () => void,
-    onsave?: () => void,
-    oncancel?: () => void
+    onsave: () => void,
+    oncancel: () => void
   }
   let { session, onclose, onsave, oncancel }: Props = $props();
-
-  function handleCopy() {
-    navigator.clipboard.writeText(session.entity.content)
-      .then(() => alert("Скопировано! 🎉"));
-  }
-  
-  async function handleSave() {
-    const ok = await session.save();
-    if (ok) onsave?.();
-  }
-
-  function handleCancel() {
-    session.cancel();
-    oncancel?.();
-  }
 </script>
 
 <Modal onrequestclose={onclose}>
-  <NoteCard session={session} onsave={onsave} />
+  <NoteCard session={session} />
   {#snippet top()}
     <SplitRow>
+      {#snippet left()}
+        <h3 class="note-id">ID: {session.entity.isNew ? " (новая)" : session.entity.id}</h3>
+      {/snippet}
       {#snippet right()}
         {#if session.isInEditMode}
           {#if session.isDirty && session.isValid}
-          <GhostButton label="Сохранить" onclick={handleSave}>
+          <GhostButton label="Сохранить" onclick={onsave}>
             <Icon name="check" />
           </GhostButton>
           {/if}
           {#if session.isDirty}
-            <GhostButton label="Отмена" onclick={handleCancel}>
+            <GhostButton label="Отмена" onclick={oncancel}>
               Отмена
             </GhostButton>
           {:else if session.entity.isNew}
