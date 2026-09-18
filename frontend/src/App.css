@@ -8,6 +8,7 @@
   --border: #e2e8f0;
   --radius: 8px;
   --backdrop: rgba(0, 0, 0, 0.4);
+  --backdrop-text: #f8fafc;
 }
 
 /* Тёмная тема */
@@ -20,6 +21,7 @@
   --primary-hover: #60a5fa;
   --border: #334155;
   --backdrop: rgba(0, 0, 0, 0.7);
+  --backdrop-text: #dee1e4;
 }
 
 * {

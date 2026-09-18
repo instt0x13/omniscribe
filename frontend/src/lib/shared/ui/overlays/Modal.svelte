@@ -68,6 +68,7 @@
 
   /* Базовые стили для внешних зон */
   .modal-zone {
+    color: var(--backdrop-text);
     position: absolute;
     display: flex;
     align-items: center;
@@ -103,8 +104,9 @@
     background: var(--panel);
     padding: 1.5rem;
     border-radius: var(--radius);
-    width: min(calc(100vw - 2rem), 650px);
+    width: max-content;
     max-height: 85vh;
+    max-width: 68vw;
     display: flex;
     flex-direction: column;
     gap: 1rem;
