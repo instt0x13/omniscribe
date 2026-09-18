@@ -7,6 +7,22 @@
 
   let mode = $state<"list" | "tabs">("list");
 
+    page("/", () => {
+    page.redirect("/"+mode);
+  });
+
+  page("/list", () => {
+    mode = "list";
+  });
+
+  page("/tabs", () => {
+    mode = "tabs";
+  });
+
+  //page("/note/:id", (ctx) => {
+  //  notesStore.setActiveNoteId(Number(ctx.params.id));
+  //});
+
   $effect(() => {
     page.start();
     return () => page.stop();
