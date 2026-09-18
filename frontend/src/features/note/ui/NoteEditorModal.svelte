@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Modal, Icon, GhostButton, SplitRow } from "$lib/shared/ui";
+  import { Modal, Icon, GhostButton, SplitRow } from "$shared/ui";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import NoteCard from "./NoteEditor.svelte";
 

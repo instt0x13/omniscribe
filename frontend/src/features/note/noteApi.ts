@@ -1,4 +1,4 @@
-import { appConfig } from '$lib/shared/config';
+import { appConfig } from '../../shared/config';
 import type { Note } from './noteTypes';
 
 // Получить все заметки

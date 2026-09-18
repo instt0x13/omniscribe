@@ -1,9 +1,9 @@
 <script lang="ts">
   import page from "page";
 
-  import { Header, Button } from "$lib/shared/ui";
-  import { ThemeToggle } from "$lib/features/theme";
-  import { NoteList, NotesTabs } from "$lib/features/note";
+  import { Header, Button } from "$shared/ui";
+  import { NoteList, NotesTabs } from "$features/note";
+  import { ThemeToggle } from "$features/theme";
 
   let mode = $state<"list" | "tabs">("list");
 

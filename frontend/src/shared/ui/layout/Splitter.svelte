@@ -1,4 +1,3 @@
-<!-- frontend/src/lib/shared/ui/layout/Splitter.svelte -->
 <script lang="ts">
   import type { Snippet } from "svelte";
 

@@ -18,7 +18,13 @@
     "checkJs": true,
     "moduleDetection": "force",
     "paths": {
-      "$lib/*": ["./src/lib/*"]
+      //общее
+      "$shared/ui": ["./src/shared/ui"],
+      "$shared/services": ["./src/shared/services"],
+      "$shared/config": ["./src/shared/config"],
+      //фичи
+      "$features/theme": ["./src/features/theme/index.ts"],
+      "$features/note": ["./src/features/note/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]

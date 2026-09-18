@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, ModalConfirm } from "$lib/shared/ui";
+  import { Button, ModalConfirm } from "../../../shared/ui";
 
   import type { Note } from "../noteTypes";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GhostButton, Icon, SplitRow } from "$lib/shared/ui";
+  import { GhostButton, Icon, SplitRow } from "$shared/ui";
 
   import { default as Modal } from "./Modal.svelte";
 
