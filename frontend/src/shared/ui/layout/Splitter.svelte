@@ -4,7 +4,7 @@
   interface Props {
     /** "horizontal" — панели слева/справа, сплит вертикальный.
      *  "vertical"   — панели сверху/снизу, сплит горизонтальный. */
-    direction?: "horizontal" | "vertical";
+    direction: "horizontal" | "vertical";
     /** Начальная доля первой панели, 0..1 */
     initial?: number;
     /** Минимальный размер панели в процентах */
@@ -20,7 +20,7 @@
   }
 
   let {
-    direction = "horizontal",
+    direction,
     initial = 0.5,
     min = 0.1,
     max = 0.9,
