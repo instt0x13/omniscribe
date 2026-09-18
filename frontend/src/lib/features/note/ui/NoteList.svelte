@@ -6,7 +6,6 @@
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import { NotesStore } from "../classes/NotesStore.svelte";
 
-  import NoteCard from "./NoteCard.svelte";
   import NoteEditorModal from "./NoteEditorModal.svelte";
 
   const store = new NotesStore();

@@ -3,7 +3,7 @@
   import type { Note } from "../noteTypes";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import { NotesStore } from "../classes/NotesStore.svelte";
-  import NoteCard from "./NoteCard.svelte";
+  import NoteEditor from "./NoteEditor.svelte";
 
   let store = new NotesStore();
   let tabs = $state<NoteEditorSession[]>([]);
@@ -117,7 +117,7 @@
 
     <div class="tabs-content">
       {#if activeSession}
-        <NoteCard session={activeSession} onsave={() => handleSave(activeSession!)} />
+        <NoteEditor session={activeSession} />
       {:else}
         <p>Нет открытых заметок.</p>
       {/if}
