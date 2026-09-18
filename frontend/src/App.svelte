@@ -1,19 +1,9 @@
 <script lang="ts">
   import page from "page";
 
-  import { Header } from "$lib/shared/ui";
+  import { Header, Button } from "$lib/shared/ui";
   import { ThemeToggle } from "$lib/features/theme";
-  import { NoteList, notesStore } from "$lib/features/note";
-  import NotesTabs from "$lib/features/note/ui/NotesTabs.svelte";
-  import Button from "$lib/shared/ui/primitives/Button.svelte";
-
-  page("/", () => {
-    notesStore.setActiveNoteId(null);
-  });
-
-  page("/note/:id", (ctx) => {
-    notesStore.setActiveNoteId(Number(ctx.params.id));
-  });
+  import { NoteList, NotesTabs } from "$lib/features/note";
 
   let mode = $state<"list" | "tabs">("list");
 
