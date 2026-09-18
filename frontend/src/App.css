@@ -80,3 +80,42 @@ dialog {
     background: var(--backdrop);
   }
 }
+/*--------------стили для скролбара--------------------------------*/
+/* ===== Современный стандарт (Firefox, новые Chrome/Safari) ===== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, rgba(128, 128, 128, 0.5))
+                   var(--scrollbar-track, transparent);
+}
+
+/* ===== WebKit / Blink (Chrome, Safari, Edge, старые версии) ===== */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track, transparent);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb, rgba(128, 128, 128, 0.5));
+  border-radius: 999px;
+  /* Прозрачная рамка «отодвигает» бегунок от краёв дорожки */
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover, rgba(128, 128, 128, 0.8));
+}
+
+/* Уголок между вертикальным и горизонтальным скроллбаром */
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Кнопки-стрелки (в WebKit они есть по умолчанию на некоторых ОС) */
+*::-webkit-scrollbar-button {
+  display: none;
+}
