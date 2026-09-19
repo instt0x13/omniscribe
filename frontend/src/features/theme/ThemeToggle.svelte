@@ -4,9 +4,9 @@
 
 
   const modes = [
-    {id:"system", title:"🌗 Системная"},
-    {id:"light", title:"☀️ Светлая"},
-    {id:"dark", title:"🌙 Тёмная"}
+    {id:"system", icon:"🌗", title:"Системная"},
+    {id:"light", icon:"☀️", title:"Светлая"},
+    {id:"dark", icon:"🌙", title:"Тёмная"}
   ];
   type Mode = typeof modes[number]["id"];
 
@@ -44,9 +44,12 @@
   getKey={(m) => m.id}
   onselect={(m) => (mode = m.id)}
 >
-  {#snippet tab(mode)}
+  {#snippet tab(m)}
     <GhostText>
-      {mode.title}
+      {m.icon}
+      {#if m.id === mode}
+        {" " + m.title}
+      {/if}
     </GhostText>
   {/snippet}
 </Tabs>
