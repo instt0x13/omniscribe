@@ -2,7 +2,7 @@
   import { marked } from "marked";
   import type { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
 
-  interface Props { session: NoteEditorSession}
+  interface Props { session: NoteEditorSession }
   let { session }: Props = $props();
 
   marked.setOptions({ gfm: true, breaks: true });
@@ -36,6 +36,14 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    /* Ограничения ширины */
+    width: 100%;
+    min-width: 520px;
+    max-width: 720px;
+
+    /* Центрирование, если родитель шире */
+    margin-inline: auto;
   }
 
   .card-header {
