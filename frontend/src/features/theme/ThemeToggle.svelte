@@ -1,5 +1,14 @@
 <script lang="ts">
-  type Mode = "system" | "light" | "dark";
+  import { Tabs } from "$shared/ui";
+    import GhostText from "../../shared/ui/primitives/GhostText.svelte";
+
+
+  const modes = [
+    {id:"system", title:"🌗 Системная"},
+    {id:"light", title:"☀️ Светлая"},
+    {id:"dark", title:"🌙 Тёмная"}
+  ];
+  type Mode = typeof modes[number]["id"];
 
   let mode = $state<Mode>(
     (typeof window !== "undefined" && (localStorage.getItem("theme-mode") as Mode)) || "system"
@@ -29,38 +38,15 @@
   });
 </script>
 
-<div class="theme-toggle">
-  <button class:active={mode === "system"} onclick={() => (mode = "system")}>
-    💻 Системная
-  </button>
-  <button class:active={mode === "light"} onclick={() => (mode = "light")}>
-    ☀️ Светлая
-  </button>
-  <button class:active={mode === "dark"} onclick={() => (mode = "dark")}>
-    🌙 Тёмная
-  </button>
-</div>
-
-<style>
-  .theme-toggle {
-    display: inline-flex;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.25rem;
-    gap: 0.25rem;
-  }
-
-  .theme-toggle button {
-    background: transparent;
-    color: var(--text);
-    padding: 0.4rem 0.75rem;
-    font-size: 0.875rem;
-    border-radius: calc(var(--radius) - 2px);
-  }
-
-  .theme-toggle button.active {
-    background: var(--primary);
-    color: #ffffff;
-  }
-</style>
+<Tabs
+  items={modes}
+  active={modes.find((m) => m.id === mode) ?? modes[0]}
+  getKey={(m) => m.id}
+  onselect={(m) => (mode = m.id)}
+>
+  {#snippet tab(mode)}
+    <GhostText>
+      {mode.title}
+    </GhostText>
+  {/snippet}
+</Tabs>
