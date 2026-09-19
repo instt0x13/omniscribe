@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, ModalConfirm } from "../../../shared/ui";
+  import { Button, GhostButton, GhostText, Icon, ModalConfirm, Tabs } from "$shared/ui";
   import type { Note } from "../noteTypes";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import { NotesStore } from "../classes/NotesStore.svelte";
@@ -25,12 +25,7 @@
     activeSession = session;
   }
 
-  function selectTab(session: NoteEditorSession) {
-    activeSession = session;
-  }
-
-  function requestCloseTab(session: NoteEditorSession, event: MouseEvent) {
-    event.stopPropagation();
+  function requestCloseTab(session: NoteEditorSession) {
     if (session.isDirty) {
       pendingCloseSession = session;
       return;
@@ -87,33 +82,30 @@
     {/if}
   </aside>
 
-  <!-- Основная область с вкладками -->
   <div class="notes-tabs">
-    <div class="tabs-header">
-      <Button onclick={() => openNote()}>+ Создать заметку</Button>
-
-      {#each tabs as session (session.localId)}
-        <div
-          class="tab"
-          class:active={activeSession === session}
-          role="tab"
-          tabindex="0"
-          onclick={() => selectTab(session)}
-          onkeydown={(e) => e.key === "Enter" && selectTab(session)}
+    <Tabs
+      items={tabs}
+      active={activeSession}
+      getKey={(s) => s.localId}
+      onselect={(s) => (activeSession = s)}
+    >
+      {#snippet tab(session)}
+        <GhostText>
+          {session.entity.title || "Без названия"}
+        </GhostText>
+        <GhostButton
+          type="button"
+          class="tab-close"
+          title="Закрыть"
+          onclick={(e) => {
+            e.stopPropagation();
+            requestCloseTab(session);
+          }}
         >
-          <span class="tab-title">
-            {session.entity.title || "Без названия"}
-          </span>
-          <Button
-            variant="icon"
-            onclick={(e) => requestCloseTab(session, e)}
-            title="Закрыть"
-          >
-            ×
-          </Button>
-        </div>
-      {/each}
-    </div>
+          <Icon name="close"/>
+        </GhostButton>
+      {/snippet}
+    </Tabs>
 
     <div class="tabs-content">
       {#if activeSession}
@@ -199,36 +191,6 @@
   .empty {
     font-size: 0.85rem;
     opacity: 0.6;
-  }
-
-  .tabs-header {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.4rem 0.6rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--panel);
-    cursor: pointer;
-  }
-
-  .tab.active {
-    border-color: var(--primary);
-    color: var(--primary);
-  }
-
-  .tab-title {
-    max-width: 12rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .tabs-content {
