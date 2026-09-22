@@ -3,3 +3,4 @@ export { default as Icon } from "./Icon.svelte";
 export { default as GhostText } from "./GhostText.svelte";
 export { default as GhostButton } from "./GhostButton.svelte";
 export { default as Tabs } from "./Tabs.svelte";
+export { default as ChoiceList } from "./ChoiceList.svelte";
