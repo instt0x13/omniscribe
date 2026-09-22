@@ -1,14 +1,24 @@
 <script lang="ts">
   import page from "page";
 
-  import { Header, Button } from "$shared/ui";
+  import { 
+    Tabs, AppLayout, GhostText, GhostButton, SplitRow, 
+    BackgroundGradientBlobs, BackgroundParticle, BackgroundShader 
+  } from "$shared/ui";
+  
   import { NoteList, NotesTabs } from "$features/note";
   import { ThemeToggle } from "$features/theme";
 
-  let mode = $state<"list" | "tabs">("list");
+  const modes = ["list", "tabs"];
+  type Mode = typeof modes[number];
+  let mode = $state<Mode>("list");
 
-    page("/", () => {
-    page.redirect("/"+mode);
+  const bgs = ["GradientBlobs", "Particles", "Shader"];
+  type Bg = typeof bgs[number];
+  let bg = $state<Bg>("GradientBlobs");
+
+  page("/", () => {
+    page.redirect("/" + mode);
   });
 
   page("/list", () => {
@@ -29,43 +39,75 @@
   });
 </script>
 
-<Header>
-  {#snippet left()}
-    <ThemeToggle />
+
+<AppLayout>
+  {#if bg === "GradientBlobs"}
+    <BackgroundGradientBlobs />
+  {:else if bg === "Particles"}
+    <BackgroundParticle />
+  {:else if bg === "Shader"}
+    <BackgroundShader />
+  {/if}
+  {#snippet header()}
+    <SplitRow>
+      {#snippet left()}
+        <ThemeToggle />
+      {/snippet}
+      {#snippet center()}
+        <div class="brand">
+          <h1>OmniScribe</h1>
+        </div>
+      {/snippet}
+      {#snippet right()}
+        <Tabs
+          items={bgs}
+          active={bg}
+          getKey={(b) => b}
+          onselect={(b) => {bg = b;}}
+        >
+          {#snippet tab(b)}
+              <GhostText>{b}</GhostText>
+          {/snippet}
+        </Tabs>
+        <Tabs
+          items={modes}
+          active={mode}
+          getKey={(m) => m}
+          onselect={(m) => {page.show("/"+m); mode = m;}}
+        >
+          {#snippet tab(mode)}
+            {#if mode === "tabs"}
+              <GhostText>Вкладки 🗂️</GhostText>
+            {:else if mode === "list"}
+              <GhostText>Список 📑</GhostText>
+            {/if}
+          {/snippet}
+        </Tabs>
+      {/snippet}
+    </SplitRow>
+  {/snippet}
+  
+  {#snippet sidebar()}
+    <GhostButton>Пункты меню</GhostButton><br>
+    <GhostButton>Пункты меню</GhostButton><br>
+    <GhostButton>Пункты меню</GhostButton><br>
+    <GhostButton>Пункты меню</GhostButton><br>
+    <GhostText>Пункты меню</GhostText><br>
+    <GhostText>Пункты меню</GhostText><br>
+    <GhostText>Пункты меню</GhostText><br>
+    <GhostText>Пункты меню</GhostText><br>
   {/snippet}
 
-  {#snippet center()}
-    <div class="brand">
-      <h1>OmniScribe</h1>
-    </div>
-  {/snippet}
-
-  {#snippet right()}
-    <Button onclick={() => mode = mode === "list" ? "tabs" : "list"}>
-      {#if mode === "list"}
-        Вкладки 🗂️
-      {:else if mode === "tabs"}
-        Список 📑
-      {/if}
-    </Button>
-  {/snippet}
-</Header>
-
-<main>
   {#if mode === "list"}
     <NoteList />
   {:else if mode === "tabs"}
     <NotesTabs />
   {/if}
-</main>
+</AppLayout>
 
 <style>
   .brand h1 {
     font-size: 1.25rem;
     margin: 0;
-  }
-
-  main {
-    padding-top: 1.5rem;
   }
 </style>
