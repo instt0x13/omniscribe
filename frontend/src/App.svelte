@@ -49,45 +49,37 @@
 
 <AppLayout>
   {#snippet header()}
-    <SplitRow>
-      {#snippet left()}
-        <ThemeToggle />
-      {/snippet}
-      {#snippet center()}
-        <div class="brand">
-          <h1>OmniScribe</h1>
-        </div>
-      {/snippet}
-      {#snippet right()}
-        <Tabs
-          items={bgs}
-          active={bg}
-          getKey={(b) => b}
-          onselect={(b) => {bg = b;}}
-        >
-          {#snippet tab(b)}
-              <GhostText>{b}</GhostText>
-          {/snippet}
-        </Tabs>
-        <Tabs
-          items={modes}
-          active={mode}
-          getKey={(m) => m}
-          onselect={(m) => {page.show("/"+m); mode = m;}}
-        >
-          {#snippet tab(mode)}
-            {#if mode === "tabs"}
-              <GhostText>Вкладки 🗂️</GhostText>
-            {:else if mode === "list"}
-              <GhostText>Список 📑</GhostText>
-            {/if}
-          {/snippet}
-        </Tabs>
-      {/snippet}
-    </SplitRow>
+    <div class="brand">
+      <h1>OmniScribe</h1>
+    </div>
   {/snippet}
   
   {#snippet sidebar()}
+    <ThemeToggle />
+    <Tabs
+      items={bgs}
+      active={bg}
+      getKey={(b) => b}
+      onselect={(b) => {bg = b;}}
+    >
+      {#snippet tab(b)}
+          <GhostText>{b}</GhostText>
+      {/snippet}
+    </Tabs>
+    <Tabs
+      items={modes}
+      active={mode}
+      getKey={(m) => m}
+      onselect={(m) => {page.show("/"+m); mode = m;}}
+    >
+      {#snippet tab(mode)}
+        {#if mode === "tabs"}
+          <GhostText>Вкладки 🗂️</GhostText>
+        {:else if mode === "list"}
+          <GhostText>Список 📑</GhostText>
+        {/if}
+      {/snippet}
+    </Tabs>
     <GhostButton>Пункты меню</GhostButton><br>
     <GhostButton>Пункты меню</GhostButton><br>
     <GhostButton>Пункты меню</GhostButton><br>

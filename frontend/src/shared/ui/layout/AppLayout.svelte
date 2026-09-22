@@ -12,11 +12,11 @@
 </script>
 
 <div class="app-shell">
-  <header class="app-header">
+  <header class="app-header rb bb">
     {#if header}{@render header()}{/if}
   </header>
 
-  <aside class="app-sidebar">
+  <aside class="app-sidebar rb">
     {#if sidebar}{@render sidebar()}{/if}
   </aside>
 
@@ -24,18 +24,28 @@
     {#if children}{@render children()}{/if}
   </main>
   
-  <footer class="app-statusbar">
+  <footer class="app-statusbar rb tb">
     {#if statusbar}{@render statusbar()}{/if}
   </footer>
 </div>
 
 <style>
+  .rb {
+    border-right: 2px solid var(--border);
+  }
+  .bb {
+    border-bottom: 1px dotted var(--border);
+  }
+  .tb {
+    border-top: 1px dotted var(--border);
+  }
+
   .app-shell {
     display: grid;
     grid-template-areas:
-      "header  header"
+      "header  content"
       "sidebar content"
-      "sidebar  status";
+      "status  content";
     grid-template-columns: var(--sidebar-width, 240px) 1fr;
     grid-template-rows: var(--header-height, 56px) 1fr var(--status-height, 16px);
     height: 100vh;
@@ -53,7 +63,6 @@
     width: 100%;
     padding: 0.75rem 1.5rem;
     background: var(--panel);
-    border-bottom: 1px solid var(--border);
   }
 
   .app-sidebar {
@@ -61,7 +70,6 @@
     overflow-y: auto;
     padding: 0.1rem 0.2rem;
     background: var(--panel);
-    border-right: 1px solid var(--border);
   }
 
   .app-content {
@@ -79,6 +87,5 @@
     overflow: hidden;
     padding: 0.1rem 0.2rem;
     background: var(--panel);
-    border-top: 1px solid var(--border);
   }
 </style>
