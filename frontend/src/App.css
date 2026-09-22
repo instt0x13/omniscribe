@@ -5,6 +5,7 @@
   --mode: 1;          /* 1 = light, 0 = dark */
   --sat: 40%;
   --primary-s: 80%;
+  --alpha: 0.8;       /* прозрачность панелей */
 }
 
 [data-theme="dark"] {
@@ -18,10 +19,10 @@
   --bg:      hsl(var(--hue) calc(var(--sat) * 0.5) calc(10% + var(--mode) * 88%));
 
   /* panel:  dark 12% → light 100%  →  12 + mode*88   */
-  --panel:   hsl(var(--hue) calc(var(--sat) * 0.5) calc(12% + var(--mode) * 88%));
+  --panel:   hsl(var(--hue) calc(var(--sat) * 0.5) calc(12% + var(--mode) * 88%) / var(--alpha));
 
   /* border: dark 20% → light 90%   →  20 + mode*70   */
-  --border:  hsl(var(--hue) calc(var(--sat) * 0.6) calc(20% + var(--mode) * 70%));
+  --border:  hsl(var(--hue) calc(var(--sat) * 0.6) calc(20% + var(--mode) * 70%) / var(--alpha));
 
   /* text:   dark 97% → light 12%   →  97 - mode*85   */
   --text:    hsl(var(--hue) calc(var(--sat) * 0.7) calc(97% - var(--mode) * 85%));
