@@ -5,7 +5,7 @@
     Tabs, AppLayout, GhostText, GhostButton, SplitRow, 
     BackgroundGradientBlobs, BackgroundParticle, BackgroundShader 
   } from "$shared/ui";
-  
+
   import { NoteList, NotesTabs } from "$features/note";
   import { ThemeToggle } from "$features/theme";
 
@@ -13,9 +13,9 @@
   type Mode = typeof modes[number];
   let mode = $state<Mode>("list");
 
-  const bgs = ["GradientBlobs", "Particles", "Shader"];
+  const bgs = ["none", "GradientBlobs", "Particles", "Shader"];
   type Bg = typeof bgs[number];
-  let bg = $state<Bg>("GradientBlobs");
+  let bg = $state<Bg>("none");
 
   page("/", () => {
     page.redirect("/" + mode);
