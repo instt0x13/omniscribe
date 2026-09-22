@@ -5,161 +5,133 @@
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D | null = null;
 
-  interface Point { x: number; y: number; }
-  interface Particle extends Point {
-    vx: number;
-    vy: number;
-    r: number;
-    color: string;
-  }
+  interface P { x: number; y: number; vx: number; vy: number; r: number; c: string; }
 
-  const CONFIG = {
-    count: 80,
-    maxDist: 150,
-    speed: 0.4,
-    mouseRadius: 180,
-  };
+  const COUNT = 60;
+  const MAX_DIST2 = 150 * 150;
+  const SPEED = 0.35;
+  const MOUSE_R = 160;
+  const MOUSE_R2 = MOUSE_R * MOUSE_R;
 
-  let particles: Particle[] = [];
-  let mouse: Point = { x: -1000, y: -1000 };
-  let width = 0;
-  let height = 0;
+  let particles: P[] = [];
+  let w = 0, h = 0;
+  let mx = -1e4, my = -1e4;
   let theme: ThemeColors = FALLBACK_THEME;
   let raf = 0;
   let running = false;
-  let reducedMotion = false;
+  let reduced = false;
 
-  const palette = () => [theme.primary, theme.text, theme.muted];
-  const lineAlpha = () => (theme.isDark ? 0.25 : 0.18);
-  const dotAlpha = () => (theme.isDark ? 0.85 : 0.7);
-
-  function resize(): void {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = Math.floor(width * dpr);
-    canvas.height = Math.floor(height * dpr);
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    // если окно уменьшилось — подтягиваем частицы внутрь
-    for (const p of particles) {
-      if (p.x > width) p.x = width;
-      if (p.y > height) p.y = height;
-    }
-  }
-
-  function initParticles(): void {
-    const colors = palette();
-    particles = Array.from({ length: CONFIG.count }, (): Particle => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * CONFIG.speed,
-      vy: (Math.random() - 0.5) * CONFIG.speed,
+  function build() {
+    const c = [theme.primary, theme.text, theme.muted];
+    particles = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * SPEED,
+      vy: (Math.random() - 0.5) * SPEED,
       r: Math.random() * 2 + 1,
-      color: colors[(Math.random() * colors.length) | 0],
+      c: c[(Math.random() * 3) | 0],
     }));
   }
 
-  function draw(): void {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, width, height);
-
-    const da = dotAlpha();
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
     for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > width) p.vx *= -1;
-      if (p.y < 0 || p.y > height) p.vy *= -1;
+      if (p.x > w) p.x = w;
+      if (p.y > h) p.y = h;
+    }
+  }
 
-      const dx = p.x - mouse.x;
-      const dy = p.y - mouse.y;
-      const dist = Math.hypot(dx, dy);
-      if (dist < CONFIG.mouseRadius && dist > 0) {
-        const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;
-        p.x += (dx / dist) * force * 2;
-        p.y += (dy / dist) * force * 2;
+  function draw() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, w, h);
+
+    const da = theme.isDark ? 0.85 : 0.7;
+    const la = theme.isDark ? 0.25 : 0.18;
+
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx = -p.vx;
+      if (p.y < 0 || p.y > h) p.vy = -p.vy;
+
+      const dx = p.x - mx, dy = p.y - my;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < MOUSE_R2 && d2 > 1) {
+        const d = Math.sqrt(d2);
+        const f = (MOUSE_R - d) / MOUSE_R;
+        p.x += (dx / d) * f * 2.5;
+        p.y += (dy / d) * f * 2.5;
       }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = da;
-      ctx.fill();
     }
 
-    const la = lineAlpha();
-    for (let i = 0; i < particles.length; i++) {
+    // связи
+    ctx.lineWidth = 1;
+    for (let i = 0; i < COUNT; i++) {
       const a = particles[i];
-      for (let j = i + 1; j < particles.length; j++) {
+      for (let j = i + 1; j < COUNT; j++) {
         const b = particles[j];
-        const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < CONFIG.maxDist) {
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < MAX_DIST2) {
+          ctx.globalAlpha = (1 - Math.sqrt(d2) / 150) * la;
+          ctx.strokeStyle = a.c;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = a.color;
-          ctx.globalAlpha = (1 - d / CONFIG.maxDist) * la;
-          ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
     }
+
+    // точки
+    ctx.globalAlpha = da;
+    for (const p of particles) {
+      ctx.fillStyle = p.c;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+      ctx.fill();
+    }
     ctx.globalAlpha = 1;
+
     if (running) raf = requestAnimationFrame(draw);
   }
 
-  const onMouseMove = (e: MouseEvent) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  };
+  function onPointer(e: PointerEvent) { mx = e.clientX; my = e.clientY; }
+
+  function start() { if (!running) { running = true; raf = requestAnimationFrame(draw); } }
+  function stop()  { running = false; cancelAnimationFrame(raf); }
 
   onMount(() => {
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     theme = readTheme();
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    reducedMotion = reduced.matches;
+    reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     resize();
-    initParticles();
+    build();
+    if (reduced) draw(); else start();
 
-    running = !reducedMotion;
-    if (running) raf = requestAnimationFrame(draw);
-    else draw(); // один кадр
+    const onVis = () => document.hidden ? stop() : (reduced ? draw() : start());
+    const onResize = () => { resize(); if (reduced) draw(); };
 
-    const onVis = () => {
-      if (document.hidden) {
-        running = false;
-        cancelAnimationFrame(raf);
-      } else if (reducedMotion) {
-        // перерисуем статичный кадр — вдруг был resize
-        resize();
-        draw();
-      } else {
-        running = true;
-        raf = requestAnimationFrame(draw);
-      }
-    };
-
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('resize', onResize);
+    window.addEventListener('pointermove', onPointer, { passive: true });
     document.addEventListener('visibilitychange', onVis);
 
     const unwatch = watchTheme((c) => {
       theme = c;
-      initParticles();
+      const cols = [c.primary, c.text, c.muted];
+      for (const p of particles) p.c = cols[(Math.random() * 3) | 0];
       if (!running) draw();
     });
 
     return () => {
-      running = false;
-      cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMouseMove);
+      stop();
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('pointermove', onPointer);
       document.removeEventListener('visibilitychange', onVis);
       unwatch();
     };
@@ -170,13 +142,7 @@
 
 <style>
   .bg {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    display: block;
-    pointer-events: none;
-    /* фон из темы, а не хардкод */
-    background: var(--bg);
-    transition: background 0.3s ease;
+    position: fixed; inset: 0; z-index: -1; display: block;
+    pointer-events: none; background: var(--bg);
   }
 </style>
