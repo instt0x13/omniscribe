@@ -3,7 +3,9 @@
 
   import { 
     Tabs, AppLayout, GhostText, GhostButton, SplitRow, 
-    BackgroundGradientBlobs, BackgroundParticle, BackgroundShader 
+    BackgroundGradientBlobs, BackgroundParticle, BackgroundShader, 
+    ChoiceList
+
   } from "$shared/ui";
 
   import { NoteList, NotesTabs } from "$features/note";
@@ -56,30 +58,31 @@
   
   {#snippet sidebar()}
     <ThemeToggle />
-    <Tabs
+    <ChoiceList
       items={bgs}
       active={bg}
       getKey={(b) => b}
       onselect={(b) => {bg = b;}}
     >
-      {#snippet tab(b)}
+      {#snippet item(b)}
           <GhostText>{b}</GhostText>
       {/snippet}
-    </Tabs>
-    <Tabs
+    </ChoiceList>
+    <ChoiceList
+      direction="vertical"
       items={modes}
       active={mode}
       getKey={(m) => m}
       onselect={(m) => {page.show("/"+m); mode = m;}}
     >
-      {#snippet tab(mode)}
-        {#if mode === "tabs"}
-          <GhostText>Вкладки 🗂️</GhostText>
-        {:else if mode === "list"}
-          <GhostText>Список 📑</GhostText>
+      {#snippet item(m)}
+        {#if m === "tabs"}
+          <GhostText>🗂️ Вкладки</GhostText>
+        {:else if m === "list"}
+          <GhostText>📑 Список</GhostText>
         {/if}
       {/snippet}
-    </Tabs>
+    </ChoiceList>
     <GhostButton>Пункты меню</GhostButton><br>
     <GhostButton>Пункты меню</GhostButton><br>
     <GhostButton>Пункты меню</GhostButton><br>
