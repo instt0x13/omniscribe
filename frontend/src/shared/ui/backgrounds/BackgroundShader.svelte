@@ -1,6 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { readTheme, watchTheme, hexToRgb01, type ThemeColors } from './theme';
+  import {
+    readTheme,
+    watchTheme,
+    colorToRgb01,
+    type ThemeColors,
+  } from './theme';
 
   let canvas: HTMLCanvasElement;
 
@@ -9,10 +14,6 @@
     void main() { gl_Position = vec4(p, 0.0, 1.0); }
   `;
 
-  // Оптимизации:
-  // 1) меньше итераций fbm (3 вместо 5) — при таком крупном масштабе разницы не видно
-  // 2) один базовый fbm + производные от него, а не вложенный fbm(fbm(...))
-  // 3) uniform-цвета темы
   const FRAG = `
     precision highp float;
     uniform vec2  u_res;
@@ -29,10 +30,9 @@
     float noise(vec2 p) {
       vec2 i = floor(p), f = fract(p);
       vec2 u = f * f * (3.0 - 2.0 * f);
-      return mix(mix(hash(i), hash(i + vec2(1,0)), u.x),
-                 mix(hash(i + vec2(0,1)), hash(i + vec2(1,1)), u.x), u.y);
+      return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+                 mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
     }
-    // 3 октавы вместо 5 — визуально то же на 3.0-масштабе
     float fbm(vec2 p) {
       float v = 0.0, a = 0.5;
       for (int i = 0; i < 3; i++) {
@@ -47,11 +47,9 @@
       vec2 p  = uv * 3.0;
       float t = u_time * 0.15;
 
-      // один базовый fbm + один производный — вместо вложенного
       float n = fbm(p + t * 0.5);
       float m = fbm(p * 1.5 - t);
 
-      // цвета темы, слегка приглушённые в светлом режиме
       float strength = mix(0.55, 1.0, u_dark);
 
       vec3 col = mix(u_bg, u_primary, smoothstep(0.3, 0.7, n) * strength);
@@ -66,7 +64,11 @@
     }
   `;
 
-  function createShader(gl: WebGLRenderingContext, type: number, src: string) {
+  function createShader(
+    gl: WebGLRenderingContext,
+    type: number,
+    src: string,
+  ): WebGLShader | null {
     const s = gl.createShader(type);
     if (!s) return null;
     gl.shaderSource(s, src);
@@ -83,22 +85,32 @@
     const gl = canvas.getContext('webgl', {
       antialias: false,
       alpha: false,
-      powerPreference: 'low-power',
-      // важно: canvas прозрачный не нужен — экономим композитинг
-      premultipliedAlpha: false,
+      powerPreference: 'default',
     }) as WebGLRenderingContext | null;
     if (!gl) return;
 
     const vs = createShader(gl, gl.VERTEX_SHADER, VERT);
     const fs = createShader(gl, gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
+    if (!vs || !fs) {
+      if (vs) gl.deleteShader(vs);
+      if (fs) gl.deleteShader(fs);
+      return;
+    }
 
-    const prog = gl.createProgram()!;
+    const prog = gl.createProgram();
+    if (!prog) {
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
+      return;
+    }
     gl.attachShader(prog, vs);
     gl.attachShader(prog, fs);
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
       console.error(gl.getProgramInfoLog(prog));
+      gl.deleteProgram(prog);
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
       return;
     }
     gl.useProgram(prog);
@@ -123,24 +135,28 @@
     const uMuted = gl.getUniformLocation(prog, 'u_muted');
 
     let theme: ThemeColors = readTheme();
+
     function pushTheme() {
-      const [br, bg, bb] = hexToRgb01(theme.bg);
-      const [pr, pg, pb] = hexToRgb01(theme.primary);
-      const [ar, ag, ab] = hexToRgb01(theme.muted);
-      const [mr, mg, mb] = hexToRgb01(theme.border);
+      const [br, bgc, bb] = colorToRgb01(theme.bg);
+      const [pr, pg, pb] = colorToRgb01(theme.primary);
+      const [ar, ag, ab] = colorToRgb01(theme.muted);
+      const [mr, mg, mb] = colorToRgb01(theme.border);
       gl.uniform1f(uDark, theme.isDark ? 1 : 0);
-      gl.uniform3f(uBg, br, bg, bb);
+      gl.uniform3f(uBg, br, bgc, bb);
       gl.uniform3f(uPrimary, pr, pg, pb);
       gl.uniform3f(uAccent, ar, ag, ab);
       gl.uniform3f(uMuted, mr, mg, mb);
     }
     pushTheme();
 
-    // рендерим в половинном разрешении — шум всё равно «мягкий»
+    // рендерим в пониженном разрешении — шум всё равно «мягкий»
     const RES_SCALE = 0.6;
 
     let raf = 0;
     let running = true;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    running = !reduced.matches;
+
     const start = performance.now();
 
     function resize() {
@@ -162,21 +178,34 @@
       if (running) raf = requestAnimationFrame(render);
     }
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    running = !reduced.matches;
-    if (running) raf = requestAnimationFrame(render);
-    else { resize(); render(performance.now()); }
+    if (running) {
+      raf = requestAnimationFrame(render);
+    } else {
+      resize();
+      render(performance.now());
+    }
 
     const onVis = () => {
-      if (document.hidden) { running = false; cancelAnimationFrame(raf); }
-      else if (!reduced.matches) { running = true; raf = requestAnimationFrame(render); }
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(raf);
+      } else if (reduced.matches) {
+        resize();
+        render(performance.now());
+      } else {
+        running = true;
+        raf = requestAnimationFrame(render);
+      }
     };
     document.addEventListener('visibilitychange', onVis);
 
     const unwatch = watchTheme((c) => {
       theme = c;
       pushTheme();
-      if (!running) { resize(); render(performance.now()); }
+      if (!running) {
+        resize();
+        render(performance.now());
+      }
     });
 
     return () => {
@@ -187,7 +216,7 @@
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);
-      gl.deleteBuffer(buf);
+      if (buf) gl.deleteBuffer(buf);
     };
   });
 </script>

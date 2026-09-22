@@ -1,27 +1,41 @@
 :root {
-  --bg: #f8fafc;
-  --panel: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --border: #e2e8f0;
+  --hue: 220;
+  --primary-h: 220;
   --radius: 8px;
-  --backdrop: rgba(0, 0, 0, 0.4);
-  --backdrop-text: #f8fafc;
+  --mode: 1;          /* 1 = light, 0 = dark */
+  --sat: 40%;
+  --primary-s: 80%;
 }
 
-/* Тёмная тема */
 [data-theme="dark"] {
-  --bg: #0f172a;
-  --panel: #1e293b;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --primary: #3b82f6;
-  --primary-hover: #60a5fa;
-  --border: #334155;
-  --backdrop: rgba(0, 0, 0, 0.7);
-  --backdrop-text: #dee1e4;
+  --mode: 0;
+}
+
+:root {
+  /* формула: base_dark + mode * (base_light - base_dark) */
+
+  /* bg:     dark 10% → light 98%   →  10 + mode*88   */
+  --bg:      hsl(var(--hue) calc(var(--sat) * 0.5) calc(10% + var(--mode) * 88%));
+
+  /* panel:  dark 12% → light 100%  →  12 + mode*88   */
+  --panel:   hsl(var(--hue) calc(var(--sat) * 0.5) calc(12% + var(--mode) * 88%));
+
+  /* border: dark 20% → light 90%   →  20 + mode*70   */
+  --border:  hsl(var(--hue) calc(var(--sat) * 0.6) calc(20% + var(--mode) * 70%));
+
+  /* text:   dark 97% → light 12%   →  97 - mode*85   */
+  --text:    hsl(var(--hue) calc(var(--sat) * 0.7) calc(97% - var(--mode) * 85%));
+
+  /* muted:  dark 60% → light 45%   →  60 - mode*15   */
+  --muted:   hsl(var(--hue) calc(var(--sat) * 0.7) calc(60% - var(--mode) * 15%));
+
+  /* primary: dark 47% → light 55%  →  47 + mode*8    */
+  --primary:       hsl(var(--primary-h) var(--primary-s) calc(47% + var(--mode) * 8%));
+  --primary-hover: hsl(var(--primary-h) var(--primary-s) calc(53% - var(--mode) * 8%));
+
+  /* backdrop: dark α=0.7 → light α=0.4  →  0.7 - mode*0.3 */
+  --backdrop:      hsl(0 0% 0% / calc(0.7 - var(--mode) * 0.3));
+  --backdrop-text: hsl(var(--hue) 30% 97%);
 }
 
 * {
@@ -31,6 +45,8 @@
 }
 
 body {
+  min-width: 100vw;
+  min-height: 100vh;
   font-family: system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
@@ -72,42 +88,8 @@ dialog {
   }
 }
 
-/*--------------стили для скролбара--------------------------------*/
-/* ===== Современный стандарт (Firefox, новые Chrome/Safari) ===== */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb, rgba(128, 128, 128, 0.5))
                    var(--scrollbar-track, transparent);
-}
-
-/* ===== WebKit / Blink (Chrome, Safari, Edge, старые версии) ===== */
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-track, transparent);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb, rgba(128, 128, 128, 0.5));
-  border-radius: 999px;
-  /* Прозрачная рамка «отодвигает» бегунок от краёв дорожки */
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover, rgba(128, 128, 128, 0.8));
-}
-
-/* Уголок между вертикальным и горизонтальным скроллбаром */
-*::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Кнопки-стрелки (в WebKit они есть по умолчанию на некоторых ОС) */
-*::-webkit-scrollbar-button {
-  display: none;
 }

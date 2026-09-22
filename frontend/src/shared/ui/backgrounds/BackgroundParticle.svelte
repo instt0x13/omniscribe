@@ -1,12 +1,17 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { readTheme, watchTheme, type ThemeColors } from './theme';
+  import { readTheme, watchTheme, FALLBACK_THEME, type ThemeColors } from './theme';
 
   let canvas: HTMLCanvasElement;
-  let ctx: CanvasRenderingContext2D | null;
+  let ctx: CanvasRenderingContext2D | null = null;
 
   interface Point { x: number; y: number; }
-  interface Particle extends Point { vx: number; vy: number; r: number; color: string; }
+  interface Particle extends Point {
+    vx: number;
+    vy: number;
+    r: number;
+    color: string;
+  }
 
   const CONFIG = {
     count: 80,
@@ -19,9 +24,10 @@
   let mouse: Point = { x: -1000, y: -1000 };
   let width = 0;
   let height = 0;
-  let theme: ThemeColors = readTheme();
+  let theme: ThemeColors = FALLBACK_THEME;
   let raf = 0;
   let running = false;
+  let reducedMotion = false;
 
   const palette = () => [theme.primary, theme.text, theme.muted];
   const lineAlpha = () => (theme.isDark ? 0.25 : 0.18);
@@ -36,6 +42,12 @@
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
     ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // если окно уменьшилось — подтягиваем частицы внутрь
+    for (const p of particles) {
+      if (p.x > width) p.x = width;
+      if (p.y > height) p.y = height;
+    }
   }
 
   function initParticles(): void {
@@ -107,12 +119,15 @@
     ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    theme = readTheme();
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    reducedMotion = reduced.matches;
+
     resize();
     initParticles();
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    running = !reduced.matches;
-
+    running = !reducedMotion;
     if (running) raf = requestAnimationFrame(draw);
     else draw(); // один кадр
 
@@ -120,7 +135,11 @@
       if (document.hidden) {
         running = false;
         cancelAnimationFrame(raf);
-      } else if (!reduced.matches) {
+      } else if (reducedMotion) {
+        // перерисуем статичный кадр — вдруг был resize
+        resize();
+        draw();
+      } else {
         running = true;
         raf = requestAnimationFrame(draw);
       }
@@ -130,7 +149,6 @@
     window.addEventListener('mousemove', onMouseMove);
     document.addEventListener('visibilitychange', onVis);
 
-    // реакция на смену темы — пересоздаём частицы с новой палитрой
     const unwatch = watchTheme((c) => {
       theme = c;
       initParticles();
