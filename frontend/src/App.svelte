@@ -39,15 +39,15 @@
   });
 </script>
 
+{#if bg === "GradientBlobs"}
+  <BackgroundGradientBlobs />
+{:else if bg === "Particles"}
+  <BackgroundParticle />
+{:else if bg === "Shader"}
+  <BackgroundShader />
+{/if}
 
 <AppLayout>
-  {#if bg === "GradientBlobs"}
-    <BackgroundGradientBlobs />
-  {:else if bg === "Particles"}
-    <BackgroundParticle />
-  {:else if bg === "Shader"}
-    <BackgroundShader />
-  {/if}
   {#snippet header()}
     <SplitRow>
       {#snippet left()}
