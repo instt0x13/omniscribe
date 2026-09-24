@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, GhostButton, GhostText, Icon, ModalConfirm, Tabs } from "$shared/ui";
+  import { Button, ChoiceList, GhostButton, GhostText, Icon, ModalConfirm } from "$shared/ui";
   import type { Note } from "../noteTypes";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import { NotesStore } from "../classes/NotesStore.svelte";
@@ -83,30 +83,6 @@
   </aside>
 
   <div class="notes-tabs">
-    <Tabs
-      items={tabs}
-      active={activeSession}
-      getKey={(s) => s.localId}
-      onselect={(s) => (activeSession = s)}
-    >
-      {#snippet tab(session)}
-        <GhostText>
-          {session.entity.title || "Без названия"}
-        </GhostText>
-        <GhostButton
-          type="button"
-          class="tab-close"
-          title="Закрыть"
-          onclick={(e) => {
-            e.stopPropagation();
-            requestCloseTab(session);
-          }}
-        >
-          <Icon name="close"/>
-        </GhostButton>
-      {/snippet}
-    </Tabs>
-
     <div class="tabs-content">
       {#if activeSession}
         <NoteEditor session={activeSession} />
