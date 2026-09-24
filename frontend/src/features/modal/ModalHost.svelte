@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { modalStore } from "./modalStore.svelte";
+  import { modalStore } from "$shared/services";
 </script>
 
 {#each modalStore.stack as entry (entry.id)}

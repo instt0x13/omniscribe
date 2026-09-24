@@ -23,8 +23,11 @@
       "$shared/services": ["./src/shared/services"],
       "$shared/config": ["./src/shared/config"],
       //фичи
-      "$features/theme": ["./src/features/theme/index.ts"],
-      "$features/note": ["./src/features/note/index.ts"]
+      "$features/settings": ["./src/features/settings"],
+      "$features/appearance": ["./src/features/appearance"],
+      "$features/note": ["./src/features/note"],
+      "$features/modal": ["./src/features/modal"],
+      "$features/background": ["./src/features/background"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]

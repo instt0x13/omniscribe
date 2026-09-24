@@ -1,2 +1,2 @@
-export { modalStore } from "./modalStore.svelte"
-export { default as ModalHost } from "./ModalHost.svelte"
+export * from "./modalStore.svelte"
+export * from "./settings.svelte"

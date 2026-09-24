@@ -1,30 +1,20 @@
-<script lang="ts" generics="T">
+<script lang="ts" generics="T, K extends PropertyKey">
   import type { Snippet } from "svelte";
 
   type Props = {
-    items: T[];
-    active: T | null;
-    /** стабильный ключ элемента — для {#each ... (key)} */
-    getKey: (item: T) => string | number;
-    /** клик по элементу */
-    onselect: (item: T) => void;
-    /** как рисовать содержимое элемента — решает родитель */
-    item: Snippet<[T]>;
-    /** направление списка */
-    direction?: "horizontal" | "vertical";
+    direction: "horizontal" | "vertical";
+    items: Record<K, T>;
+    active: K | null;
+    /** клик по вкладке */
+    onselect: (key: K) => void;
+    /** как рисовать содержимое вкладки — решает родитель */
+    item: Snippet<[T, K]>;
   };
 
-  let {
-    items,
-    active,
-    getKey,
-    onselect,
-    item,
-    direction = "horizontal"
-  }: Props = $props();
+  let { direction, items, active, onselect, item }: Props = $props();
 </script>
 
-{#if items.length > 0}
+{#if Object.keys(items).length !== 0}
   <div
     class="list"
     class:list--horizontal={direction === "horizontal"}
@@ -32,23 +22,24 @@
     role="tablist"
   >
     <ul class="list-body">
-      {#each items as entry (getKey(entry))}
+      {#each Object.entries(items) as [key, value]}
+      {@const typedKey = key as K}
         <li>
           <div
             class="list-item"
-            class:active={active === entry}
+            class:active={active === typedKey}
             role="tab"
             tabindex="0"
-            aria-selected={active === entry}
-            onclick={() => onselect?.(entry)}
+            aria-selected={active === typedKey}
+            onclick={() => onselect(typedKey)}
             onkeydown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                onselect?.(entry);
+                onselect(typedKey);
               }
             }}
           >
-            {@render item(entry)}
+            {@render item(value as T, typedKey)}
           </div>
         </li>
       {/each}

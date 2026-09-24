@@ -1,39 +1,34 @@
 <script lang="ts">
+  import type { Component } from "svelte";
   import page from "page";
-
-  import { 
-    Tabs, AppLayout, GhostText, GhostButton, SplitRow, 
-    BackgroundGradientBlobs, BackgroundParticle, BackgroundShader, 
-    ChoiceList
-
-  } from "$shared/ui";
-
+  import { AppLayout, GhostText,  ChoiceList } from "$shared/ui";
+  import { ModalHost } from "$features/modal";
+  import { BackgroundShow } from "$features/background";
   import { NoteList, NotesTabs } from "$features/note";
-  import { ThemeToggle } from "$features/theme";
+  import { SettingsPage } from "$features/settings";
+  import { init } from "$features/appearance";
 
-  const modes = ["list", "tabs"];
-  type Mode = typeof modes[number];
-  let mode = $state<Mode>("list");
+  const modules = {
+    main: { title: "", component: null},
+    settings: { title: "Настройки", component: SettingsPage},
+    list: { title: "📑 Список", component: NoteList},
+    tabs: { title: "🗂️ Вкладки", component: NotesTabs},
+  } as const satisfies Record<string, { 
+    title: string, 
+    component: Component | null
+  }>;
 
-  const bgs = ["none", "GradientBlobs", "Particles", "Shader"];
-  type Bg = typeof bgs[number];
-  let bg = $state<Bg>("none");
+  type Module = keyof typeof modules;
+
+  let module = $state<Module>("main");
 
   page("/", () => {
-    page.redirect("/" + mode);
+    page.redirect("/" + module);
   });
 
-  page("/list", () => {
-    mode = "list";
+  page("/:id", (ctx) => {
+    module = ctx.params.id;
   });
-
-  page("/tabs", () => {
-    mode = "tabs";
-  });
-
-  //page("/note/:id", (ctx) => {
-  //  notesStore.setActiveNoteId(Number(ctx.params.id));
-  //});
 
   $effect(() => {
     page.start();
@@ -41,13 +36,8 @@
   });
 </script>
 
-{#if bg === "GradientBlobs"}
-  <BackgroundGradientBlobs />
-{:else if bg === "Particles"}
-  <BackgroundParticle />
-{:else if bg === "Shader"}
-  <BackgroundShader />
-{/if}
+<BackgroundShow />
+<ModalHost />
 
 <AppLayout>
   {#snippet header()}
@@ -57,47 +47,23 @@
   {/snippet}
   
   {#snippet sidebar()}
-    <ThemeToggle />
-    <ChoiceList
-      items={bgs}
-      active={bg}
-      getKey={(b) => b}
-      onselect={(b) => {bg = b;}}
+    <ChoiceList direction="vertical"
+      items={modules}
+      active={module}
+      onselect={(key) => {page.show("/"+key); module = key;}}
     >
-      {#snippet item(b)}
-          <GhostText>{b}</GhostText>
+      {#snippet item(module, key)}
+        <GhostText>{module.title || key}</GhostText>
       {/snippet}
     </ChoiceList>
-    <ChoiceList
-      direction="vertical"
-      items={modes}
-      active={mode}
-      getKey={(m) => m}
-      onselect={(m) => {page.show("/"+m); mode = m;}}
-    >
-      {#snippet item(m)}
-        {#if m === "tabs"}
-          <GhostText>🗂️ Вкладки</GhostText>
-        {:else if m === "list"}
-          <GhostText>📑 Список</GhostText>
-        {/if}
-      {/snippet}
-    </ChoiceList>
-    <GhostButton>Пункты меню</GhostButton><br>
-    <GhostButton>Пункты меню</GhostButton><br>
-    <GhostButton>Пункты меню</GhostButton><br>
-    <GhostButton>Пункты меню</GhostButton><br>
-    <GhostText>Пункты меню</GhostText><br>
-    <GhostText>Пункты меню</GhostText><br>
-    <GhostText>Пункты меню</GhostText><br>
-    <GhostText>Пункты меню</GhostText><br>
   {/snippet}
 
-  {#if mode === "list"}
-    <NoteList />
-  {:else if mode === "tabs"}
-    <NotesTabs />
-  {/if}
+  {#each Object.entries(modules) as [key, value]}
+    {#if key === module}
+      {@const ModuleComponent = value.component}
+      <ModuleComponent />
+    {/if}
+  {/each}
 </AppLayout>
 
 <style>
