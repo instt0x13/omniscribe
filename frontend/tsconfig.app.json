@@ -18,16 +18,12 @@
     "checkJs": true,
     "moduleDetection": "force",
     "paths": {
-      //общее
-      "$shared/ui": ["./src/shared/ui"],
-      "$shared/services": ["./src/shared/services"],
-      "$shared/config": ["./src/shared/config"],
-      //фичи
-      "$features/settings": ["./src/features/settings"],
-      "$features/appearance": ["./src/features/appearance"],
-      "$features/note": ["./src/features/note"],
-      "$features/modal": ["./src/features/modal"],
-      "$features/background": ["./src/features/background"],
+      "$ui": ["./src/ui"],
+      "$modules": ["./src/modules"],
+      "$services": ["./src/services"],
+      "$types": ["./src/types"],
+      "$views": ["./src/views"],
+      "$appConfig": ["./src/appConfig.ts"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
