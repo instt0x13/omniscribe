@@ -1,13 +1,11 @@
 <script lang="ts">
   import { settings } from "$services";
-  import { backgrounds, SETTING_NAME } from "./background.config";
+  import { backgrounds, SETTING_NAME, type Background } from "./background.config";
+
+  const background = $derived(settings.get(SETTING_NAME));
+  const BgComponent = $derived(backgrounds[background as Background]?.component ?? null);
 </script>
 
-{#each Object.entries(backgrounds) as [key, value]}
-  {#if key === settings.get(SETTING_NAME)}
-    {#if value.component !== null}
-      {@const BgComponent = value.component}
-      <BgComponent />
-    {/if}
-  {/if}
-{/each}
+{#if BgComponent}
+  <BgComponent />
+{/if}
