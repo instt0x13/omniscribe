@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { readTheme, watchTheme, colorToRgb01, type ThemeColors } from './theme';
+  import { readTheme, watchTheme, colorToRgb01, type ThemeColors } from '../theme';
 
   let canvas: HTMLCanvasElement;
 

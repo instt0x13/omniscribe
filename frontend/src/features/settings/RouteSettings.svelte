@@ -1,9 +1,14 @@
 <script lang="ts">
-  import { settingsViews } from "$views";
+  import type { SettingsSection } from "$types";
+
+  interface Props {
+    settings: SettingsSection[]
+  }
+  let { settings}: Props = $props();
 </script>
 
 <div>
-  {#each settingsViews.items as page}
+  {#each settings as page}
     {@const PageComponent = page.component}
     <section class="settings {page.title}-settings">
       <h2 class="title">{page.title}</h2>

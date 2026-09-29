@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Button, ChoiceList, GhostButton, GhostText, Icon, ModalConfirm } from "$ui";
-  import type { Note } from "../noteTypes";
-  import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
-  import { NotesStore } from "../classes/NotesStore.svelte";
-  import NoteEditor from "./NoteEditor.svelte";
+  import type { Note } from "./noteTypes";
+  import { NoteEditorSession } from "./classes/NoteEditorSession.svelte";
+  import { NotesStore } from "./classes/NotesStore.svelte";
+  import NoteEditor from "./ui/NoteEditor.svelte";
 
   let store = new NotesStore();
   let tabs = $state<NoteEditorSession[]>([]);

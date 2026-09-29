@@ -1,8 +1,6 @@
 import type { Component } from "svelte";
 
-export interface View {
-  id: string;
+export interface SettingsSection {
   title: string;
-  icon?: string;
   component: Component;
 }

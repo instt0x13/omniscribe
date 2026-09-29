@@ -1,12 +1,12 @@
 <script lang="ts">
   import { Button, ModalConfirm } from "$ui";
 
-  import type { Note } from "../noteTypes";
+  import type { Note } from "./noteTypes";
 
-  import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
-  import { NotesStore } from "../classes/NotesStore.svelte";
+  import { NoteEditorSession } from "./classes/NoteEditorSession.svelte";
+  import { NotesStore } from "./classes/NotesStore.svelte";
 
-  import NoteEditorModal from "./NoteEditorModal.svelte";
+  import NoteEditorModal from "./ui/NoteEditorModal.svelte";
 
   const store = new NotesStore();
   let activeNoteSession = $state<NoteEditorSession | null>(null);

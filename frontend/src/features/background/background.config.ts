@@ -1,7 +1,7 @@
 import type { Component } from "svelte";
-import GradientBlobs from "./GradientBlobs.svelte";
-import Particles from "./Particles.svelte";
-import Shader from "./Shader.svelte";
+import GradientBlobs from "./backgrounds/GradientBlobs.svelte";
+import Particles from "./backgrounds/Particles.svelte";
+import Shader from "./backgrounds/Shader.svelte";
 
 export const SETTING_NAME = "background-type:";
 

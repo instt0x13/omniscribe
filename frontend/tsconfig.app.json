@@ -19,10 +19,9 @@
     "moduleDetection": "force",
     "paths": {
       "$ui": ["./src/ui"],
-      "$modules": ["./src/modules"],
+      "$features": ["./src/features"],
       "$services": ["./src/services"],
       "$types": ["./src/types"],
-      "$views": ["./src/views"],
       "$appConfig": ["./src/appConfig.ts"],
     }
   },

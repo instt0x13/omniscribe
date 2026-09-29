@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { readTheme, watchTheme, FALLBACK_THEME, type ThemeColors } from './theme';
+  import { readTheme, watchTheme, FALLBACK_THEME, type ThemeColors } from '../theme';
 
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D | null = null;

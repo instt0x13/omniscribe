@@ -1,20 +1,20 @@
 <script lang="ts">
-  import type { View } from "$types";
   import type { Snippet } from "svelte";
 
   type Props = {
     direction: "horizontal" | "vertical";
     /** Массив представлений. Порядок = порядок отображения. */
-    items: readonly View[];
+    items: readonly any[];
+    key: string;
     /** id активного элемента. */
     active: string | null;
     /** Клик по элементу. */
-    onselect: (id: string) => void;
+    onselect: (key: string) => void;
     /** Как рисовать содержимое элемента. */
-    item: Snippet<[View]>;
+    item: Snippet<[any]>;
   };
 
-  let { direction, items, active, onselect, item }: Props = $props();
+  let { direction, items, key, active, onselect, item }: Props = $props();
 </script>
 
 {#if items.length !== 0}
@@ -24,15 +24,18 @@
     class:nav--vertical={direction === "vertical"}
   >
     <ul class="nav-list">
-      {#each items as view (view.id)}
-        {@const isActive = active === view.id}
+      {#each items as view (view[key])}
+        {@const isActive = active === view[key]}
         <li>
           <button
             type="button"
             class="nav-item"
             class:active={isActive}
             aria-current={isActive ? "page" : undefined}
-            onclick={() => onselect(view.id)}
+            onclick={(e) => {
+              e.preventDefault();
+              onselect(view[key]);
+            }}
           >
             {@render item(view)}
           </button>

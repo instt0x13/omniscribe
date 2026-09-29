@@ -4,11 +4,11 @@
   interface Props {
     header?: Snippet;
     sidebar?: Snippet;
-    statusbar?: Snippet;
+    footer?: Snippet;
     children?: Snippet;
   }
 
-  let { header, sidebar, statusbar, children }: Props = $props();
+  let { header, sidebar, footer, children }: Props = $props();
 </script>
 
 <div class="app-shell">
@@ -25,7 +25,7 @@
   </main>
   
   <footer class="app-statusbar rb tb">
-    {#if statusbar}{@render statusbar()}{/if}
+    {#if footer}{@render footer()}{/if}
   </footer>
 </div>
 
