@@ -34,7 +34,7 @@
         active={pathroute}
         onselect={(path) => { onselectroute(path); }}
       >
-        {#snippet item(route)}
+        {#snippet button(route)}
           <GhostText>{route.title}</GhostText>
         {/snippet}
       </Nav>

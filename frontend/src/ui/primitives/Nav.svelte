@@ -12,10 +12,10 @@
     /** Клик по элементу. */
     onselect: (key: string) => void;
     /** Как рисовать содержимое элемента. */
-    item: Snippet<[any]>;
+    button: Snippet<[any]>;
   };
 
-  let { direction, items, key, active, onselect, item }: Props = $props();
+  let { direction, items, key, active, onselect, button }: Props = $props();
 </script>
 
 {#if items.length !== 0}
@@ -35,7 +35,7 @@
             aria-current={isActive ? "page" : undefined}
             onclick={() => onselect(item[key])}
           >
-            {@render item(item)}
+            {@render button(item)}
           </button>
         </li>
       {/each}
