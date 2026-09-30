@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import { AppLayout, GhostText, Layer, SplitRow, ViewList } from "$ui";
+  import { AppLayout, GhostText, Layer, SplitRow, Nav } from "$ui";
   import type { RoutePage } from "$types";
 
   interface Props {
@@ -27,17 +27,17 @@
     {/snippet}
 
     {#snippet sidebar()}
-      <ViewList
+      <Nav
         direction="vertical"
         items={routes}
         key="path"
         active={pathroute}
         onselect={(path) => { onselectroute(path); }}
       >
-        {#snippet item(view)}
-          <GhostText>{view.title}</GhostText>
+        {#snippet item(route)}
+          <GhostText>{route.title}</GhostText>
         {/snippet}
-      </ViewList>
+      </Nav>
     {/snippet}
 
     {#snippet footer()}

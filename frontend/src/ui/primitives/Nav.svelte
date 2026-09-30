@@ -5,6 +5,7 @@
     direction: "horizontal" | "vertical";
     /** Массив представлений. Порядок = порядок отображения. */
     items: readonly any[];
+    /** Имя поля с ключем/id/name */
     key: string;
     /** id активного элемента. */
     active: string | null;
@@ -24,20 +25,17 @@
     class:nav--vertical={direction === "vertical"}
   >
     <ul class="nav-list">
-      {#each items as view (view[key])}
-        {@const isActive = active === view[key]}
+      {#each items as item (item[key])}
+        {@const isActive = active === item[key]}
         <li>
           <button
             type="button"
             class="nav-item"
             class:active={isActive}
             aria-current={isActive ? "page" : undefined}
-            onclick={(e) => {
-              e.preventDefault();
-              onselect(view[key]);
-            }}
+            onclick={() => onselect(item[key])}
           >
-            {@render item(view)}
+            {@render item(item)}
           </button>
         </li>
       {/each}
