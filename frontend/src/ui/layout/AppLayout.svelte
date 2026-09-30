@@ -24,7 +24,7 @@
     {#if children}{@render children()}{/if}
   </main>
   
-  <footer class="app-statusbar rb tb">
+  <footer class="app-footer rb tb">
     {#if footer}{@render footer()}{/if}
   </footer>
 </div>
@@ -47,7 +47,7 @@
       "sidebar content"
       "status  content";
     grid-template-columns: var(--sidebar-width, 240px) 1fr;
-    grid-template-rows: var(--header-height, 56px) 1fr var(--status-height, 16px);
+    grid-template-rows: var(--header-height, 56px) 1fr var(--status-height, 24px);
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -80,7 +80,7 @@
     padding: 0.75rem;
   }
 
-  .app-statusbar {
+  .app-footer {
     grid-area: status;
     display: flex;
     align-items: center;
