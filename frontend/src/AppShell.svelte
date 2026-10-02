@@ -74,8 +74,4 @@
 
 <style>
   .brand { font-size: 1.25rem; margin: 0; }
-  /* Стили для активной ссылки */
-  :global(.active) {
-    color: var(--accent);
-  }
 </style>
