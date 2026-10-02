@@ -1,8 +1,92 @@
 /* ============================================
    ЭЛЕМЕНТЫ
    ============================================ */
+
+/* ---------- Типографика ---------- */
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.1rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+
+small { font-size: 0.85em; color: var(--muted); }
+strong, b { font-weight: 600; }
+code, kbd, samp, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+code {
+  padding: 0.15em 0.4em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+pre {
+  padding: calc(var(--space) * 4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+pre code {
+  padding: 0;
+  background: none;
+  border: none;
+}
+mark {
+  background: var(--warning-soft);
+  color: var(--text);
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-sm);
+}
+blockquote {
+  padding: calc(var(--space) * 2) calc(var(--space) * 4);
+  border-left: 3px solid var(--primary);
+  background: var(--primary-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--muted);
+}
+
+/* ---------- Ссылки ---------- */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover { color: var(--primary-hover); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Ссылки со сложным содержимым (изображение, блок, кнопка, иконка+текст) —
+   выглядят как обычные блоки, а не как ссылки */
+a:has(img),
+a:has(picture),
+a:has(video),
+a:has(svg),
+a:has(button),
+a:has(div),
+a:has(section),
+a:has(article),
+a:has(figure) {
+  color: inherit;
+  text-decoration: none;
+}
+a:has(img):hover,
+a:has(picture):hover,
+a:has(video):hover,
+a:has(svg):hover,
+a:has(button):hover,
+a:has(div):hover,
+a:has(section):hover,
+a:has(article):hover,
+a:has(figure):hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Формы ---------- */
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border);
@@ -10,22 +94,185 @@ textarea {
   background: var(--panel);
   color: var(--text);
   font: inherit;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--subtle);
+}
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--border-strong);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: var(--disabled-opacity);
+  background: var(--disabled-bg);
+  cursor: not-allowed;
+}
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+input[aria-invalid="true"]:focus,
+textarea[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--danger-soft);
 }
 
-button {
+textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+                    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 1.1rem) 50%, calc(100% - 0.75rem) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: calc(var(--space) * 1.5);
+}
+
+/* Чекбоксы и радио */
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+input[type="range"] {
+  padding: 0;
+  accent-color: var(--primary);
+  background: transparent;
+  border: none;
+}
+
+/* ---------- Кнопки ---------- */
+button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--space) * 2);
   padding: 0.5rem 1rem;
   background: var(--primary);
-  color: white;
-  border: none;
+  color: var(--primary-text);
+  border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
   font-weight: 500;
-
-  &:hover {
-    background: var(--primary-hover);
-  }
+  font-size: 0.9rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background var(--transition), border-color var(--transition),
+              color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+button:hover,
+.button:hover {
+  background: var(--primary-hover);
+}
+button:active,
+.button:active {
+  background: var(--primary-active);
+  transform: translateY(1px);
+}
+button:focus-visible,
+.button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+button:disabled,
+.button:disabled,
+button[aria-disabled="true"] {
+  opacity: var(--disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
+/* Вторичная кнопка */
+button.secondary,
+.button.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+button.secondary:hover,
+.button.secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+/* Опасная кнопка */
+button.danger,
+.button.danger {
+  background: var(--danger);
+  color: var(--primary-text);
+}
+button.danger:hover,
+.button.danger:hover {
+  filter: brightness(1.1);
+}
+
+/* ---------- Списки ---------- */
+ul, ol {
+  padding-left: calc(var(--space) * 6);
+}
+ul { list-style: disc; }
+ol { list-style: decimal; }
+li { margin-bottom: calc(var(--space) * 1); }
+li::marker { color: var(--muted); }
+
+/* ---------- Таблицы ---------- */
+table {
+  width: 100%;
+  font-size: 0.9rem;
+}
+th, td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+tbody tr {
+  transition: background var(--transition);
+}
+tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+/* ---------- Разделители ---------- */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: calc(var(--space) * 4) 0;
+}
+
+/* ---------- Dialog ---------- */
 dialog {
   padding: 0;
   border: none;
@@ -33,8 +280,60 @@ dialog {
   max-width: 100%;
   margin: auto;
   color: var(--text);
-
-  &::backdrop {
-    background: var(--backdrop);
-  }
 }
+dialog::backdrop {
+  background: var(--backdrop);
+  backdrop-filter: blur(2px);
+}
+dialog > * {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: calc(var(--space) * 6);
+}
+
+/* ---------- Прочие элементы ---------- */
+details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 3);
+  background: var(--panel);
+}
+summary {
+  cursor: pointer;
+  font-weight: 500;
+  user-select: none;
+}
+summary::marker { color: var(--muted); }
+
+progress {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  accent-color: var(--primary);
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 4);
+}
+legend {
+  padding: 0 calc(var(--space) * 2);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* ---------- Утилиты ---------- */
+.muted { color: var(--muted); }
+.subtle { color: var(--subtle); }
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 4);
+}
+.shadow { box-shadow: var(--shadow); }
+.shadow-lg { box-shadow: var(--shadow-lg); }

@@ -1,11 +1,14 @@
-/** CSS-переменные, которыми управляет тема */
+/** CSS-переменные, которыми управляет тема (редактируемые пользователем) */
 export const CSS_VARS = [
+  // цвет / форма
   "--hue",
   "--primary-h",
   "--sat",
   "--primary-s",
   "--alpha",
+  "--contrast",
   "--radius",
+  "--font-size",
 ] as const;
 
 export type ThemeVar = (typeof CSS_VARS)[number];
@@ -15,11 +18,23 @@ export type ThemeState = Partial<Record<ThemeVar, string | number>>;
 
 export type ThemeMode = "light" | "dark" | "system";
 
-class Theme {
-  /** Текущее состояние CSS-переменных */
-  #state = $state<ThemeState>({});
+/**
+ * Дефолты должны совпадать с :root в base.css.
+ * Используются для reset и SSR-фолбэка.
+ */
+export const DEFAULT_THEME: Required<ThemeState> = {
+  "--hue": 220,
+  "--primary-h": 220,
+  "--sat": "40%",
+  "--primary-s": "80%",
+  "--alpha": 0.8,
+  "--contrast": 1, 
+  "--radius": "8px",
+  "--font-size": "1rem",
+};
 
-  /** Режим темы */
+class Theme {
+  #state = $state<ThemeState>({});
   #mode = $state<ThemeMode>("system");
 
   nameSetting = {
@@ -31,70 +46,48 @@ class Theme {
     return this.#mode;
   }
 
-  /** Установить режим темы */
   set mode(mode: ThemeMode) {
-    this.#mode = mode as ThemeMode ?? "system";
-    if (typeof document !== "undefined") {
-      const root = document.documentElement;
-      if (this.#mode === "system") {
-        root.removeAttribute("data-theme");
-      } else {
-        root.setAttribute("data-theme", this.#mode);
-      }
+    this.#mode = (mode as ThemeMode) ?? "system";
+    if (typeof document === "undefined") return;
+    const root = document.documentElement;
+    if (this.#mode === "system") {
+      root.removeAttribute("data-theme");
+    } else {
+      root.setAttribute("data-theme", this.#mode);
     }
   }
 
   setMode(mode: string) {
-    this.mode = mode as ThemeMode ?? "system";
+    this.mode = (mode as ThemeMode) ?? "system";
   }
 
-  /** Проставить одну CSS-переменную и сразу применить */
   set(name: ThemeVar, value: string | number) {
-    this.#state = {
-      ...this.#state,
-      [name]: value,
-    };
-
+    this.#state = { ...this.#state, [name]: value };
     if (typeof document !== "undefined") {
       document.documentElement.style.setProperty(name, String(value));
     }
   }
 
-  /** Проставить несколько CSS-переменных разом */
   patch(values: ThemeState) {
-    this.#state = {
-      ...this.#state,
-      ...values,
-    };
-
+    this.#state = { ...this.#state, ...values };
     if (typeof document === "undefined") return;
-
     const root = document.documentElement.style;
-
     for (const [name, value] of Object.entries(values)) {
       root.setProperty(name, String(value));
     }
   }
 
-  /**
-   * Применить набор CSS-переменных целиком.
-   * Не трогает mode.
-   */
+  /** Применить набор переменных целиком, не трогая mode */
   apply(values: ThemeState) {
-    this.#state = {
-      ...values,
-    };
-
+    this.#state = { ...values };
     if (typeof document === "undefined") return;
-
     const root = document.documentElement.style;
-
     for (const [name, value] of Object.entries(values)) {
       root.setProperty(name, String(value));
     }
   }
 
-  /** Снять текущее состояние с :root в JSON-строку */ 
+  /** Снять текущее состояние с :root в JSON-строку */
   toJSON(): string {
     if (typeof document === "undefined") return JSON.stringify(this.#state);
     const cs = getComputedStyle(document.documentElement);
@@ -106,7 +99,7 @@ class Theme {
     return JSON.stringify(out);
   }
 
-  /** Загрузить тему из JSON-строки */ 
+  /** Загрузить тему из JSON-строки */
   fromJSON(json: string) {
     let parsed: unknown;
     try {
@@ -126,5 +119,16 @@ class Theme {
     }
     this.apply(values);
   }
+
+  /** Сброс на дефолты из base.css */
+  reset() {
+    if (typeof document === "undefined") return;
+    const root = document.documentElement.style;
+    for (const name of CSS_VARS) {
+      root.removeProperty(name);
+    }
+    this.#state = {};
+  }
 }
+
 export const theme = new Theme();

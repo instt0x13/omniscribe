@@ -1,36 +1,153 @@
-/* ============================================
-   ПАЛИТРА — вычисляется из базовых параметров
-   ============================================ */
 :root {
-  /* bg:     dark 10% → light 98%   →  10 + mode*88   */
-  --bg:      hsl(var(--hue) calc(var(--sat) * 0.5) calc(10% + var(--mode) * 88%));
+  /* ============================================================
+     Хелпер: приведение светлоты к контрастности.
+     target — светлота при contrast = 1.
+     contrast = 1 → target; contrast = 0 → 50% (серый).
+     ============================================================ */
 
-  /* panel:  dark 12% → light 100%  →  12 + mode*88   */
-  --panel:   hsl(var(--hue) calc(var(--sat) * 0.5) calc(12% + var(--mode) * 88%) / var(--alpha));
+  /* ---------- Поверхности ---------- */
+  /* target: dark 10% → light 98% */
+  --bg: hsl(
+    var(--hue) calc(var(--sat) * 0.5)
+    calc(50% + ((10% + var(--mode) * 88%) - 50%) * var(--contrast))
+  );
 
-  /* border: dark 20% → light 90%   →  20 + mode*70   */
-  --border:  hsl(var(--hue) calc(var(--sat) * 0.6) calc(20% + var(--mode) * 70%) / var(--alpha));
+  /* target: dark 12% → light 100% */
+  --panel: hsl(
+    var(--hue) calc(var(--sat) * 0.5)
+    calc(50% + ((12% + var(--mode) * 88%) - 50%) * var(--contrast))
+    / var(--alpha)
+  );
 
-  /* text:   dark 97% → light 12%   →  97 - mode*85   */
-  --text:    hsl(var(--hue) calc(var(--sat) * 0.7) calc(97% - var(--mode) * 85%));
+  /* target: dark 14% → light 98% */
+  --surface: hsl(
+    var(--hue) calc(var(--sat) * 0.5)
+    calc(50% + ((14% + var(--mode) * 84%) - 50%) * var(--contrast))
+  );
 
-  /* muted:  dark 60% → light 45%   →  60 - mode*15   */
-  --muted:   hsl(var(--hue) calc(var(--sat) * 0.7) calc(60% - var(--mode) * 15%));
+  /* surface-hover — тот же target, что и раньше */
+  --surface-hover: hsl(
+    var(--hue) calc(var(--sat) * 0.5)
+    calc(
+      50% + (
+        (14% + var(--mode) * 84% + (1 - var(--mode)) * 6% - var(--mode) * 4%) - 50%
+      ) * var(--contrast)
+    )
+  );
 
-  /* primary */
-  --primary:       hsl(var(--primary-h) var(--primary-s) calc(47% + var(--mode) * 8%));
-  --primary-hover: hsl(var(--primary-h) var(--primary-s) calc(53% - var(--mode) * 8%));
+  /* ---------- Границы ---------- */
+  --border: hsl(
+    var(--hue) calc(var(--sat) * 0.6)
+    calc(50% + ((20% + var(--mode) * 70%) - 50%) * var(--contrast))
+    / var(--alpha)
+  );
+  --border-strong: hsl(
+    var(--hue) calc(var(--sat) * 0.6)
+    calc(50% + ((28% + var(--mode) * 58%) - 50%) * var(--contrast))
+    / var(--alpha)
+  );
 
-  /* backdrop */
-  --backdrop:      hsl(0 0% 0% / calc(0.7 - var(--mode) * 0.3));
-  --backdrop-text: hsl(var(--hue) 30% 97%);
+  /* ---------- Текст ---------- */
+  /* target: light 97% → dark 12% */
+  --text: hsl(
+    var(--hue) calc(var(--sat) * 0.7)
+    calc(50% + ((97% - var(--mode) * 85%) - 50%) * var(--contrast))
+  );
+  /* target: light 60% → dark 45% */
+  --muted: hsl(
+    var(--hue) calc(var(--sat) * 0.7)
+    calc(50% + ((60% - var(--mode) * 15%) - 50%) * var(--contrast))
+  );
+  /* target: light 60% → dark 35% */
+  --subtle: hsl(
+    var(--hue) calc(var(--sat) * 0.7)
+    calc(50% + ((60% - var(--mode) * 25%) - 50%) * var(--contrast))
+  );
 
-  /* scrollbar */
-  --scrollbar-thumb: rgba(128, 128, 128, 0.5);
+  /* ---------- Акцент ---------- */
+  --primary: hsl(
+    var(--primary-h) var(--primary-s)
+    calc(50% + ((47% + var(--mode) * 8%) - 50%) * var(--contrast))
+  );
+  --primary-hover: hsl(
+    var(--primary-h) var(--primary-s)
+    calc(50% + ((53% - var(--mode) * 6%) - 50%) * var(--contrast))
+  );
+  --primary-active: hsl(
+    var(--primary-h) var(--primary-s)
+    calc(50% + ((46% - var(--mode) * 6%) - 50%) * var(--contrast))
+  );
+  --primary-text: hsl(
+    var(--primary-h) 30%
+    calc(50% + ((98% - var(--mode) * 88%) - 50%) * var(--contrast))
+  );
+  --primary-soft: hsl(
+    var(--primary-h) var(--primary-s)
+    calc(50% + ((47% + var(--mode) * 8%) - 50%) * var(--contrast)) / 0.15
+  );
+
+  /* ---------- Семантика ---------- */
+  --success: hsl(145 60% calc(50% + ((40% + var(--mode) * 8%) - 50%) * var(--contrast)));
+  --warning: hsl(35 85%  calc(50% + ((50% + var(--mode) * 5%) - 50%) * var(--contrast)));
+  --danger:  hsl(0 70%   calc(50% + ((48% + var(--mode) * 6%) - 50%) * var(--contrast)));
+  --info:    hsl(200 75% calc(50% + ((45% + var(--mode) * 8%) - 50%) * var(--contrast)));
+
+  --success-soft: hsl(145 60% calc(50% + ((40% + var(--mode) * 8%) - 50%) * var(--contrast)) / 0.15);
+  --warning-soft: hsl(35 85%  calc(50% + ((50% + var(--mode) * 5%) - 50%) * var(--contrast)) / 0.15);
+  --danger-soft:  hsl(0 70%   calc(50% + ((48% + var(--mode) * 6%) - 50%) * var(--contrast)) / 0.15);
+  --info-soft:    hsl(200 75% calc(50% + ((45% + var(--mode) * 8%) - 50%) * var(--contrast)) / 0.15);
+
+  /* ---------- Тени ----------
+     Тени не привязаны к светлоте — оставляем как было.
+     Но можно усилить их при низкой контрастности, если хочется. */
+  --shadow-sm: 0 1px 2px hsl(var(--hue) 30% 5% / calc(0.10 - var(--mode) * 0.04));
+  --shadow:    0 2px 8px hsl(var(--hue) 30% 5% / calc(0.18 - var(--mode) * 0.06));
+  --shadow-lg: 0 8px 24px hsl(var(--hue) 30% 5% / calc(0.26 - var(--mode) * 0.08));
+
+  /* ---------- Backdrop ---------- */
+  --backdrop: hsl(0 0% 0% / calc(0.7 - var(--mode) * 0.3));
+  --backdrop-text: hsl(
+    var(--hue) 30%
+    calc(50% + ((97% - var(--mode) * 85%) - 50%) * var(--contrast))
+  );
+
+  /* ---------- Scrollbar ---------- */
+  --scrollbar-thumb: hsl(
+    var(--hue) calc(var(--sat) * 0.4)
+    calc(50% + ((50% - var(--mode) * 5%) - 50%) * var(--contrast)) / 0.5
+  );
+  --scrollbar-thumb-hover: hsl(
+    var(--hue) calc(var(--sat) * 0.4)
+    calc(50% + ((50% - var(--mode) * 5%) - 50%) * var(--contrast)) / 0.8
+  );
   --scrollbar-track: transparent;
-}
+
+  /* ---------- Disabled ---------- */
+  --disabled-opacity: 0.5;
+  --disabled-bg: hsl(
+    var(--hue) calc(var(--sat) * 0.3)
+    calc(50% + ((30% + var(--mode) * 40%) - 50%) * var(--contrast)) / 0.4
+  );
+} 
 
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
