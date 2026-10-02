@@ -13,8 +13,19 @@
   --mode: 1;          /* 1 = light, 0 = dark */
 }
 
-[data-theme="dark"] {
+/* системная тёмная — только если явно не задано light/dark */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --mode: 0;
+  }
+}
+
+/* явный выбор пользователя*/
+:root[data-theme="dark"] {
   --mode: 0;
+}
+:root[data-theme="light"] {
+  --mode: 1;
 }
 
 /* ============================================

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { settings } from "$services";
+  import { settings, theme } from "$services";
   import { ChoiceList, GhostText } from "$ui";
 
   const modes = {
@@ -13,33 +13,13 @@
 
   type Mode = keyof typeof modes;
 
-  let mode = $derived(settings.get("theme-mode", "system") as Mode);
+  let mode = $derived(settings.get(theme.nameSetting.mode, "system") as Mode);
 
   function setMode(newMode: Mode) {
-    settings.set("theme-mode", newMode);
+    theme.setMode(newMode);
+    settings.set(theme.nameSetting.mode, newMode);
   }
 
-  // Реактивный эффект применения темы в DOM
-  $effect(() => {
-    const currentMode = mode;
-
-    const applyTheme = () => {
-      let activeTheme = currentMode;
-      if (currentMode === "system") {
-        const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        activeTheme = isDark ? "dark" : "light";
-      }
-      document.documentElement.setAttribute("data-theme", activeTheme);
-    };
-
-    applyTheme();
-
-    if (currentMode === "system") {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      mediaQuery.addEventListener("change", applyTheme);
-      return () => mediaQuery.removeEventListener("change", applyTheme);
-    }
-  });
 </script>
 
 <ChoiceList direction="horizontal"

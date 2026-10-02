@@ -11,19 +11,23 @@
     SettingsBackground
   } from "$features";
   import { GhostText, List, ListItem, Nav } from "$ui";
+  import { settings, theme } from "$services";
 
   // Для SSR (можно оставить пустой строкой, если SSR не используется)
   let url = $state("");
 
-  const routes = [
+  const routePages = [
     { path: "/note/list", title: "Список", icon: "📑", component: RouteNoteList },
     { path: "/note/tabs", title: "Вкладки", icon: "🗂️", component: RouteNotesTabs }
   ];
 
-  const settings = [
+  const settingsSection = [
     { title: "Оформление", component: SettingsAppearance },
     { title: "Фон", component: SettingsBackground }
   ];
+
+  theme.setMode(settings.get(theme.nameSetting.mode));
+  theme.fromJSON(settings.get(theme.nameSetting.state));
 </script>
 
 <LayerBackground zindex={-1}/>
@@ -37,7 +41,7 @@
     {#snippet sidebar()}
       <nav>
         <List direction="vertical">
-          {#each routes as r}
+          {#each routePages as r}
             <Link to={r.path}>
               {#snippet children(active)}
                 <ListItem active={active}>
@@ -56,10 +60,10 @@
 
     <!-- Маршруты определяются здесь -->
     <Route path="/settings">
-      <RouteSettings settings={settings}></RouteSettings>
+      <RouteSettings settings={settingsSection}></RouteSettings>
     </Route>
     
-    {#each routes as r}
+    {#each routePages as r}
       <Route path={r.path} component={r.component} />
     {/each}
 
