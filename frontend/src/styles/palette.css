@@ -1,0 +1,36 @@
+/* ============================================
+   ПАЛИТРА — вычисляется из базовых параметров
+   ============================================ */
+:root {
+  /* bg:     dark 10% → light 98%   →  10 + mode*88   */
+  --bg:      hsl(var(--hue) calc(var(--sat) * 0.5) calc(10% + var(--mode) * 88%));
+
+  /* panel:  dark 12% → light 100%  →  12 + mode*88   */
+  --panel:   hsl(var(--hue) calc(var(--sat) * 0.5) calc(12% + var(--mode) * 88%) / var(--alpha));
+
+  /* border: dark 20% → light 90%   →  20 + mode*70   */
+  --border:  hsl(var(--hue) calc(var(--sat) * 0.6) calc(20% + var(--mode) * 70%) / var(--alpha));
+
+  /* text:   dark 97% → light 12%   →  97 - mode*85   */
+  --text:    hsl(var(--hue) calc(var(--sat) * 0.7) calc(97% - var(--mode) * 85%));
+
+  /* muted:  dark 60% → light 45%   →  60 - mode*15   */
+  --muted:   hsl(var(--hue) calc(var(--sat) * 0.7) calc(60% - var(--mode) * 15%));
+
+  /* primary */
+  --primary:       hsl(var(--primary-h) var(--primary-s) calc(47% + var(--mode) * 8%));
+  --primary-hover: hsl(var(--primary-h) var(--primary-s) calc(53% - var(--mode) * 8%));
+
+  /* backdrop */
+  --backdrop:      hsl(0 0% 0% / calc(0.7 - var(--mode) * 0.3));
+  --backdrop-text: hsl(var(--hue) 30% 97%);
+
+  /* scrollbar */
+  --scrollbar-thumb: rgba(128, 128, 128, 0.5);
+  --scrollbar-track: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}

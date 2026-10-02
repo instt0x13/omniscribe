@@ -1,0 +1,36 @@
+/* ============================================
+   БАЗОВЫЕ ПАРАМЕТРЫ
+   Значения задаются сервисом темы (theme.svelte.ts).
+   Здесь — только дефолты для SSR / первого рендера.
+   ============================================ */
+:root {
+  --hue: 220;
+  --primary-h: 220;
+  --radius: 8px;
+  --sat: 40%;
+  --primary-s: 80%;
+  --alpha: 0.8;
+  --mode: 1;          /* 1 = light, 0 = dark */
+}
+
+[data-theme="dark"] {
+  --mode: 0;
+}
+
+/* ============================================
+   RESET
+   ============================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
+}

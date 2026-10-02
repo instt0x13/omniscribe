@@ -1,0 +1,40 @@
+/* ============================================
+   ЭЛЕМЕНТЫ
+   ============================================ */
+input,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    background: var(--primary-hover);
+  }
+}
+
+dialog {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 100%;
+  margin: auto;
+  color: var(--text);
+
+  &::backdrop {
+    background: var(--backdrop);
+  }
+}
