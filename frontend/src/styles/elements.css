@@ -1,110 +1,268 @@
 /* ============================================
-   ЭЛЕМЕНТЫ
+   ELEMENTS.CSS
+   Стили для безклассовых HTML-элементов.
+   Опирается на переменные из theme.css / root.css
+   и сбросы из base.css.
    ============================================ */
 
 /* ---------- Типографика ---------- */
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1.1rem; }
-h5 { font-size: 1rem; }
-h6 { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
 
-small { font-size: 0.85em; color: var(--muted); }
-strong, b { font-weight: 600; }
+h1 { font-size: calc(var(--font-size) * 2);    margin-block: calc(var(--space) * 8) calc(var(--space) * 4); }
+h2 { font-size: calc(var(--font-size) * 1.6);  margin-block: calc(var(--space) * 7) calc(var(--space) * 3); }
+h3 { font-size: calc(var(--font-size) * 1.35); margin-block: calc(var(--space) * 6) calc(var(--space) * 3); }
+h4 { font-size: calc(var(--font-size) * 1.15); margin-block: calc(var(--space) * 5) calc(var(--space) * 2); }
+h5 { font-size: var(--font-size);              margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
+h6 { font-size: calc(var(--font-size) * 0.9);  margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+}
+
+h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
+  margin-top: 0;
+}
+
+p {
+  margin-block: calc(var(--space) * 3);
+  color: var(--text);
+}
+
+p + p {
+  margin-top: calc(var(--space) * 3);
+}
+
+small {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+strong, b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+em, i {
+  font-style: italic;
+}
+
+mark {
+  background: var(--primary-soft);
+  color: var(--primary-text);
+  padding: 0.1em 0.25em;
+  border-radius: var(--radius-sm);
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--subtle);
+}
+
 code, kbd, samp, pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 0.9em;
 }
+
 code {
+  background: var(--surface);
+  color: var(--text);
   padding: 0.15em 0.4em;
-  background: var(--surface);
-  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-}
-pre {
-  padding: calc(var(--space) * 4);
-  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow-x: auto;
 }
+
+kbd {
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.15em 0.45em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+pre {
+  background: var(--surface);
+  color: var(--text);
+  padding: calc(var(--space) * 4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
 pre code {
-  padding: 0;
   background: none;
   border: none;
+  padding: 0;
+  font-size: 1em;
 }
-mark {
-  background: var(--warning-soft);
-  color: var(--text);
-  padding: 0.1em 0.3em;
-  border-radius: var(--radius-sm);
-}
+
 blockquote {
+  margin: calc(var(--space) * 4) 0;
   padding: calc(var(--space) * 2) calc(var(--space) * 4);
   border-left: 3px solid var(--primary);
-  background: var(--primary-soft);
+  background: var(--surface);
   border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+blockquote cite {
+  display: block;
+  margin-top: calc(var(--space) * 2);
+  font-size: 0.9em;
+  font-style: normal;
+  color: var(--subtle);
+}
+
+blockquote cite::before {
+  content: "— ";
+}
+
+/* ---------- Списки ---------- */
+
+ul, ol {
+  margin-block: calc(var(--space) * 3);
+  padding-left: calc(var(--space) * 6);
+}
+
+ul { list-style: disc; }
+ol { list-style: decimal; }
+
+ul ul, ol ol, ul ol, ol ul {
+  margin-block: calc(var(--space) * 1);
+}
+
+li {
+  margin-block: calc(var(--space) * 1);
+  padding-left: calc(var(--space) * 1);
+}
+
+li::marker {
+  color: var(--subtle);
+}
+
+dl {
+  margin-block: calc(var(--space) * 3);
+}
+
+dt {
+  font-weight: 600;
+  color: var(--text);
+  margin-top: calc(var(--space) * 3);
+}
+
+dd {
+  margin-left: calc(var(--space) * 6);
   color: var(--muted);
 }
 
 /* ---------- Ссылки ---------- */
+
 a {
   color: var(--primary);
   text-decoration: none;
-  transition: color var(--transition);
+  transition: color var(--transition), opacity var(--transition);
 }
-a:hover { color: var(--primary-hover); text-decoration: underline; text-underline-offset: 2px; }
 
-/* Ссылки со сложным содержимым (изображение, блок, кнопка, иконка+текст) —
-   выглядят как обычные блоки, а не как ссылки */
-a:has(img),
-a:has(picture),
-a:has(video),
-a:has(svg),
-a:has(button),
-a:has(div),
-a:has(section),
-a:has(article),
-a:has(figure) {
-  color: inherit;
-  text-decoration: none;
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-a:has(img):hover,
-a:has(picture):hover,
-a:has(video):hover,
-a:has(svg):hover,
-a:has(button):hover,
-a:has(div):hover,
-a:has(section):hover,
-a:has(article):hover,
-a:has(figure):hover {
-  color: inherit;
-  text-decoration: none;
+
+a:active {
+  color: var(--primary-active);
+}
+
+a:visited {
+  color: var(--primary);
+}
+
+/* ---------- Разделители ---------- */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: calc(var(--space) * 8) 0;
+}
+
+/* ---------- Изображения и медиа ---------- */
+
+figure {
+  margin: calc(var(--space) * 4) 0;
+}
+
+figure img {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+figcaption {
+  margin-top: calc(var(--space) * 2);
+  font-size: 0.9em;
+  color: var(--muted);
+  text-align: center;
+}
+
+img {
+  border-radius: var(--radius-sm);
 }
 
 /* ---------- Формы ---------- */
+
+label {
+  display: inline-block;
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: calc(var(--space) * 1);
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 4);
+  margin-block: calc(var(--space) * 4);
+}
+
+legend {
+  padding-inline: calc(var(--space) * 2);
+  font-weight: 600;
+  color: var(--text);
+}
+
 input,
 textarea,
 select {
+  display: block;
   width: 100%;
-  padding: 0.6rem 0.8rem;
+  padding: calc(var(--space) * 2) calc(var(--space) * 3);
+  background: var(--surface);
+  color: var(--text);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--panel);
-  color: var(--text);
-  font: inherit;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
 }
+
 input::placeholder,
 textarea::placeholder {
   color: var(--subtle);
+  opacity: 1;
 }
+
 input:hover,
 textarea:hover,
 select:hover {
   border-color: var(--border-strong);
 }
+
 input:focus,
 textarea:focus,
 select:focus {
@@ -112,228 +270,378 @@ select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-soft);
 }
+
 input:disabled,
 textarea:disabled,
 select:disabled {
   opacity: var(--disabled-opacity);
-  background: var(--disabled-bg);
   cursor: not-allowed;
-}
-input[aria-invalid="true"],
-textarea[aria-invalid="true"] {
-  border-color: var(--danger);
-}
-input[aria-invalid="true"]:focus,
-textarea[aria-invalid="true"]:focus {
-  box-shadow: 0 0 0 3px var(--danger-soft);
+  background: var(--disabled-bg);
 }
 
 textarea {
-  min-height: 6rem;
   resize: vertical;
+  min-height: calc(var(--space) * 20);
 }
 
 select {
   appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
                     linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: calc(100% - 1.1rem) 50%, calc(100% - 0.75rem) 50%;
-  background-size: 5px 5px, 5px 5px;
+  background-position: calc(100% - 1.1em) 50%, calc(100% - 0.75em) 50%;
+  background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
-  padding-right: 2rem;
+  padding-right: calc(var(--space) * 8);
+  cursor: pointer;
 }
 
-label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--muted);
-  margin-bottom: calc(var(--space) * 1.5);
-}
-
-/* Чекбоксы и радио */
 input[type="checkbox"],
 input[type="radio"] {
+  display: inline-block;
   width: auto;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  margin: 0;
+  vertical-align: -0.15em;
   accent-color: var(--primary);
   cursor: pointer;
 }
 
 input[type="range"] {
+  display: block;
+  width: 100%;
   padding: 0;
-  accent-color: var(--primary);
   background: transparent;
   border: none;
+  accent-color: var(--primary);
+  cursor: pointer;
 }
 
-/* ---------- Кнопки ---------- */
-button,
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(var(--space) * 2);
-  padding: 0.5rem 1rem;
-  background: var(--primary);
-  color: var(--primary-text);
-  border: 1px solid transparent;
+input[type="color"] {
+  display: block;
+  width: 3em;
+  height: 2.25em;
+  padding: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
-  font-weight: 500;
-  font-size: 0.9rem;
-  line-height: 1.2;
-  white-space: nowrap;
-  transition: background var(--transition), border-color var(--transition),
-              color var(--transition), box-shadow var(--transition), transform var(--transition);
-}
-button:hover,
-.button:hover {
-  background: var(--primary-hover);
-}
-button:active,
-.button:active {
-  background: var(--primary-active);
-  transform: translateY(1px);
-}
-button:focus-visible,
-.button:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--primary-soft);
-}
-button:disabled,
-.button:disabled,
-button[aria-disabled="true"] {
-  opacity: var(--disabled-opacity);
-  cursor: not-allowed;
-  pointer-events: none;
 }
 
-/* Вторичная кнопка */
-button.secondary,
-.button.secondary {
+input[type="file"] {
+  padding: calc(var(--space) * 2);
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  margin-right: calc(var(--space) * 3);
+  padding: calc(var(--space) * 1.5) calc(var(--space) * 3);
   background: var(--surface);
   color: var(--text);
-  border-color: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font: inherit;
+  transition: background var(--transition), border-color var(--transition);
 }
-button.secondary:hover,
-.button.secondary:hover {
+
+input[type="file"]::file-selector-button:hover {
   background: var(--surface-hover);
   border-color: var(--border-strong);
 }
 
-/* Опасная кнопка */
-button.danger,
-.button.danger {
-  background: var(--danger);
-  color: var(--primary-text);
-}
-button.danger:hover,
-.button.danger:hover {
-  filter: brightness(1.1);
+input[type="search"] {
+  padding-right: calc(var(--space) * 3);
 }
 
-/* ---------- Списки ---------- */
-ul, ol {
-  padding-left: calc(var(--space) * 6);
+/* Убираем «крестик» у search в webkit — оставляем нативный, но аккуратный */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
 }
-ul { list-style: disc; }
-ol { list-style: decimal; }
-li { margin-bottom: calc(var(--space) * 1); }
-li::marker { color: var(--muted); }
+
+/* ---------- Кнопки ---------- */
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--space) * 2);
+  padding: calc(var(--space) * 2) calc(var(--space) * 4);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: var(--font-size);
+  font-weight: 500;
+  line-height: var(--line-height);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition), opacity var(--transition);
+  user-select: none;
+}
+
+button:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+button:active {
+  box-shadow: inset 0 1px 2px hsl(var(--hue) 30% 5% / 0.12);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: not-allowed;
+  background: var(--disabled-bg);
+}
+
+button[type="submit"] {
+  background: var(--primary);
+  color: var(--primary-text);
+  border-color: transparent;
+}
+
+button[type="submit"]:hover {
+  background: var(--primary-hover);
+}
+
+button[type="submit"]:active {
+  background: var(--primary-active);
+}
+
+button[type="reset"] {
+  background: transparent;
+  border-color: var(--border);
+}
 
 /* ---------- Таблицы ---------- */
+
 table {
   width: 100%;
-  font-size: 0.9rem;
+  margin-block: calc(var(--space) * 4);
+  font-size: 0.95em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
-th, td {
-  padding: 0.6rem 0.8rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-th {
-  font-weight: 600;
+
+caption {
+  caption-side: bottom;
+  padding: calc(var(--space) * 2);
+  font-size: 0.9em;
   color: var(--muted);
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
+  text-align: left;
 }
-tbody tr {
-  transition: background var(--transition);
+
+th {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  text-align: left;
+  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
 }
+
+td {
+  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
 tbody tr:hover {
   background: var(--surface-hover);
 }
 
-/* ---------- Разделители ---------- */
-hr {
-  border: none;
+tfoot td {
+  border-top: 1px solid var(--border-strong);
+  border-bottom: none;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+/* ---------- Details / Summary ---------- */
+
+details {
+  margin-block: calc(var(--space) * 3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+summary {
+  padding: calc(var(--space) * 3) calc(var(--space) * 4);
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text);
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space) * 2);
+  transition: background var(--transition);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: "";
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  border-right: 2px solid var(--subtle);
+  border-bottom: 2px solid var(--subtle);
+  transform: rotate(-45deg);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+
+details[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+summary:hover {
+  background: var(--surface-hover);
+}
+
+details > :not(summary) {
+  padding: calc(var(--space) * 3) calc(var(--space) * 4);
   border-top: 1px solid var(--border);
-  margin: calc(var(--space) * 4) 0;
 }
 
 /* ---------- Dialog ---------- */
+
 dialog {
-  padding: 0;
-  border: none;
-  background: transparent;
-  max-width: 100%;
-  margin: auto;
+  padding: calc(var(--space) * 6);
+  background: var(--panel);
   color: var(--text);
-}
-dialog::backdrop {
-  background: var(--backdrop);
-  backdrop-filter: blur(2px);
-}
-dialog > * {
-  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  padding: calc(var(--space) * 6);
+  max-width: min(90vw, 32rem);
+  backdrop-filter: blur(8px);
 }
 
-/* ---------- Прочие элементы ---------- */
-details {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: calc(var(--space) * 3);
-  background: var(--panel);
+dialog::backdrop {
+  background: var(--backdrop);
 }
-summary {
-  cursor: pointer;
-  font-weight: 500;
-  user-select: none;
-}
-summary::marker { color: var(--muted); }
+
+/* ---------- Progress / Meter ---------- */
 
 progress {
+  display: block;
   width: 100%;
-  height: 0.5rem;
+  height: 0.5em;
+  border: none;
   border-radius: var(--radius-full);
   overflow: hidden;
+  background: var(--surface);
   accent-color: var(--primary);
 }
 
-fieldset {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: calc(var(--space) * 4);
+progress::-webkit-progress-bar {
+  background: var(--surface);
+  border-radius: var(--radius-full);
 }
-legend {
-  padding: 0 calc(var(--space) * 2);
-  font-weight: 500;
+
+progress::-webkit-progress-value {
+  background: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition);
+}
+
+progress::-moz-progress-bar {
+  background: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+meter {
+  display: block;
+  width: 100%;
+  height: 0.5em;
+}
+
+/* ---------- Встроенные семантические блоки ---------- */
+
+address {
+  font-style: normal;
+  color: var(--muted);
+  margin-block: calc(var(--space) * 3);
+  line-height: var(--line-height);
+}
+
+time {
   color: var(--muted);
 }
 
-/* ---------- Утилиты ---------- */
-.muted { color: var(--muted); }
-.subtle { color: var(--subtle); }
-.surface {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: calc(var(--space) * 4);
+/* ---------- Мелочи ---------- */
+
+sub, sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
 }
-.shadow { box-shadow: var(--shadow); }
-.shadow-lg { box-shadow: var(--shadow-lg); }
+
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+q {
+  quotes: "«" "»" "„" "“";
+}
+
+q::before { content: open-quote; }
+q::after  { content: close-quote; }
+
+del {
+  color: var(--subtle);
+  text-decoration: line-through;
+}
+
+ins {
+  color: var(--success);
+  text-decoration: none;
+  background: var(--success-soft);
+  padding: 0.1em 0.25em;
+  border-radius: var(--radius-sm);
+}
+
+s {
+  color: var(--subtle);
+}
+
+/* ---------- Фокус для интерактивных безклассовых ---------- */
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Печать ---------- */
+
+@media print {
+  a { color: inherit; text-decoration: underline; }
+  button, input, select, textarea { display: none; }
+  body { background: #fff; color: #000; }
+}
