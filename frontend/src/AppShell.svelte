@@ -10,10 +10,10 @@
     SettingsAppearance,
     SettingsBackground
   } from "$features";
-  import { GhostText, List, ListItem, Nav } from "$ui";
-  import { settings, theme } from "$services";
+  import { theme } from "$services";
 
-  // Для SSR (можно оставить пустой строкой, если SSR не используется)
+  theme.init();
+
   let url = $state("");
 
   const routePages = [
@@ -25,9 +25,6 @@
     { title: "Оформление", component: SettingsAppearance },
     { title: "Фон", component: SettingsBackground }
   ];
-
-  theme.setMode(settings.get(theme.nameSetting.mode));
-  theme.fromJSON(settings.get(theme.nameSetting.state));
 </script>
 
 <LayerBackground zindex={-1}/>
@@ -39,23 +36,23 @@
     {/snippet}
 
     {#snippet sidebar()}
-      <nav>
-        <List direction="vertical">
-          {#each routePages as r}
-            <Link to={r.path}>
-              {#snippet children(active)}
-                <ListItem active={active}>
-                  {r.icon} {r.title}
-                </ListItem>
-              {/snippet}
-            </Link>
-          {/each}
-        </List>
-      </nav>
+      <nav><ul class="column">
+        {#each routePages as r}
+          <li><Link to={r.path} class="maxW">
+            {#snippet children(active)}
+              <button class:active class="maxW">{r.icon} {r.title}</button>
+            {/snippet}
+          </Link></li>
+        {/each}
+      </ul></nav>
     {/snippet}
 
     {#snippet footer()}
-      <Link to="/settings">⚙️</Link>
+      <Link to="/settings">
+        {#snippet children(active)}
+          <button class:active class="set-ico">⚙️</button>
+        {/snippet}
+      </Link>
     {/snippet}
 
     <!-- Маршруты определяются здесь -->
@@ -78,4 +75,36 @@
 
 <style>
   .brand { font-size: 1.25rem; margin: 0; }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-content: stretch;
+    gap: 0.3rem;
+  }
+
+  li, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .maxW {
+    width: 100%;
+  }
+
+  button {
+    justify-content: start;
+  }
+
+  .set-ico {
+    padding: 0;
+
+  }
+
+  .active {
+    background-color: var(--primary-hover);
+    color: var(--primary-text);
+  }
 </style>

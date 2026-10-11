@@ -1,89 +1,92 @@
 :root {
-  /* ============================================================
-     Хелпер: приведение светлоты к контрастности.
-     target — светлота при contrast = 1.
-     contrast = 1 → target; contrast = 0 → 50% (серый).
-     ============================================================ */
 
-  /* ---------- Поверхности ---------- */
-  /* target: dark 10% → light 98% */
-  --bg: hsl(
-    var(--hue) calc(var(--sat) * 0.5)
-    calc(50% + ((10% + var(--mode) * 88%) - 50%) * var(--contrast))
+  /* базовая светлота при contrast: 0 */
+  --base: calc(30% + var(--mode) * 60%);
+
+  /* крайняя светлота при contrast: 1 */
+  --edge: calc(3% + var(--mode) * 97%);
+
+  --brightness: calc(
+    var(--base) + (var(--edge) - var(--base)) * var(--contrast)
   );
 
-  /* target: dark 12% → light 100% */
+  
+  /* направление: +1 в тёмной, -1 в светлой */
+  --inverse: calc(1 - 2 * var(--mode));
+
+  /* фон = базовая */
+  --bg: hsl(
+    var(--hue)
+    calc(var(--sat) * 0.5)
+    calc(var(--brightness) - 6%)
+  );
+
   --panel: hsl(
-    var(--hue) calc(var(--sat) * 0.5)
-    calc(50% + ((12% + var(--mode) * 88%) - 50%) * var(--contrast))
+    var(--hue)
+    calc(var(--sat) * 0.5)
+    var(--brightness)
     / var(--alpha)
   );
 
-  /* target: dark 14% → light 98% */
   --surface: hsl(
     var(--hue) calc(var(--sat) * 0.5)
-    calc(50% + ((14% + var(--mode) * 84%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 4%)
+    / calc( var(--alpha) * 1.5 )
   );
 
   /* surface-hover — тот же target, что и раньше */
   --surface-hover: hsl(
     var(--hue) calc(var(--sat) * 0.5)
-    calc(
-      50% + (
-        (14% + var(--mode) * 84% + (1 - var(--mode)) * 6% - var(--mode) * 4%) - 50%
-      ) * var(--contrast)
-    )
+    calc(var(--brightness) + var(--inverse) * 9%)
+    / var(--alpha)
   );
 
   /* ---------- Границы ---------- */
   --border: hsl(
-    var(--hue) calc(var(--sat) * 0.6)
-    calc(50% + ((20% + var(--mode) * 70%) - 50%) * var(--contrast))
+    var(--hue) calc(var(--sat) * 0.4)
+    calc(var(--brightness) + var(--inverse) * 1%)
     / var(--alpha)
   );
   --border-strong: hsl(
-    var(--hue) calc(var(--sat) * 0.6)
-    calc(50% + ((28% + var(--mode) * 58%) - 50%) * var(--contrast))
+    var(--hue) calc(var(--sat) * 0.4)
+    calc(var(--brightness) + var(--inverse) * 13%)
     / var(--alpha)
   );
 
   /* ---------- Текст ---------- */
-  /* target: light 97% → dark 12% */
   --text: hsl(
     var(--hue) calc(var(--sat) * 0.7)
-    calc(50% + ((97% - var(--mode) * 85%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 70%)
   );
-  /* target: light 60% → dark 45% */
   --muted: hsl(
     var(--hue) calc(var(--sat) * 0.7)
-    calc(50% + ((60% - var(--mode) * 15%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 50%)
   );
-  /* target: light 60% → dark 35% */
   --subtle: hsl(
     var(--hue) calc(var(--sat) * 0.7)
-    calc(50% + ((60% - var(--mode) * 25%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 40%)
   );
 
   /* ---------- Акцент ---------- */
   --primary: hsl(
     var(--primary-h) var(--primary-s)
-    calc(50% + ((47% + var(--mode) * 8%) - 50%) * var(--contrast))
+    calc(70% + var(--inverse) * -10%)
   );
   --primary-hover: hsl(
     var(--primary-h) var(--primary-s)
-    calc(50% + ((53% - var(--mode) * 6%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 25%)
   );
   --primary-active: hsl(
     var(--primary-h) var(--primary-s)
-    calc(50% + ((46% - var(--mode) * 6%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 40%)
   );
   --primary-text: hsl(
     var(--primary-h) 30%
-    calc(50% + ((98% - var(--mode) * 88%) - 50%) * var(--contrast))
+    calc(var(--brightness) + var(--inverse) * 80%)
   );
   --primary-soft: hsl(
     var(--primary-h) var(--primary-s)
-    calc(50% + ((47% + var(--mode) * 8%) - 50%) * var(--contrast)) / 0.15
+    calc(var(--brightness) + var(--inverse) * 40%) / 0.15
   );
 
   /* ---------- Семантика ---------- */
@@ -128,26 +131,4 @@
     var(--hue) calc(var(--sat) * 0.3)
     calc(50% + ((30% + var(--mode) * 40%) - 50%) * var(--contrast)) / 0.4
   );
-} 
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-}
-
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-}
-*::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: var(--radius-full);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-*::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
 }

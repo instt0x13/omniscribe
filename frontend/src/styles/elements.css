@@ -163,23 +163,23 @@ dd {
 
 /* ---------- Ссылки ---------- */
 
-a {
+a:not(:has(*)) {
   color: var(--primary);
   text-decoration: none;
   transition: color var(--transition), opacity var(--transition);
 }
 
-a:hover {
+a:not(:has(*)):hover {
   color: var(--primary-hover);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-a:active {
+a:not(:has(*)):active {
   color: var(--primary-active);
 }
 
-a:visited {
+a:not(:has(*)):visited {
   color: var(--primary);
 }
 
@@ -228,6 +228,7 @@ fieldset {
   border-radius: var(--radius);
   padding: calc(var(--space) * 4);
   margin-block: calc(var(--space) * 4);
+  min-width: 0; /* чтобы fieldset не распирал grid/flex */
 }
 
 legend {
@@ -236,7 +237,9 @@ legend {
   color: var(--text);
 }
 
-input,
+/* ---------- Текстовые поля ---------- */
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
 textarea,
 select {
   display: block;
@@ -246,29 +249,34 @@ select {
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
   font-size: var(--font-size);
   line-height: var(--line-height);
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: var(--subtle);
-  opacity: 1;
-}
-
-input:hover,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):hover,
 textarea:hover,
 select:hover {
   border-color: var(--border-strong);
 }
 
-input:focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):focus,
 textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+  box-shadow: none;
 }
 
 input:disabled,
@@ -277,28 +285,47 @@ select:disabled {
   opacity: var(--disabled-opacity);
   cursor: not-allowed;
   background: var(--disabled-bg);
+  border-color: var(--border);
 }
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--subtle);
+  opacity: 1;
+}
+
+/* ---------- Textarea ---------- */
 
 textarea {
   resize: vertical;
-  min-height: calc(var(--space) * 20);
+  min-height: calc(var(--space) * 24);
+  max-height: 60vh;
+  field-sizing: content; /* современные браузеры: авто-высота */
 }
+
+/* ---------- Select ---------- */
 
 select {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
-                    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: calc(100% - 1.1em) 50%, calc(100% - 0.75em) 50%;
-  background-size: 6px 6px, 6px 6px;
+  -webkit-appearance: none;
+  padding-right: calc(var(--space) * 10);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M3 4.5l3 3 3-3' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   background-repeat: no-repeat;
-  padding-right: calc(var(--space) * 8);
+  background-position: right calc(var(--space) * 3) center;
+  background-size: 12px 12px;
   cursor: pointer;
+  color: var(--text);
 }
+
+select:disabled {
+  cursor: not-allowed;
+}
+
+/* ---------- Чекбоксы и радио ---------- */
 
 input[type="checkbox"],
 input[type="radio"] {
   display: inline-block;
-  width: auto;
   width: 1.1em;
   height: 1.1em;
   padding: 0;
@@ -306,7 +333,15 @@ input[type="radio"] {
   vertical-align: -0.15em;
   accent-color: var(--primary);
   cursor: pointer;
+  flex-shrink: 0;
 }
+
+input[type="checkbox"]:disabled,
+input[type="radio"]:disabled {
+  cursor: not-allowed;
+}
+
+/* ---------- Range ---------- */
 
 input[type="range"] {
   display: block;
@@ -318,16 +353,39 @@ input[type="range"] {
   cursor: pointer;
 }
 
+input[type="range"]:disabled {
+  cursor: not-allowed;
+  opacity: var(--disabled-opacity);
+}
+
+/* ---------- Color ---------- */
+
 input[type="color"] {
   display: block;
   width: 3em;
   height: 2.25em;
-  padding: 2px;
+  padding: calc(var(--space) * 0.5);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
+  transition: border-color var(--transition);
 }
+
+input[type="color"]:hover {
+  border-color: var(--border-strong);
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: calc(var(--radius) - var(--space) * 0.5);
+}
+
+/* ---------- File ---------- */
 
 input[type="file"] {
   padding: calc(var(--space) * 2);
@@ -351,8 +409,33 @@ input[type="file"]::file-selector-button:hover {
   border-color: var(--border-strong);
 }
 
+input[type="file"]::file-selector-button:active {
+  background: var(--disabled-bg);
+}
+
+/* ---------- Search ---------- */
+
 input[type="search"] {
-  padding-right: calc(var(--space) * 3);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+/* ---------- Autofill ---------- */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+  box-shadow: 0 0 0 1000px var(--surface) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--text);
 }
 
 /* Убираем «крестик» у search в webkit — оставляем нативный, но аккуратный */
@@ -644,4 +727,28 @@ select:focus-visible,
   a { color: inherit; text-decoration: underline; }
   button, input, select, textarea { display: none; }
   body { background: #fff; color: #000; }
+}
+
+/* ---------- scrollbar ---------- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
