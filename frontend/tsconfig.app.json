@@ -21,6 +21,7 @@
       "$ui": ["./src/ui"],
       "$features": ["./src/features"],
       "$services": ["./src/services"],
+      "$helpers": ["./src/helpers"],
       "$types": ["./src/types"],
       "$appConfig": ["./src/appConfig.ts"],
     }
