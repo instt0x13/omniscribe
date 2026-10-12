@@ -38,7 +38,7 @@
     {#snippet sidebar()}
       <nav><ul class="column">
         {#each routePages as r}
-          <li><Link to={r.path} class="maxW">
+          <li><Link to={r.path}>
             {#snippet children(active)}
               <button class:active class="maxW">{r.icon} {r.title}</button>
             {/snippet}
@@ -82,12 +82,6 @@
     align-items: stretch;
     align-content: stretch;
     gap: 0.3rem;
-  }
-
-  li, ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
   }
 
   .maxW {

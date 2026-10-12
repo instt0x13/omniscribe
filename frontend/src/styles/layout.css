@@ -1,0 +1,116 @@
+/* ============================================
+   LAYOUT.CSS
+   Минимальные утилиты для flex/grid.
+   Без цветов, без отступов — только раскладка.
+   ============================================ */
+
+/* Занять всю ширину родителя */
+.full {
+  width: 100%;
+}
+
+/* ---------- Flex-контейнеры ---------- */
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.nowrap {
+  flex-wrap: nowrap;
+}
+
+/* ---------- Выравнивание по главной оси ---------- */
+
+.left    { justify-content: flex-start; }
+.center  { justify-content: center; }
+.right   { justify-content: flex-end; }
+.between { justify-content: space-between; }
+.around  { justify-content: space-around; }
+.evenly  { justify-content: space-evenly; }
+
+/* ---------- Выравнивание по поперечной оси ---------- */
+
+.top     { align-items: flex-start; }
+.middle  { align-items: center; }
+.bottom  { align-items: flex-end; }
+.stretch { align-items: stretch; }
+.baseline{ align-items: baseline; }
+
+/* ---------- Flex-элементы ---------- */
+
+.grow   { flex-grow: 1; }
+.shrink { flex-shrink: 1; }
+.no-shrink { flex-shrink: 0; }
+.flex-1 { flex: 1 1 0%; min-width: 0; }
+.auto   { flex: 0 0 auto; }
+
+/* ---------- Grid ---------- */
+
+.grid {
+  display: grid;
+}
+
+/* Колонки: .grid-1 ... .grid-12 */
+.grid-1  { grid-template-columns: repeat(1,  minmax(0, 1fr)); }
+.grid-2  { grid-template-columns: repeat(2,  minmax(0, 1fr)); }
+.grid-3  { grid-template-columns: repeat(3,  minmax(0, 1fr)); }
+.grid-4  { grid-template-columns: repeat(4,  minmax(0, 1fr)); }
+.grid-5  { grid-template-columns: repeat(5,  minmax(0, 1fr)); }
+.grid-6  { grid-template-columns: repeat(6,  minmax(0, 1fr)); }
+.grid-7  { grid-template-columns: repeat(7,  minmax(0, 1fr)); }
+.grid-8  { grid-template-columns: repeat(8,  minmax(0, 1fr)); }
+.grid-9  { grid-template-columns: repeat(9,  minmax(0, 1fr)); }
+.grid-10 { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.grid-11 { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+.grid-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+
+/* Авто-колонки */
+.grid-auto {
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-min, 16rem), 1fr));
+}
+
+/* ---------- Gap ---------- */
+
+.gap-0 { gap: 0; }
+.gap-1 { gap: calc(var(--space) * 1); }
+.gap-2 { gap: calc(var(--space) * 2); }
+.gap-3 { gap: calc(var(--space) * 3); }
+.gap-4 { gap: calc(var(--space) * 4); }
+.gap-6 { gap: calc(var(--space) * 6); }
+.gap-8 { gap: calc(var(--space) * 8); }
+
+/* ---------- Span для grid ---------- */
+
+.col-span-full { grid-column: 1 / -1; }
+
+/* ---------- Утилиты видимости ---------- */
+
+.hidden { display: none; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
