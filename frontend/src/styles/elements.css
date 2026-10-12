@@ -1,48 +1,31 @@
 /* ============================================
    ELEMENTS.CSS
-   Стили для безклассовых HTML-элементов.
-   Опирается на переменные из theme.css / root.css
-   и сбросы из base.css.
+   Нейтральные стили для безклассовых элементов.
+   Типографика контента — в prose.css.
    ============================================ */
 
-/* ---------- Типографика ---------- */
+/* ---------- Ссылки ---------- */
 
-h1 { font-size: calc(var(--font-size) * 2);    margin-block: calc(var(--space) * 8) calc(var(--space) * 4); }
-h2 { font-size: calc(var(--font-size) * 1.6);  margin-block: calc(var(--space) * 7) calc(var(--space) * 3); }
-h3 { font-size: calc(var(--font-size) * 1.35); margin-block: calc(var(--space) * 6) calc(var(--space) * 3); }
-h4 { font-size: calc(var(--font-size) * 1.15); margin-block: calc(var(--space) * 5) calc(var(--space) * 2); }
-h5 { font-size: var(--font-size);              margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
-h6 { font-size: calc(var(--font-size) * 0.9);  margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text);
+a:not(:has(*)) {
+  color: var(--primary);
+  transition: color var(--transition), opacity var(--transition);
 }
 
-h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
-  margin-top: 0;
+a:not(:has(*)):hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-p {
-  margin-block: calc(var(--space) * 3);
-  color: var(--text);
+a:not(:has(*)):active {
+  color: var(--primary-active);
 }
 
-p + p {
-  margin-top: calc(var(--space) * 3);
-}
+/* ---------- Инлайн-семантика ---------- */
 
 small {
   font-size: 0.85em;
   color: var(--muted);
-}
-
-strong, b {
-  font-weight: 600;
-  color: var(--text);
-}
-
-em, i {
-  font-style: italic;
 }
 
 mark {
@@ -54,10 +37,44 @@ mark {
 
 abbr[title] {
   text-decoration: underline dotted;
-  cursor: help;
-  text-underline-offset: 2px;
   text-decoration-color: var(--subtle);
+  text-underline-offset: 2px;
+  cursor: help;
 }
+
+sub, sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+q {
+  quotes: "«" "»" "„" "“";
+}
+q::before { content: open-quote; }
+q::after  { content: close-quote; }
+
+del {
+  color: var(--subtle);
+  text-decoration: line-through;
+}
+
+ins {
+  color: var(--success);
+  background: var(--success-soft);
+  padding: 0.1em 0.25em;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+s {
+  color: var(--subtle);
+}
+
+/* ---------- Код ---------- */
 
 code, kbd, samp, pre {
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -101,119 +118,15 @@ pre code {
   font-size: 1em;
 }
 
-blockquote {
-  margin: calc(var(--space) * 4) 0;
-  padding: calc(var(--space) * 2) calc(var(--space) * 4);
-  border-left: 3px solid var(--primary);
-  background: var(--surface);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  color: var(--muted);
-  font-style: italic;
-}
-
-blockquote cite {
-  display: block;
-  margin-top: calc(var(--space) * 2);
-  font-size: 0.9em;
-  font-style: normal;
-  color: var(--subtle);
-}
-
-blockquote cite::before {
-  content: "— ";
-}
-
-/* ---------- Списки ---------- */
-
-ul, ol {
-  margin-block: calc(var(--space) * 3);
-  padding-left: calc(var(--space) * 6);
-}
-
-ul { list-style: disc; }
-ol { list-style: decimal; }
-
-ul ul, ol ol, ul ol, ol ul {
-  margin-block: calc(var(--space) * 1);
-}
-
-li {
-  margin-block: calc(var(--space) * 1);
-  padding-left: calc(var(--space) * 1);
-}
-
-li::marker {
-  color: var(--subtle);
-}
-
-dl {
-  margin-block: calc(var(--space) * 3);
-}
-
-dt {
-  font-weight: 600;
-  color: var(--text);
-  margin-top: calc(var(--space) * 3);
-}
-
-dd {
-  margin-left: calc(var(--space) * 6);
-  color: var(--muted);
-}
-
-/* ---------- Ссылки ---------- */
-
-a:not(:has(*)) {
-  color: var(--primary);
-  text-decoration: none;
-  transition: color var(--transition), opacity var(--transition);
-}
-
-a:not(:has(*)):hover {
-  color: var(--primary-hover);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-a:not(:has(*)):active {
-  color: var(--primary-active);
-}
-
-a:not(:has(*)):visited {
-  color: var(--primary);
-}
-
-/* ---------- Разделители ---------- */
+/* ---------- Разделитель ---------- */
 
 hr {
   border: none;
   border-top: 1px solid var(--border);
-  margin: calc(var(--space) * 8) 0;
-}
-
-/* ---------- Изображения и медиа ---------- */
-
-figure {
   margin: calc(var(--space) * 4) 0;
 }
 
-figure img {
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-
-figcaption {
-  margin-top: calc(var(--space) * 2);
-  font-size: 0.9em;
-  color: var(--muted);
-  text-align: center;
-}
-
-img {
-  border-radius: var(--radius-sm);
-}
-
-/* ---------- Формы ---------- */
+/* ---------- Формы: базовые подписи ---------- */
 
 label {
   display: inline-block;
@@ -228,7 +141,7 @@ fieldset {
   border-radius: var(--radius);
   padding: calc(var(--space) * 4);
   margin-block: calc(var(--space) * 4);
-  min-width: 0; /* чтобы fieldset не распирал grid/flex */
+  min-width: 0;
 }
 
 legend {
@@ -300,7 +213,7 @@ textarea {
   resize: vertical;
   min-height: calc(var(--space) * 24);
   max-height: 60vh;
-  field-sizing: content; /* современные браузеры: авто-высота */
+  field-sizing: content;
 }
 
 /* ---------- Select ---------- */
@@ -314,14 +227,9 @@ select {
   background-position: right calc(var(--space) * 3) center;
   background-size: 12px 12px;
   cursor: pointer;
-  color: var(--text);
 }
 
-select:disabled {
-  cursor: not-allowed;
-}
-
-/* ---------- Чекбоксы и радио ---------- */
+/* ---------- Чекбоксы / радио ---------- */
 
 input[type="checkbox"],
 input[type="radio"] {
@@ -376,10 +284,7 @@ input[type="color"]:hover {
   border-color: var(--border-strong);
 }
 
-input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
 input[type="color"]::-webkit-color-swatch {
   border: none;
   border-radius: calc(var(--radius) - var(--space) * 0.5);
@@ -413,18 +318,6 @@ input[type="file"]::file-selector-button:active {
   background: var(--disabled-bg);
 }
 
-/* ---------- Search ---------- */
-
-input[type="search"] {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button {
-  cursor: pointer;
-}
-
 /* ---------- Autofill ---------- */
 
 input:-webkit-autofill,
@@ -436,12 +329,6 @@ textarea:-webkit-autofill {
   box-shadow: 0 0 0 1000px var(--surface) inset;
   transition: background-color 5000s ease-in-out 0s;
   caret-color: var(--text);
-}
-
-/* Убираем «крестик» у search в webkit — оставляем нативный, но аккуратный */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button {
-  cursor: pointer;
 }
 
 /* ---------- Кнопки ---------- */
@@ -460,8 +347,13 @@ button {
   font-weight: 500;
   line-height: var(--line-height);
   cursor: pointer;
-  transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition), opacity var(--transition);
   user-select: none;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition),
+    opacity var(--transition);
 }
 
 button:hover {
@@ -470,12 +362,7 @@ button:hover {
 }
 
 button:active {
-  box-shadow: inset 0 1px 2px hsl(var(--hue) 30% 5% / 0.12);
-}
-
-button:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  box-shadow: inset 0 1px 2px hsl(var(--shadow-color) / 0.12);
 }
 
 button:disabled {
@@ -489,70 +376,8 @@ button[type="submit"] {
   color: var(--primary-text);
   border-color: transparent;
 }
-
-button[type="submit"]:hover {
-  background: var(--primary-hover);
-}
-
-button[type="submit"]:active {
-  background: var(--primary-active);
-}
-
-button[type="reset"] {
-  background: transparent;
-  border-color: var(--border);
-}
-
-/* ---------- Таблицы ---------- */
-
-table {
-  width: 100%;
-  margin-block: calc(var(--space) * 4);
-  font-size: 0.95em;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-caption {
-  caption-side: bottom;
-  padding: calc(var(--space) * 2);
-  font-size: 0.9em;
-  color: var(--muted);
-  text-align: left;
-}
-
-th {
-  background: var(--surface);
-  color: var(--text);
-  font-weight: 600;
-  text-align: left;
-  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
-  border-bottom: 1px solid var(--border-strong);
-  white-space: nowrap;
-}
-
-td {
-  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  vertical-align: top;
-}
-
-tbody tr:last-child td {
-  border-bottom: none;
-}
-
-tbody tr:hover {
-  background: var(--surface-hover);
-}
-
-tfoot td {
-  border-top: 1px solid var(--border-strong);
-  border-bottom: none;
-  color: var(--muted);
-  font-size: 0.9em;
-}
+button[type="submit"]:hover  { background: var(--primary-hover); }
+button[type="submit"]:active { background: var(--primary-active); }
 
 /* ---------- Details / Summary ---------- */
 
@@ -577,9 +402,7 @@ summary {
   transition: background var(--transition);
 }
 
-summary::-webkit-details-marker {
-  display: none;
-}
+summary::-webkit-details-marker { display: none; }
 
 summary::before {
   content: "";
@@ -593,13 +416,8 @@ summary::before {
   flex-shrink: 0;
 }
 
-details[open] > summary::before {
-  transform: rotate(45deg);
-}
-
-summary:hover {
-  background: var(--surface-hover);
-}
+details[open] > summary::before { transform: rotate(45deg); }
+summary:hover { background: var(--surface-hover); }
 
 details > :not(summary) {
   padding: calc(var(--space) * 3) calc(var(--space) * 4);
@@ -616,7 +434,6 @@ dialog {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   max-width: min(90vw, 32rem);
-  backdrop-filter: blur(8px);
 }
 
 dialog::backdrop {
@@ -658,56 +475,7 @@ meter {
   height: 0.5em;
 }
 
-/* ---------- Встроенные семантические блоки ---------- */
-
-address {
-  font-style: normal;
-  color: var(--muted);
-  margin-block: calc(var(--space) * 3);
-  line-height: var(--line-height);
-}
-
-time {
-  color: var(--muted);
-}
-
-/* ---------- Мелочи ---------- */
-
-sub, sup {
-  font-size: 0.75em;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-sup { top: -0.5em; }
-sub { bottom: -0.25em; }
-
-q {
-  quotes: "«" "»" "„" "“";
-}
-
-q::before { content: open-quote; }
-q::after  { content: close-quote; }
-
-del {
-  color: var(--subtle);
-  text-decoration: line-through;
-}
-
-ins {
-  color: var(--success);
-  text-decoration: none;
-  background: var(--success-soft);
-  padding: 0.1em 0.25em;
-  border-radius: var(--radius-sm);
-}
-
-s {
-  color: var(--subtle);
-}
-
-/* ---------- Фокус для интерактивных безклассовых ---------- */
+/* ---------- Фокус ---------- */
 
 a:focus-visible,
 button:focus-visible,
@@ -729,7 +497,7 @@ select:focus-visible,
   body { background: #fff; color: #000; }
 }
 
-/* ---------- scrollbar ---------- */
+/* ---------- Scrollbar ---------- */
 
 * {
   scrollbar-width: thin;

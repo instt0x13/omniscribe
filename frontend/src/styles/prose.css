@@ -1,0 +1,184 @@
+/* ============================================
+   PROSE.CSS
+   Типографика контента. Всё — внутри .prose.
+   ============================================ */
+
+/* ---------- Заголовки ---------- */
+
+.prose h1 { font-size: calc(var(--font-size) * 2);    margin-block: calc(var(--space) * 8) calc(var(--space) * 4); }
+.prose h2 { font-size: calc(var(--font-size) * 1.6);  margin-block: calc(var(--space) * 7) calc(var(--space) * 3); }
+.prose h3 { font-size: calc(var(--font-size) * 1.35); margin-block: calc(var(--space) * 6) calc(var(--space) * 3); }
+.prose h4 { font-size: calc(var(--font-size) * 1.15); margin-block: calc(var(--space) * 5) calc(var(--space) * 2); }
+.prose h5 { font-size: var(--font-size);              margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
+.prose h6 { font-size: calc(var(--font-size) * 0.9);  margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
+
+.prose h1 + *,
+.prose h2 + *,
+.prose h3 + *,
+.prose h4 + *,
+.prose h5 + *,
+.prose h6 + * {
+  margin-top: 0;
+}
+
+/* ---------- Абзацы ---------- */
+
+.prose p {
+  margin-block: calc(var(--space) * 3);
+}
+
+/* ---------- Списки ---------- */
+
+.prose ul,
+.prose ol {
+  margin-block: calc(var(--space) * 3);
+  padding-left: calc(var(--space) * 6);
+}
+
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+  margin-block: calc(var(--space) * 1);
+}
+
+.prose li {
+  margin-block: calc(var(--space) * 1);
+}
+
+.prose li::marker {
+  color: var(--subtle);
+}
+
+/* ---------- Определения ---------- */
+
+.prose dl {
+  margin-block: calc(var(--space) * 3);
+}
+
+.prose dt {
+  font-weight: 600;
+  color: var(--text);
+  margin-top: calc(var(--space) * 3);
+}
+
+.prose dd {
+  margin-left: calc(var(--space) * 6);
+  color: var(--muted);
+}
+
+/* ---------- Цитаты ---------- */
+
+.prose blockquote {
+  margin: calc(var(--space) * 4) 0;
+  padding: calc(var(--space) * 2) calc(var(--space) * 4);
+  border-left: 3px solid var(--primary);
+  background: var(--surface);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose blockquote cite {
+  display: block;
+  margin-top: calc(var(--space) * 2);
+  font-size: 0.9em;
+  font-style: normal;
+  color: var(--subtle);
+}
+
+.prose blockquote cite::before {
+  content: "— ";
+}
+
+/* ---------- Изображения и медиа ---------- */
+
+.prose figure {
+  margin: calc(var(--space) * 4) 0;
+}
+
+.prose figure img {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.prose figcaption {
+  margin-top: calc(var(--space) * 2);
+  font-size: 0.9em;
+  color: var(--muted);
+  text-align: center;
+}
+
+.prose img {
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Таблицы ---------- */
+
+.prose table {
+  width: 100%;
+  margin-block: calc(var(--space) * 4);
+  font-size: 0.95em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.prose caption {
+  caption-side: bottom;
+  padding: calc(var(--space) * 2);
+  font-size: 0.9em;
+  color: var(--muted);
+  text-align: left;
+}
+
+.prose th {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  text-align: left;
+  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+
+.prose tbody tr:last-child td { border-bottom: none; }
+.prose tbody tr:hover { background: var(--surface-hover); }
+
+.prose tfoot td {
+  border-top: 1px solid var(--border-strong);
+  border-bottom: none;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+/* ---------- Семантические блоки ---------- */
+
+.prose address {
+  font-style: normal;
+  color: var(--muted);
+  margin-block: calc(var(--space) * 3);
+  line-height: var(--line-height);
+}
+
+.prose time {
+  color: var(--muted);
+}
+
+/* ---------- Разделитель ---------- */
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: calc(var(--space) * 8) 0;
+}

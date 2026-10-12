@@ -1,131 +1,141 @@
-:root {
+/* ============================================
+   PALETTE.CSS
+   Только переменные. Никаких селекторов кроме :root.
+   ============================================ */
 
-  /* базовая светлота при contrast: 0 */
+:root {
+  /* ---------- 1. Скаляры ---------- */
+
+  /* Светлота при contrast = 0 (всё стянуто к серому) */
   --base: calc(30% + var(--mode) * 60%);
 
-  /* крайняя светлота при contrast: 1 */
+  /* Светлота при contrast = 1 (максимальный разброс) */
   --edge: calc(3% + var(--mode) * 97%);
 
-  --brightness: calc(
+  /* Итоговая светлота фона */
+  --lightness: calc(
     var(--base) + (var(--edge) - var(--base)) * var(--contrast)
   );
 
-  
-  /* направление: +1 в тёмной, -1 в светлой */
-  --inverse: calc(1 - 2 * var(--mode));
+  /* Направление шага: +1 в тёмной теме, -1 в светлой */
+  --dir: calc(1 - 2 * var(--mode));
 
-  /* фон = базовая */
+  /* ---------- 2. Шаги светлоты ----------
+     Шаг N = насколько отойти от --lightness.
+     Чем больше N — тем дальше от фона. */
+
+  --step-1:  calc(var(--lightness) + var(--dir) * 1%);
+  --step-4:  calc(var(--lightness) + var(--dir) * 4%);
+  --step-9:  calc(var(--lightness) + var(--dir) * 9%);
+  --step-13: calc(var(--lightness) + var(--dir) * 13%);
+  --step-25: calc(var(--lightness) + var(--dir) * 25%);
+  --step-40: calc(var(--lightness) + var(--dir) * 40%);
+  --step-50: calc(var(--lightness) + var(--dir) * 50%);
+  --step-70: calc(var(--lightness) + var(--dir) * 70%);
+  --step-80: calc(var(--lightness) + var(--dir) * 80%);
+
+  /* ---------- 3. Поверхности ---------- */
+
   --bg: hsl(
-    var(--hue)
-    calc(var(--sat) * 0.5)
-    calc(var(--brightness) - 6%)
+    var(--hue) calc(var(--sat) * 0.5)
+    calc(var(--lightness) - 6%)
   );
 
   --panel: hsl(
-    var(--hue)
-    calc(var(--sat) * 0.5)
-    var(--brightness)
-    / var(--alpha)
+    var(--hue) calc(var(--sat) * 0.5)
+    var(--lightness) / var(--alpha)
   );
 
   --surface: hsl(
     var(--hue) calc(var(--sat) * 0.5)
-    calc(var(--brightness) + var(--inverse) * 4%)
-    / calc( var(--alpha) * 1.5 )
+    var(--step-4) / calc(var(--alpha) * 1.5)
   );
 
-  /* surface-hover — тот же target, что и раньше */
   --surface-hover: hsl(
     var(--hue) calc(var(--sat) * 0.5)
-    calc(var(--brightness) + var(--inverse) * 9%)
-    / var(--alpha)
+    var(--step-9) / var(--alpha)
   );
 
-  /* ---------- Границы ---------- */
+  /* ---------- 4. Границы ---------- */
+
   --border: hsl(
     var(--hue) calc(var(--sat) * 0.4)
-    calc(var(--brightness) + var(--inverse) * 1%)
-    / var(--alpha)
+    var(--step-1) / var(--alpha)
   );
+
   --border-strong: hsl(
     var(--hue) calc(var(--sat) * 0.4)
-    calc(var(--brightness) + var(--inverse) * 13%)
-    / var(--alpha)
+    var(--step-13) / var(--alpha)
   );
 
-  /* ---------- Текст ---------- */
-  --text: hsl(
-    var(--hue) calc(var(--sat) * 0.7)
-    calc(var(--brightness) + var(--inverse) * 70%)
-  );
-  --muted: hsl(
-    var(--hue) calc(var(--sat) * 0.7)
-    calc(var(--brightness) + var(--inverse) * 50%)
-  );
-  --subtle: hsl(
-    var(--hue) calc(var(--sat) * 0.7)
-    calc(var(--brightness) + var(--inverse) * 40%)
-  );
+  /* ---------- 5. Текст ---------- */
 
-  /* ---------- Акцент ---------- */
+  --text:   hsl(var(--hue) calc(var(--sat) * 0.7) var(--step-70));
+  --muted:  hsl(var(--hue) calc(var(--sat) * 0.7) var(--step-50));
+  --subtle: hsl(var(--hue) calc(var(--sat) * 0.7) var(--step-40));
+
+  /* ---------- 6. Акцент ---------- */
+
   --primary: hsl(
     var(--primary-h) var(--primary-s)
-    calc(70% + var(--inverse) * -10%)
+    calc(70% + var(--dir) * -10%)
   );
+
   --primary-hover: hsl(
     var(--primary-h) var(--primary-s)
-    calc(var(--brightness) + var(--inverse) * 25%)
+    var(--step-25)
   );
+
   --primary-active: hsl(
     var(--primary-h) var(--primary-s)
-    calc(var(--brightness) + var(--inverse) * 40%)
+    var(--step-40)
   );
+
   --primary-text: hsl(
     var(--primary-h) 30%
-    calc(var(--brightness) + var(--inverse) * 80%)
+    var(--step-80)
   );
+
   --primary-soft: hsl(
     var(--primary-h) var(--primary-s)
-    calc(var(--brightness) + var(--inverse) * 40%) / 0.15
+    var(--step-40) / 0.15
   );
 
-  /* ---------- Семантика ---------- */
-  --success: hsl(145 60% calc(50% + ((40% + var(--mode) * 8%) - 50%) * var(--contrast)));
-  --warning: hsl(35 85%  calc(50% + ((50% + var(--mode) * 5%) - 50%) * var(--contrast)));
-  --danger:  hsl(0 70%   calc(50% + ((48% + var(--mode) * 6%) - 50%) * var(--contrast)));
-  --info:    hsl(200 75% calc(50% + ((45% + var(--mode) * 8%) - 50%) * var(--contrast)));
+  /* ---------- 7. Семантика ----------
+     Базовые светлоты при contrast = 0, затем раздвигаем через contrast. */
 
-  --success-soft: hsl(145 60% calc(50% + ((40% + var(--mode) * 8%) - 50%) * var(--contrast)) / 0.15);
-  --warning-soft: hsl(35 85%  calc(50% + ((50% + var(--mode) * 5%) - 50%) * var(--contrast)) / 0.15);
-  --danger-soft:  hsl(0 70%   calc(50% + ((48% + var(--mode) * 6%) - 50%) * var(--contrast)) / 0.15);
-  --info-soft:    hsl(200 75% calc(50% + ((45% + var(--mode) * 8%) - 50%) * var(--contrast)) / 0.15);
+  --success-l: calc(40% + var(--mode) * 8%);
+  --warning-l: calc(50% + var(--mode) * 5%);
+  --danger-l:  calc(48% + var(--mode) * 6%);
+  --info-l:    calc(45% + var(--mode) * 8%);
 
-  /* ---------- Тени ----------
-     Тени не привязаны к светлоте — оставляем как было.
-     Но можно усилить их при низкой контрастности, если хочется. */
-  --shadow-sm: 0 1px 2px hsl(var(--hue) 30% 5% / calc(0.10 - var(--mode) * 0.04));
-  --shadow:    0 2px 8px hsl(var(--hue) 30% 5% / calc(0.18 - var(--mode) * 0.06));
-  --shadow-lg: 0 8px 24px hsl(var(--hue) 30% 5% / calc(0.26 - var(--mode) * 0.08));
+  --success: hsl(145 60% calc(50% + (var(--success-l) - 50%) * var(--contrast)));
+  --warning: hsl(35  85% calc(50% + (var(--warning-l) - 50%) * var(--contrast)));
+  --danger:  hsl(0   70% calc(50% + (var(--danger-l)  - 50%) * var(--contrast)));
+  --info:    hsl(200 75% calc(50% + (var(--info-l)    - 50%) * var(--contrast)));
 
-  /* ---------- Backdrop ---------- */
+  --success-soft: hsl(from var(--success) h s l / 0.15);
+  --warning-soft: hsl(from var(--warning) h s l / 0.15);
+  --danger-soft:  hsl(from var(--danger)  h s l / 0.15);
+  --info-soft:    hsl(from var(--info)    h s l / 0.15);
+
+  /* ---------- 8. Тени ---------- */
+
+  --shadow-color: var(--hue) 30% 5%;
+
+  --shadow-sm: 0 1px 2px  hsl(var(--shadow-color) / calc(0.10 - var(--mode) * 0.04));
+  --shadow:    0 2px 8px  hsl(var(--shadow-color) / calc(0.18 - var(--mode) * 0.06));
+  --shadow-lg: 0 8px 24px hsl(var(--shadow-color) / calc(0.26 - var(--mode) * 0.08));
+
+  /* ---------- 9. Прочее ---------- */
+
   --backdrop: hsl(0 0% 0% / calc(0.7 - var(--mode) * 0.3));
-  --backdrop-text: hsl(
-    var(--hue) 30%
-    calc(50% + ((97% - var(--mode) * 85%) - 50%) * var(--contrast))
-  );
 
-  /* ---------- Scrollbar ---------- */
-  --scrollbar-thumb: hsl(
-    var(--hue) calc(var(--sat) * 0.4)
-    calc(50% + ((50% - var(--mode) * 5%) - 50%) * var(--contrast)) / 0.5
-  );
-  --scrollbar-thumb-hover: hsl(
-    var(--hue) calc(var(--sat) * 0.4)
-    calc(50% + ((50% - var(--mode) * 5%) - 50%) * var(--contrast)) / 0.8
-  );
+  --scrollbar: hsl(var(--hue) calc(var(--sat) * 0.4) 50%);
+  --scrollbar-thumb:       hsl(from var(--scrollbar) h s l / 0.5);
+  --scrollbar-thumb-hover: hsl(from var(--scrollbar) h s l / 0.8);
   --scrollbar-track: transparent;
 
-  /* ---------- Disabled ---------- */
   --disabled-opacity: 0.5;
   --disabled-bg: hsl(
     var(--hue) calc(var(--sat) * 0.3)

@@ -1,49 +1,48 @@
 /* ============================================
-   БАЗОВЫЕ ПАРАМЕТРЫ
-   Значения задаются сервисом темы (theme.svelte.ts).
-   Здесь — только дефолты для SSR / первого рендера.
+   BASE.CSS
+   Токены (управляющие) + reset.
+   Производные цвета — в palette.css.
    ============================================ */
+
 :root {
+  /* ---------- Управляющие параметры ---------- */
   --hue: 220;
   --primary-h: 220;
-  --radius: 8px;
   --sat: 40%;
   --primary-s: 80%;
   --alpha: 0.8;
+  --mode: 1;              /* 1 = light, 0 = dark */
+  --contrast: 1;          /* 0..1 */
+
+  /* ---------- Размеры ---------- */
   --font-size: 1rem;
-  --mode: 1;
-
-  /* NEW: контрастность 0..1.
-     1 — максимальный разброс (белый/чёрный),
-     0 — всё стянуто к серому 50% */
-  --contrast: 1;
-
   --line-height: 1.5;
   --space: 0.25rem;
+  --radius: 8px;
+
+  /* ---------- Производные размеры ---------- */
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-lg: calc(var(--radius) * 1.5);
   --radius-full: 9999px;
+
+  /* ---------- Анимация ---------- */
   --transition: 0.18s ease;
 }
 
-/* системная тёмная — только если явно не задано light/dark */
+/* Системная тёмная — только если пользователь не выбрал явно */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
     --mode: 0;
   }
 }
 
-/* явный выбор пользователя */
-:root[data-theme="dark"] {
-  --mode: 0;
-}
-:root[data-theme="light"] {
-  --mode: 1;
-}
+:root[data-theme="dark"]  { --mode: 0; }
+:root[data-theme="light"] { --mode: 1; }
 
 /* ============================================
    RESET
    ============================================ */
+
 *,
 *::before,
 *::after {
@@ -59,8 +58,7 @@ html {
 }
 
 body {
-  min-width: 100vw;
-  min-height: 100vh;
+  min-height: 100dvh;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: var(--font-size);
   line-height: var(--line-height);
@@ -117,12 +115,6 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   text-wrap: pretty;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: calc(var(--space) * 4) 0;
 }
 
 ::selection {
