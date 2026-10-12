@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GhostButton, Icon, SplitRow } from "$ui";
+  import { GhostButton, Icon } from "$ui";
 
   import Modal from "./Modal.svelte";
 
@@ -16,16 +16,25 @@
   <div class="confirm-dialog">
     <p>{message}</p>
   </div>
-    {#snippet top()}
-      <SplitRow>
-      {#snippet right()}
-        <GhostButton label="Согласиться" onclick={onconfirm}>
-          <Icon name="check" />
-        </GhostButton>
-        <GhostButton label="Отказаться" onclick={oncancel}>
-          <Icon name="chevronRight" />
-        </GhostButton>
-      {/snippet}
-      </SplitRow>
-    {/snippet}
+  {#snippet top()}
+    <div class="confirm-buttons">
+      <GhostButton label="Согласиться" onclick={onconfirm}>
+        <Icon name="check" />
+      </GhostButton>
+      <GhostButton label="Отказаться" onclick={oncancel}>
+        <Icon name="chevronRight" />
+      </GhostButton>
+    </div>
+  {/snippet}
 </Modal>
+
+<style>
+  .confirm-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--space);
+  }
+</style>
