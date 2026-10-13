@@ -6,39 +6,35 @@
 
   theme.init();
 
-  const routePages: Record<string, RoutePage> = {
-    noteList: {
+  const routePages: RoutePage[] = [
+    {
+      id: "noteList",
       path: "/note/list",
       title: "Список",
       icon: "📑",
-      component: Note.RouteList
+      component: Note.RouteList,
     },
-    noteTabs: {
+    {
+      id: "noteTabs",
       path: "/note/tabs",
       title: "Вкладки",
       icon: "🗂️",
       component: Note.RouteTabs,
     },
-    settings: {
+    {
+      id:"settings",
       path: "/settings",
       title: "Настройки",
       icon: "⚙️",
       component: Setting.Route,
       props: {
         sections: [
-          {
-            title: "Оформление",
-            component: Appearance.Settings
-          },
-          {
-            title: "Фон",
-            component: Background.Settings
-          }
-        ]
-      } 
-    }
-  } as const;
-  const keys = Object.keys(routePages) as (keyof typeof routePages)[];
+          { title: "Оформление", component: Appearance.Settings },
+          { title: "Фон", component: Background.Settings },
+        ],
+      },
+    },
+  ] as const;
 
   let collapsed = $state(false);
 </script>
@@ -58,13 +54,13 @@
     {#snippet sidebar()}
       <nav aria-label="Основная навигация">
         <ul class="column gap-1">
-          {#each keys as key}{let r = routePages[key]}
+          {#each routePages as route}
             <li>
-              <Link to={r.path}>
+              <Link to={route.path}>
                 {#snippet children(active)}
                   <span class="nav-item full" class:active>
-                    <span class="nav-icon">{r.icon}</span>
-                    <span class="nav-title" class:collapsed>{r.title}</span>
+                    <span class="nav-icon">{route.icon}</span>
+                    <span class="nav-title" class:collapsed>{route.title}</span>
                   </span>
                 {/snippet}
               </Link>
@@ -82,8 +78,8 @@
       </Link>
     {/snippet}
 
-    {#each keys as key}{let r = routePages[key]}
-      <Route path={r.path} component={r.component} {...r.props} />
+    {#each routePages as route}
+      <Route path={route.path} component={route.component} {...route.props} />
     {/each}
 
     <Route path="/">
