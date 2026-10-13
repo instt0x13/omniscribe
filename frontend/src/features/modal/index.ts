@@ -1,1 +1,1 @@
-export { default as LayerModal } from "./LayerModal.svelte"
+export { default as Layer } from "./Layer.svelte"

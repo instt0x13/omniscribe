@@ -1,2 +1,2 @@
-export { default as LayerBackground } from "./LayerBackground.svelte"
-export { default as SettingsBackground } from "./SettingsBackground.svelte"
+export { default as Layer } from "./Layer.svelte"
+export { default as Settings } from "./Settings.svelte"

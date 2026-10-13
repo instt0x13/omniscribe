@@ -1,14 +1,7 @@
 
-// слои
-export { LayerBackground } from "./background";
-export { LayerApp } from "./app";
-export { LayerModal } from "./modal";
-
-// роуты
-export { RouteSettings } from "./settings"
-export { RouteNoteList } from "./note"
-export { RouteNotesTabs } from "./note"
-
-// секции настроек
-export { SettingsBackground } from "./background"
-export { SettingsAppearance } from "./appearance";
+export * as App from "./app";
+export * as Appearance from "./appearance";
+export * as Background from "./background";
+export * as Modal from "./modal";
+export * as Note from "./note";
+export * as Setting from "./setting";

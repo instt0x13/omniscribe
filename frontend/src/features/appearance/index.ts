@@ -1,1 +1,1 @@
-export { default as SettingsAppearance } from "./SettingsAppearance.svelte";
+export { default as Settings } from "./Settings.svelte";
