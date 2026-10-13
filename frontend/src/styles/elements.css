@@ -427,6 +427,7 @@ details > :not(summary) {
 /* ---------- Dialog ---------- */
 
 dialog {
+  margin: auto;
   padding: calc(var(--space) * 6);
   background: var(--panel);
   color: var(--text);

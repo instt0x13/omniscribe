@@ -60,7 +60,7 @@
 
   --border: hsl(
     var(--hue) calc(var(--sat) * 0.4)
-    var(--step-1) / var(--alpha)
+    var(--step-4) / var(--alpha)
   );
 
   --border-strong: hsl(
@@ -81,12 +81,12 @@
     calc(70% + var(--dir) * -10%)
   );
 
-  --primary-hover: hsl(
+  --primary-active: hsl(
     var(--primary-h) var(--primary-s)
     var(--step-25)
   );
 
-  --primary-active: hsl(
+  --primary-hover: hsl(
     var(--primary-h) var(--primary-s)
     var(--step-40)
   );
