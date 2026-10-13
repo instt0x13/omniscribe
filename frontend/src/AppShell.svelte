@@ -2,19 +2,43 @@
   import { Router, Link, Route } from "svelte5-router";
   import { Background, App, Note, Setting, Appearance, Modal } from "$features";
   import { theme } from "$services";
+    import type { RoutePage } from "$types";
 
   theme.init();
 
-  const routePages = [
-    { path: "/note/list", title: "Список", icon: "📑", component: Note.RouteList },
-    { path: "/note/tabs", title: "Вкладки", icon: "🗂️", component: Note.RouteTabs }
-  ];
-
-  const routeSetings = { path: "/settings", title: "Настройки", icon: "⚙️", component: Setting.Route };
-  const settingsSection = [
-    { title: "Оформление", component: Appearance.Settings },
-    { title: "Фон", component: Background.Settings }
-  ];
+  const routePages: Record<string, RoutePage> = {
+    noteList: {
+      path: "/note/list",
+      title: "Список",
+      icon: "📑",
+      component: Note.RouteList
+    },
+    noteTabs: {
+      path: "/note/tabs",
+      title: "Вкладки",
+      icon: "🗂️",
+      component: Note.RouteTabs,
+    },
+    settings: {
+      path: "/settings",
+      title: "Настройки",
+      icon: "⚙️",
+      component: Setting.Route,
+      props: {
+        sections: [
+          {
+            title: "Оформление",
+            component: Appearance.Settings
+          },
+          {
+            title: "Фон",
+            component: Background.Settings
+          }
+        ]
+      } 
+    }
+  } as const;
+  const keys = Object.keys(routePages) as (keyof typeof routePages)[];
 
   let collapsed = $state(false);
 </script>
@@ -34,7 +58,7 @@
     {#snippet sidebar()}
       <nav aria-label="Основная навигация">
         <ul class="column gap-1">
-          {#each routePages as r}
+          {#each keys as key}{let r = routePages[key]}
             <li>
               <Link to={r.path}>
                 {#snippet children(active)}
@@ -58,12 +82,8 @@
       </Link>
     {/snippet}
 
-    <Route path="/settings">
-      <Setting.Route settings={settingsSection} />
-    </Route>
-
-    {#each routePages as r}
-      <Route path={r.path} component={r.component} />
+    {#each keys as key}{let r = routePages[key]}
+      <Route path={r.path} component={r.component} {...r.props} />
     {/each}
 
     <Route path="/">

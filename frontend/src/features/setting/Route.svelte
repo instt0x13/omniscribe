@@ -2,16 +2,16 @@
   import type { SettingsSection } from "$types";
 
   interface Props {
-    settings: SettingsSection[]
+    sections: SettingsSection[]
   }
-  let { settings}: Props = $props();
+  let { sections }: Props = $props();
 </script>
 
 <div>
-  {#each settings as page}
-    {@const PageComponent = page.component}
-    <section class="settings {page.title}-settings">
-      <h2 class="title">{page.title}</h2>
+  {#each sections as section}
+    {@const PageComponent = section.component}
+    <section class="settings {section.title}-settings">
+      <h2 class="title">{section.title}</h2>
       <div>
         <PageComponent />
       </div>
