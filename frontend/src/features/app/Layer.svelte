@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Layer } from "$ui";
+  import { Button, Layer } from "$ui";
   import type { RoutePage } from "$types";
   import { Link, Route, Router } from "svelte5-router";
-    import Collapsed from "./ui/Collapsed.svelte";
+  import CollapsibleItem from "./ui/CollapsibleItem.svelte";
 
   interface Props {
     zindex: number;
@@ -11,48 +11,64 @@
 
   let { zindex, routePages }: Props = $props();
 
+  const settingsRoutePage = $derived(routePages.find((v) => v.id === "settings"));
+
   let collapsed = $state(false);
 </script>
 
 <Layer class="app" {zindex}>
   <Router>
-    <div class="app-shell row">
-      <aside class="app-sidebar column padding-2 gap-2" class:collapsed>
-        <header class="side-header row gap-5 middle around">
-          <button onclick={() => (collapsed = !collapsed)}>
-            {collapsed ? "▶" : "◀"}
-          </button>
-          <h1 class="brand truncate">OmniScribe</h1>
-        </header>
-        <div class="side-content grow">
-          <nav aria-label="Основная навигация">
-            <ul class="column gap-1">
-              {#each routePages as route}
-                <li>
-                  <Link to={route.path}>
-                    {#snippet children(active)}
-                      <Collapsed 
-                        icon={route.icon ?? ""}
-                        title={route.title}
-                        {collapsed}
-                        {active}
-                      />
-                    {/snippet}
-                  </Link>
-                </li>
-              {/each}
-            </ul>
-          </nav>
-        </div>
-        <footer class="side-footer">
-          <Link to="/settings">
-            {#snippet children(active)}
-              <span class="icon-btn" class:active aria-label="Настройки">⚙️</span>
+    <div class="app-shell" class:collapsed>
+      <aside class="shell-side">
+        <header class="side-header">
+          <CollapsibleItem reverse {collapsed}>
+            {#snippet leading()}
+              <button class="btn-collapsed surface" class:active={collapsed} class:collapsed
+                onclick={() => (collapsed = !collapsed)}
+              >
+                {collapsed ? "❯" : "❮"}
+              </button>
             {/snippet}
-          </Link>
+              <Link to="/" aria-label="Главная">
+                {#snippet children(active)}
+                  <h1 class="brand surface" class:active>OmniScribe</h1>
+                {/snippet}
+              </Link>
+          </CollapsibleItem>
+          
+        </header>
+        <nav class="side-navigation" aria-label="Основная навигация">
+          <ul class="navigation-items">
+            {#each routePages as route}
+              <li class="navigagion-item">
+                <Link to={route.path}>
+                  {#snippet children(active)}
+                    <CollapsibleItem hoverable {collapsed} {active}>
+                      {#snippet leading()}
+                        {route.icon}
+                      {/snippet}
+                      {route.title}
+                    </CollapsibleItem>
+                  {/snippet}
+                </Link>
+              </li>
+            {/each}
+          </ul>
+        </nav>
+        <footer class="side-footer">
+          <CollapsibleItem {collapsed}>
+            {#snippet leading()}
+              <Link to="/settings" aria-label="Настройки">
+                {#snippet children(active)}
+                  <span class="icon surface" class:active>
+                    {settingsRoutePage?.icon}
+                  </span>
+                {/snippet}
+              </Link>
+            {/snippet}
+          </CollapsibleItem>
         </footer>
       </aside>
-
       <main class="app-content grow">
         {#each routePages as route}
           <Route path={route.path} component={route.component} {...route.props} />
@@ -67,49 +83,86 @@
     block-size: 100dvh;
     width: 100%;
     overflow: hidden;
+
+    display: grid;
+    grid-template: 1fr / calc(var(--font-size) * 13) 1fr;
+  }
+  .app-shell.collapsed {
+    grid-template-columns: calc(var(--font-size) * 3) 1fr;
+  }
+
+  .shell-side {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--panel);
+    padding: var(--space);
+    gap: calc(var(--space) * 3);
   }
 
   .side-header, .side-footer {
     overflow: hidden;
   }
-
-  .app-sidebar {
-    background: var(--panel);
-    border-right: 2px solid var(--border);
-    max-width: calc(var(--font-size) * 16);
-    transition: max-width var(--transition) ;
+  .side-navigation {
+    flex-grow: 1;
   }
-  .app-sidebar.collapsed {
-    max-width: calc(var(--font-size) * 4);
+  .navigation-items {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space) * 1);
   }
 
   .app-content {
     padding: calc(var(--space) * 3);
-    overflow: visible;
+    overflow: auto;
+  }
+
+  .btn-collapsed {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1; 
+    font-size: calc(var(--font-size) * 1.25);
+    width: calc(var(--font-size) * 2.5);
+    line-height: 1;
+  }
+  .btn-collapsed.collapsed {
+    font-size: calc(var(--font-size) * 1);
+    width: calc(var(--font-size) * 2);
+  }
+
+  .surface {
+    padding: var(--space);
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .surface:hover {
+    background-color: var(--surface-hover);
+  }
+  .surface.active {
+    color: var(--primary-text);
+    background-color: var(--primary-active);
+  }
+  .surface:hover.active {
+    background-color: var(--primary-hover);
+  }
+
+  .icon {
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--font-size) * 1.2);
+    line-height: 1;
   }
 
   .brand {
     font-size: calc(var(--font-size) * 1.25);
-  }
-
-  .icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: calc(var(--space) * 10);
-    height: calc(var(--space) * 10);
-    border-radius: var(--radius);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-    transition: background var(--transition);
-  }
-
-  .icon-btn:hover {
-    background: var(--surface-hover);
-  }
-
-  .icon-btn.active {
-    background: var(--primary-hover);
   }
 </style>
