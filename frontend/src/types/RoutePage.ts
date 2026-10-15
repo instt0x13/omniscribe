@@ -5,6 +5,6 @@ export type RoutePage = {
   path: string;
   title: string;
   icon?: string;
-  component: Component<any, any>;
+  component?: Component<any, any>;
   props?: Record<string, any>;
 }

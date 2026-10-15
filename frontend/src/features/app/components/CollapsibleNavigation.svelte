@@ -1,31 +1,48 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
+  import { Link } from "svelte5-router";
+  import type { RoutePage } from "$types";
 
   interface Props {
-    leading: Snippet;
+    routePagesNav?: RoutePage[];
     collapsed?: boolean;
-    active?: boolean;
-    reverse?: boolean;
-    hoverable?: boolean;
-    children?: Snippet;
   }
 
   let {
-    leading,
-    children,
+    routePagesNav,
     collapsed = false,
-    active = false,
-    reverse = false,
-    hoverable = false
   }: Props = $props();
 </script>
 
-<span class="item" class:active class:reverse class:hoverable>
-  <span class="leading" class:collapsed>{@render leading()}</span>
-  <span class="content" class:collapsed>{@render children?.()}</span>
-</span>
+{#if routePagesNav}
+  <nav class="navigation" aria-label="Основная навигация">
+    <ul class="navigation-items">
+      {#each routePagesNav as route}
+        <li class="navigagion-item">
+          <Link to={route.path}>
+            {#snippet children(active)}
+              <span class="item" class:active>
+                <span class="leading" class:collapsed>{route.icon}</span>
+                <span class="content" class:collapsed>{route.title}</span>
+              </span>
+            {/snippet}
+          </Link>
+        </li>
+      {/each}
+    </ul>
+  </nav>
+{/if}
+
 
 <style>
+  .navigation {
+    flex-grow: 1;
+  }
+  .navigation-items {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space) * 1);
+  }
+
   .item {
     display: flex;
     width: 100%;
@@ -35,21 +52,16 @@
     gap: var(--space);
     border-radius: var(--radius);
     container-type: inline-size;
-  }
-  .item.reverse {
-    flex-direction: row-reverse;
-  }
-  .item.hoverable {
     padding: var(--space);
   }
-  .item.hoverable:hover {
+  .item:hover {
     background-color: var(--surface-hover);
   }
   .item.active {
     background-color: var(--primary-active);
     color: var(--primary-text);
   }
-  .item.hoverable.active:hover {
+  .item.active:hover {
     background-color: var(--primary-hover);
   }
 

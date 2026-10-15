@@ -7,6 +7,11 @@
 
   const routePages: RoutePage[] = [
     {
+      id: "home",
+      path: "/",
+      title: "Домашняя",
+    },
+    {
       id: "noteList",
       path: "/note/list",
       title: "Список",

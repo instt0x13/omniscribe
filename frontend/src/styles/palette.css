@@ -53,7 +53,7 @@
 
   --surface-hover: hsl(
     var(--hue) calc(var(--sat) * 0.5)
-    var(--step-9) / var(--alpha)
+    var(--step-13) / var(--alpha)
   );
 
   /* ---------- 4. Границы ---------- */
