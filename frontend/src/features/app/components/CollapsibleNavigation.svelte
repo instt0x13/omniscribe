@@ -66,7 +66,7 @@
   }
 
   .leading {
-    font-size: calc(var(--font-size) * 1.3);
+    font-size: 1.3rem;
   }
   .leading.collapsed {
     flex: 1;

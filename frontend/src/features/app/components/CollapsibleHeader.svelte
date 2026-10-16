@@ -53,7 +53,7 @@
   }
 
   .bth-collapsed {
-    font-size: calc(var(--font-size) * 1.5)
+    font-size: 1.5rem
   }
 
   .brand {
@@ -79,7 +79,7 @@
   }
 
   .icon-brand {
-    font-size: calc(var(--font-size) * 2);
+    font-size: 2rem;
     line-height: 1;
   }
   .icon-brand.collapsed {
@@ -93,7 +93,7 @@
   }
   
   .title-brand {
-    font-size: calc(var(--font-size) * 1.25);
+    font-size: 1.25rem;
     padding: var(--space);
     border-radius: var(--radius);
   }

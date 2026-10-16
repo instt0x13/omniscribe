@@ -48,10 +48,10 @@
     overflow: hidden;
 
     display: grid;
-    grid-template: 1fr / calc(var(--font-size) * 13) 1fr;
+    grid-template: 1fr / 13rem 1fr;
   }
   .app-shell.collapsed {
-    grid-template-columns: calc(var(--font-size) * 3) 1fr;
+    grid-template-columns: 3rem 1fr;
   }
 
   .shell-side {

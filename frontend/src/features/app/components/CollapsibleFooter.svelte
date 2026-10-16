@@ -36,7 +36,7 @@
     justify-content: end;
     gap: var(--space);
     border-radius: var(--radius);
-    font-size: calc(var(--font-size) * 1.2);
+    font-size: 1.2rem;
     container-type: inline-size;
   }
   .footer.collapsed {
