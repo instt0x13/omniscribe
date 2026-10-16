@@ -58,7 +58,7 @@
     background-color: var(--surface-hover);
   }
   .item.active {
-    background-color: var(--primary-active);
+    background-color: var(--primary);
     color: var(--primary-text);
   }
   .item.active:hover {

@@ -78,12 +78,12 @@
 
   --primary: hsl(
     var(--primary-h) var(--primary-s)
-    calc(70% + var(--dir) * -10%)
+    var(--step-25)
   );
 
   --primary-active: hsl(
     var(--primary-h) var(--primary-s)
-    var(--step-25)
+    var(--step-50)
   );
 
   --primary-hover: hsl(

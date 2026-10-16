@@ -99,7 +99,7 @@
   }
   .title-brand.active {
     color: var(--primary-text);
-    background-color: var(--primary-active);
+    background-color: var(--primary);
   }
   .title-brand.collapsed {
     display: none;
