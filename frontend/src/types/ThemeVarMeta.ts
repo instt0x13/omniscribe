@@ -4,5 +4,5 @@ export type ThemeVarMeta = {
   max: number,
   step: number,
   default: number,
-  unit: "deg" | "px" | "%" | "",
+  unit: "deg" | "rem" | "px" | "%" | "",
 }
