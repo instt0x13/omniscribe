@@ -2,14 +2,14 @@ import { css, storage } from "$helpers";
 import { STORAGE_PREFIX } from "../config";
 
 /** Допустимые ключи и соответствующие CSS-стеки для --font-family */
-export const FONT_FAMILIES = {
+const FONT_FAMILIES = {
   system: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
   sans:   'ui-sans-serif, system-ui, sans-serif',
   serif:  'ui-serif, Georgia, Cambria, "Times New Roman", serif',
   mono:   'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
 } as const;
 
-export type FontFamilyKey = keyof typeof FONT_FAMILIES;
+type FontFamilyKey = keyof typeof FONT_FAMILIES;
 
 export class ThemeFontFamilyValue {
   #value: FontFamilyKey = $state("system");
