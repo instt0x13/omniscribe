@@ -13,12 +13,12 @@
   --alpha: 0.8;
   --mode: 1;              /* 1 = light, 0 = dark */
   --contrast: 1;          /* 0..1 */
-
-  /* ---------- Размеры ---------- */
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-size: 1rem;
-  --line-height: 1.5;
-  --space: 0.25rem;
+  --space: 4px;
   --radius: 8px;
+
+  --line-height: 1.5;
 
   /* ---------- Производные размеры ---------- */
   --radius-sm: calc(var(--radius) * 0.5);
@@ -60,7 +60,7 @@ html {
 
 body {
   min-height: 100dvh;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: var(--line-height);
   background: var(--bg);
