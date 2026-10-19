@@ -380,13 +380,11 @@ details > :not(summary) {
 
 dialog {
   margin: auto;
-  padding: calc(var(--space) * 6);
-  background: var(--panel);
+  background: var(--panel-solid);
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  max-width: min(90vw, 32rem);
 }
 
 dialog::backdrop {
