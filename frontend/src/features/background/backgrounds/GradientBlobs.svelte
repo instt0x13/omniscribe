@@ -14,9 +14,9 @@
     position: absolute;
     inset: -60%;
     background:
-      radial-gradient(circle 35vmax at 40% 40%, var(--primary),         transparent 40%),
-      radial-gradient(circle 45vmax at 60% 60%, var(--primary-hover), transparent 40%),
-      radial-gradient(circle 65vmax at 50% 45%, var(--muted),         transparent 40%);
+      radial-gradient(circle 35vmax at 40% 40%, hsl(from var(--primary) h s l / 1), transparent 40%),
+      radial-gradient(circle 45vmax at 60% 60%, hsl(from var(--accent) h s l / 1),  transparent 40%),
+      radial-gradient(circle 65vmax at 50% 45%, hsl(from var(--text) h s l / 1),   transparent 40%);
     opacity: 0.5;
     animation: drift 40s ease-in-out infinite alternate;
     will-change: transform;
