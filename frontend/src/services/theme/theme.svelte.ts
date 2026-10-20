@@ -12,7 +12,7 @@ const THEME_VARS = {
   alpha:    { name: "--alpha",     min: 0,    max: 1,    step: 0.01, default: 1,   unit: ""    },
   contrast: { name: "--contrast",  min: 0,    max: 1,    step: 0.01, default: 1,   unit: ""    },
   radius:   { name: "--radius",    min: 0,    max: 32,   step: 1,    default: 8,   unit: "px"  },
-  space:    { name: "--space",     min: 0,    max: 32,   step: 1,    default: 4,   unit: "px"  },
+  space:    { name: "--space",     min: 4,    max: 16,   step: 1,    default: 4,   unit: "px"  },
   fontSize: { name: "--font-size", min: 0.85, max: 1.45, step: 0.01, default: 1,   unit: "rem" },
 } as const satisfies Record<string, ThemeVarMeta>;
 
