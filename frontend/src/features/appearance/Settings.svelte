@@ -4,8 +4,8 @@
   import { Button, SelectionGroup } from "$ui";
   import ColorCard from "./components/ColorCard.svelte";
   import FontCard from "./components/FontCard.svelte";
-    import OpacityContrastCard from "./components/OpacityContrastCard.svelte";
-    import SpaceRadiusCard from "./components/SpaceRadiusCard.svelte";
+  import OpacityContrastCard from "./components/OpacityContrastCard.svelte";
+  import SpaceRadiusCard from "./components/SpaceRadiusCard.svelte";
 
   type ItemMode = {
     id: ThemeMode;
