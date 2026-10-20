@@ -20,8 +20,8 @@
   ];
 </script>
 
-<section class="column">
-  <div class="flex">
+<section class="settings">
+  <div class="settings__modes">
     <SelectionGroup items={modes} itemKey="id" active={theme.mode.value}>
       {#snippet item(item, active)}
         <Button variant={active ? "primary" : "default"} onclick={() => theme.mode.value = item.id}>
@@ -33,7 +33,7 @@
 
   <hr />
 
-  <div class="flex">
+  <div class="settings__carts">
       <ColorCard role="accent" />
       <ColorCard role="primary" />
       <FontCard />
@@ -47,13 +47,26 @@
 </section>
 
 <style>
-  .column {
+  .settings {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
   }
-  .flex {
+
+  .settings__modes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .settings__carts {
+    --size: 6rem;
+    --bar: 1rem;
+    --gap: var(--space);
+    
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;

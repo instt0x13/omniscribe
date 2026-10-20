@@ -67,10 +67,6 @@
 <style>
   /* ─── Сетка карточки ─────────────────────────────── */
   .font-card {
-    --size: 8rem;
-    --bar: 1rem;
-    --gap: var(--space);
-
     display: grid;
     grid-template-columns: var(--size) var(--bar);
     grid-template-rows: var(--size) var(--bar);
