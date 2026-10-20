@@ -18,13 +18,6 @@
     { id: "light", title: "Светлая", icon: "" },
     { id: "dark", title: "Темная", icon: "" },
   ];
-
-  // всё остальное — обычные ползунки
-  const vars = [
-    { obj: theme.contrast, title: "Контрастность", icon: "" },
-    { obj: theme.alpha, title: "Прозрачность", icon: "" },
-    { obj: theme.radius, title: "Скругление", icon: "" },
-  ];
 </script>
 
 <section class="column">
