@@ -20,13 +20,6 @@
 
   --line-height: 1.5;
 
-  /* ---------- Производные размеры ---------- */
-  --space-sm: calc(var(--space) * 0.5);
-  --space-lg: calc(var(--space) * 1.5);
-  --radius-sm: calc(var(--radius) * 0.5);
-  --radius-lg: calc(var(--radius) * 1.5);
-  --radius-full: 9999px;
-
   /* ---------- Анимация ---------- */
   --transition: 0.18s ease;
 }
