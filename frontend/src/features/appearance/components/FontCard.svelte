@@ -4,18 +4,36 @@
   const fontSize   = theme.fontSize;
   const fontFamily = theme.fontFamily;
 
-  function nudge(delta: number) {
-    const { min, max } = fontSize.meta;
-    const next = fontSize.value + delta;
-    fontSize.value = Math.round(Math.min(max, Math.max(min, next)) * 100) / 100;
-  }
+  // Локальное состояние для "призрачного" размера во время перетаскивания
+  let previewSize = $state(fontSize.value);
+
+  // Синхронизируем локальный стейт, если тема изменилась извне (например, сбросили настройки)
+  $effect(() => {
+    previewSize = fontSize.value;
+  });
+
+  // Обработчик движения ползунка (только визуал)
+  const handleInput = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    previewSize = Number(target.value);
+  };
+
+  // Обработчик отпускания ползунка (применение к теме)
+  const handleChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    fontSize.value = Number(target.value);
+  };
 </script>
 
 <div class="font-card">
   <!-- превью -->
   <div class="font-card__preview" style:font-family={fontFamily.css}>
-    <span class="font-card__title">Шрифт</span>
-    <span class="font-card__example" style:font-size={fontSize.css}>Aa</span>
+    <div class="font-card__demo">
+      <!-- Используем previewSize вместо fontSize.css -->
+      <span class="font-card__example" style:font-size={`${previewSize}${fontSize.meta.unit}`}>
+        Aa<span class="font-card__scaled" style:font-size={`${previewSize}${fontSize.meta.unit}`}>Aa</span>
+      </span>
+    </div>
     <span class="font-card__values">
       {fontSize.value}<span class="font-card__unit">{fontSize.meta.unit}</span>
     </span>
@@ -23,15 +41,21 @@
 
   <!-- вертикальный ползунок на всю правую колонку -->
   <div class="font-card__slider">
+    <span class="font-card__label-min">a</span>
+    
     <input
       class="font-card__range"
       type="range"
       min={fontSize.meta.min}
       max={fontSize.meta.max}
       step={fontSize.meta.step}
-      bind:value={fontSize.value}
+      value={previewSize} 
+      oninput={handleInput}
+      onchange={handleChange}
       aria-label="Размер шрифта"
     />
+    
+    <span class="font-card__label-max">A</span>
   </div>
 
   <!-- нижняя строка: select + [−] [+] -->
@@ -51,14 +75,14 @@
     <button
       type="button"
       class="font-card__btn"
-      onclick={() => nudge(-fontSize.meta.step)}
+      onclick={() => fontSize.value -= fontSize.meta.step}
       aria-label="Уменьшить"
     >−</button>
 
     <button
       type="button"
       class="font-card__btn"
-      onclick={() => nudge(fontSize.meta.step)}
+      onclick={() => fontSize.value += fontSize.meta.step}
       aria-label="Увеличить"
     >+</button>
   </div>
@@ -86,14 +110,24 @@
     box-shadow: var(--shadow-sm);
   }
 
-  .font-card__title {
-    font-size: 1rem;
-    font-weight: 600;
+  .font-card__demo {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .font-card__example {
+    position: relative;
     line-height: 1;
     font-weight: 600;
+    transition: font-size 0.06s linear;
+  }
+
+  .font-card__scaled {
+    position: absolute;
+    transform: scale(5);
+    opacity: 0.15;
     transition: font-size 0.06s linear;
   }
 
@@ -166,6 +200,28 @@
     background: var(--text);
     border: 2px solid var(--border);
     box-shadow: var(--shadow-sm);
+  }
+  
+  /* ─── Метки размера шрифта ─────────────────────── */
+  .font-card__label-min,
+  .font-card__label-max {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 600;
+    color: var(--text-subtle);
+    pointer-events: none; /* Чтобы не перекрывали клик по треку */
+    opacity: 0.7;
+  }
+
+  .font-card__label-min {
+    bottom: 0;
+    font-size: 0.55rem;
+  }
+
+  .font-card__label-max {
+    top: 0;
+    font-size: 0.85rem;
   }
 
   /* ─── Нижняя строка: select + [−] [+] ────────────── */
