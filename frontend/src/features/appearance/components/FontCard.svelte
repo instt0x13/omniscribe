@@ -148,17 +148,24 @@
     border: none;
   }
 
-  .font-card__range::-webkit-slider-thumb,
+  .font-card__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    width: var(--bar);
+    height: var(--bar);
+    border-radius: 50%;
+    background: var(--text);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
   .font-card__range::-moz-range-thumb {
     box-sizing: border-box;
     width: var(--bar);
     height: var(--bar);
-    border: 2px solid var(--border);
     border-radius: 50%;
     background: var(--text);
+    border: 2px solid var(--border);
     box-shadow: var(--shadow-sm);
-    -webkit-appearance: none;
-    appearance: none;
   }
 
   /* ─── Нижняя строка: select + [−] [+] ────────────── */
