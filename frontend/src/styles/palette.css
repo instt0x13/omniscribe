@@ -15,15 +15,15 @@
 
   /* ---------- Скаляры ---------- */
 
-  /* Светлота при contrast = 0 (всё стянуто к серому) */
+  /* Светлота при intensity = 0 (всё стянуто к серому) */
   --base: calc(30% + var(--mode) * 60%);
 
-  /* Светлота при contrast = 1 (максимальный разброс) */
+  /* Светлота при intensity = 1 (максимальный разброс) */
   --edge: calc(3% + var(--mode) * 97%);
 
   /* Итоговая светлота фона */
   --lightness: calc(
-    var(--base) + (var(--edge) - var(--base)) * var(--contrast)
+    var(--base) + (var(--edge) - var(--base)) * var(--intensity)
   );
 
   /* Направление шага: +1 в тёмной теме, -1 в светлой */
@@ -80,7 +80,7 @@
   --primary-text:   hsl( var(--primary-h) var(--primary-text-s) var(--text-l) );
 
   /* ---------- Семантика ----------
-    Базовые светлоты при contrast = 0, затем раздвигаем через contrast.
+    Базовые светлоты при intensity = 0, затем раздвигаем через intensity.
   */
 
   --success-l: calc(40% + var(--mode) * 8%);
@@ -88,10 +88,10 @@
   --danger-l:  calc(48% + var(--mode) * 6%);
   --info-l:    calc(45% + var(--mode) * 8%);
 
-  --success: hsl(145 60% calc(50% + (var(--success-l) - 50%) * var(--contrast)));
-  --warning: hsl(35  85% calc(50% + (var(--warning-l) - 50%) * var(--contrast)));
-  --danger:  hsl(0   70% calc(50% + (var(--danger-l)  - 50%) * var(--contrast)));
-  --info:    hsl(200 75% calc(50% + (var(--info-l)    - 50%) * var(--contrast)));
+  --success: hsl(145 60% calc(50% + (var(--success-l) - 50%) * var(--intensity)));
+  --warning: hsl(35  85% calc(50% + (var(--warning-l) - 50%) * var(--intensity)));
+  --danger:  hsl(0   70% calc(50% + (var(--danger-l)  - 50%) * var(--intensity)));
+  --info:    hsl(200 75% calc(50% + (var(--info-l)    - 50%) * var(--intensity)));
 
   --success-soft: hsl(from var(--success) h s l / 0.15);
   --warning-soft: hsl(from var(--warning) h s l / 0.15);
@@ -118,6 +118,6 @@
   --disabled-opacity: 0.5;
   --disabled-bg: hsl(
     var(--hue) calc(var(--sat) * 0.3)
-    calc(50% + ((30% + var(--mode) * 40%) - 50%) * var(--contrast)) / 0.4
+    calc(50% + ((30% + var(--mode) * 40%) - 50%) * var(--intensity)) / 0.4
   );
 }
