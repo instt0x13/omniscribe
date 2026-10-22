@@ -61,13 +61,13 @@
     flex-direction: column;
     justify-content: space-between;
     background: var(--panel);
-    padding: var(--space);
-    gap: calc(var(--space) * 3);
+    padding: var(--space-sm);
+    gap: var(--space);
   }
 
   .app-content {
     flex-grow: 1;
-    padding: calc(var(--space) * 3);
+    padding: var(--space);
     overflow: auto;
   }
 </style>
