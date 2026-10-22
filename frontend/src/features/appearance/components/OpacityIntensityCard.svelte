@@ -69,7 +69,7 @@
   }
 
   .opacity-bg-image {
-    --bg-opacity-color: hsl(from var(--border-strong) h s l / min(max(0.1, var(--alpha)), 0.6));
+    --bg-opacity-color: hsl(from var(--border-hover) h s l / min(max(0.1, var(--alpha)), 0.6));
     background-image: 
       linear-gradient(45deg,  var(--bg-opacity-color) 25%, transparent 25%),
       linear-gradient(-45deg, var(--bg-opacity-color) 25%, transparent 25%),
