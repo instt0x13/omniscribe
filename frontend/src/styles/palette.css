@@ -61,8 +61,8 @@
 
   /* ---------- Границы ---------- */
 
-  --border:        hsl( var(--hue) var(--border-s) var(--border-l) / var(--alpha) );
-  --border-strong: hsl( var(--hue) var(--border-s) var(--border-l-hover) / var(--alpha) );
+  --border:       hsl( var(--hue) var(--border-s) var(--border-l) / var(--alpha) );
+  --border-hover: hsl( var(--hue) var(--border-s) var(--border-l-hover) / var(--alpha) );
 
   /* ---------- Текст ---------- */
 
@@ -72,12 +72,14 @@
 
   /* ---------- Акцент ---------- */
 
-  --accent:        hsl( var(--hue) var(--sat) var(--primary-l) / var(--surface-a) );
-  --accent-hover:  hsl( var(--hue) var(--sat) var(--primary-l-hover) / var(--surface-a) );
+  --accent:         hsl( var(--hue) var(--sat) var(--primary-l) / var(--surface-a) );
+  --accent-hover:   hsl( var(--hue) var(--sat) var(--primary-l-hover) / var(--surface-a) );
 
-  --primary:        hsl( var(--primary-h) var(--primary-s) var(--primary-l) / var(--surface-a) );
-  --primary-hover:  hsl( var(--primary-h) var(--primary-s) var(--primary-l-hover) / var(--surface-a) );
-  --primary-text:   hsl( var(--primary-h) var(--primary-text-s) var(--text-l) );
+  --primary:              hsl( var(--primary-h) var(--primary-s) var(--primary-l) / var(--surface-a) );
+  --primary-hover:        hsl( var(--primary-h) var(--primary-s) var(--primary-l-hover) / var(--surface-a) );
+  --primary-border:       hsl( var(--primary-h) var(--border-s) var(--border-l) / var(--alpha) );
+  --primary-border-hover: hsl( var(--primary-h) var(--border-s) var(--border-l-hover) / var(--alpha) );
+  --primary-text:         hsl( var(--primary-h) var(--primary-text-s) var(--text-l) );
 
   /* ---------- Семантика ----------
     Базовые светлоты при intensity = 0, затем раздвигаем через intensity.
