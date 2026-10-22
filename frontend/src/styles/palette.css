@@ -6,17 +6,18 @@
 :root {
 
   /* ---------- Производные размеры ---------- */
-  --space-sm: calc(var(--space) * 0.5);
-  --space-lg: calc(var(--space) * 2);
+  --space-sm: calc(var(--space) * 0.5 + 2px);
+  --space-lg: calc(var(--space) * 1.5 + 4px);
+  --space-xl: calc(var(--space) * 2.5 + 12px);
 
   --radius-sm: calc(var(--radius) * 0.5);
-  --radius-lg: calc(var(--radius) * 2);
+  --radius-lg: calc(var(--radius) * 1.5);
   --radius-full: 9999px;
 
   /* ---------- Скаляры ---------- */
 
   /* Светлота при intensity = 0 (всё стянуто к серому) */
-  --base: calc(30% + var(--mode) * 60%);
+  --base: calc(30% + var(--mode) * 40%);
 
   /* Светлота при intensity = 1 (максимальный разброс) */
   --edge: calc(3% + var(--mode) * 97%);
@@ -41,13 +42,16 @@
   --text-l-subtle:    calc(var(--lightness) + var(--dir) * 40%);
   --primary-l:        calc(var(--lightness) + var(--dir) * 25%);
   --primary-l-hover:  calc(var(--lightness) + var(--dir) * 40%);
+  --primary-border-l:         calc(var(--lightness) + var(--dir) * 30%);
+  --primary-border-l-hover:   calc(var(--lightness) + var(--dir) * 50%);
 
   /* ---------- Насыщенность ---------- */
 
-  --surface-s:      calc(var(--sat) * 0.5);
-  --border-s:       calc(var(--sat) * 0.4);
-  --text-s:         calc(var(--sat) * 0.7);
-  --primary-text-s: calc(var(--primary-s) * 0.7);
+  --surface-s:        calc(var(--sat) * 0.5);
+  --border-s:         calc(var(--sat) * 0.4);
+  --primary-border-s: calc(var(--primary-s) * 0.4);
+  --text-s:           calc(var(--sat) * 0.7);
+  --primary-text-s:   calc(var(--primary-s) * 0.7);
 
   --surface-a: calc(0.1 + var(--alpha) * 1.3);
 
@@ -77,8 +81,8 @@
 
   --primary:              hsl( var(--primary-h) var(--primary-s) var(--primary-l) / var(--surface-a) );
   --primary-hover:        hsl( var(--primary-h) var(--primary-s) var(--primary-l-hover) / var(--surface-a) );
-  --primary-border:       hsl( var(--primary-h) var(--border-s) var(--border-l) / var(--alpha) );
-  --primary-border-hover: hsl( var(--primary-h) var(--border-s) var(--border-l-hover) / var(--alpha) );
+  --primary-border:       hsl( var(--primary-h) var(--primary-border-s) var(--primary-border-l) / var(--alpha) );
+  --primary-border-hover: hsl( var(--primary-h) var(--primary-border-s) var(--primary-border-l-hover) / var(--alpha) );
   --primary-text:         hsl( var(--primary-h) var(--primary-text-s) var(--text-l) );
 
   /* ---------- Семантика ----------

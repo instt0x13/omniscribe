@@ -40,7 +40,7 @@
     flex-wrap: nowrap;
     align-items: center;
     justify-content: end;
-    gap: var(--space);
+    gap: 0.25rem;
     border-radius: var(--radius);
     container-type: inline-size;
   }
@@ -53,7 +53,14 @@
   }
 
   .bth-collapsed {
-    font-size: 1.5rem
+    position: absolute;
+    right: -0.9rem;
+    font-size: 1.5rem;
+    transform: scaleX(0.8);
+    transition: var(--transition);
+  }
+  .bth-collapsed:hover {
+    transform: scaleX(1.5);
   }
 
   .brand {
@@ -62,23 +69,32 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    gap: calc(var(--space) * 1.8);
-    padding: var(--space);
+    gap: 0.3rem;
+    padding: 0.5rem;
     background-color: var(--surface);
     border-radius: var(--radius);
     border: 1px solid var(--border);
   }
   .brand:hover {
     background-color: var(--surface-hover);
+    border-color: var(--border-hover);
+  }
+  .brand.collapsed {
+    aspect-ratio: 1 / 1;
   }
   .brand.active.collapsed {
     background-color: var(--primary);
+    border-color: var(--primary-border);
   }
   .brand:hover.active.collapsed {
     background-color: var(--primary-hover);
+    border-color: var(--primary-border-hover);
   }
 
   .icon-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 2rem;
     line-height: 1;
   }
@@ -86,15 +102,16 @@
     width: 100%;
     flex: 1;
     aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 75cqw;
   }
   
   .title-brand {
-    font-size: 1.25rem;
-    padding: var(--space);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: var(--space-sm);
     border-radius: var(--radius);
   }
   .title-brand.active {

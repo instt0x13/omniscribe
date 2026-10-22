@@ -40,7 +40,7 @@
   .navigation-items {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--space) * 1);
+    gap: 0.3rem;
   }
 
   .item {
@@ -49,10 +49,10 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    gap: var(--space);
+    gap: 0.3rem;
     border-radius: var(--radius);
     container-type: inline-size;
-    padding: var(--space);
+    padding: 0.3rem;
   }
   .item:hover {
     background-color: var(--surface-hover);

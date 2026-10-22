@@ -47,7 +47,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-lg);
+    gap: var(--space-xl);
   }
 
   .settings__modes {
@@ -59,9 +59,9 @@
   }
 
   .settings__carts {
-    --size: 6rem;
+    --size: 7rem;
     --bar: 1rem;
-    --gap: var(--space-sm);
+    --gap: 0.3rem;
     
     display: flex;
     flex-wrap: wrap;

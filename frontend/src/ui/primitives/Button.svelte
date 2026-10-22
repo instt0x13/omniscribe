@@ -43,8 +43,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--space) * 2);
-    padding: calc(var(--space) * 2) calc(var(--space) * 4);
+    gap: 0.8rem;
+    padding: 0.5rem 0.8rem;
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
@@ -64,7 +64,7 @@
 
   .btn:hover {
     background: var(--surface-hover);
-    border-color: var(--border-strong);
+    border-color: var(--border-hover);
   }
 
   .btn:active {
@@ -80,19 +80,23 @@
   /* варианты */
   .btn--primary {
     background: var(--primary);
+    border: 1px solid var(--primary-border);
     color: var(--primary-text);
-    border-color: transparent;
   }
-  .btn--primary:hover  { background: var(--primary-hover); }
-  .btn--primary:active { background: var(--primary-active); }
+  .btn--primary:hover  {
+    background: var(--primary-hover);
+    border: 1px solid var(--primary-border-hover);
+  }
 
   /* размеры */
   .btn--sm {
-    padding: calc(var(--space)) calc(var(--space) * 3);
+    gap: 0.4rem;
+    padding: 0.25rem 0.4rem;
     font-size: 0.875em;
   }
   .btn--lg {
-    padding: calc(var(--space) * 3) calc(var(--space) * 5);
+    gap: 1.2rem;
+    padding: 1rem 1.2rem;
     font-size: 1.125em;
   }
 

@@ -10,9 +10,9 @@ const THEME_VARS = {
   primaryH:   { name: "--primary-h",  min: 0,    max: 360,  step: 1,    default: 220, unit: "deg" },
   primaryS:   { name: "--primary-s",  min: 0,    max: 100,  step: 1,    default: 70,  unit: "%"   },
   alpha:      { name: "--alpha",      min: 0,    max: 1,    step: 0.01, default: 1,   unit: ""    },
-  intensity: { name: "--intensity", min: 0,    max: 1,    step: 0.01, default: 1,   unit: ""    },
-  radius:     { name: "--radius",     min: 0,    max: 32,   step: 1,    default: 8,   unit: "px"  },
-  space:      { name: "--space",      min: 4,    max: 16,   step: 1,    default: 4,   unit: "px"  },
+  intensity:  { name: "--intensity",  min: 0,    max: 1,    step: 0.01, default: 1,   unit: ""    },
+  radius:     { name: "--radius",     min: 0,    max: 32,   step: 1,    default: 12,  unit: "px"  },
+  space:      { name: "--space",      min: 4,    max: 16,   step: 1,    default: 8,   unit: "px"  },
   fontSize:   { name: "--font-size",  min: 0.85, max: 1.45, step: 0.01, default: 1,   unit: "rem" },
 } as const satisfies Record<string, ThemeVarMeta>;
 

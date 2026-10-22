@@ -34,7 +34,7 @@
     flex-wrap: nowrap;
     align-items: center;
     justify-content: end;
-    gap: var(--space);
+    gap: 0.3rem;
     border-radius: var(--radius);
     font-size: 1.2rem;
     container-type: inline-size;
@@ -50,11 +50,15 @@
   .icon-setting {
     display: flex;
     width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    gap: calc(var(--space) * 1.8);
-    padding: var(--space);
+    gap: 0.2rem;
+    padding: 0.3rem;
     line-height: 1;
     background-color: var(--surface);
     border-radius: var(--radius);
@@ -62,19 +66,18 @@
   }
   .icon-setting:hover {
     background-color: var(--surface-hover);
+    border-color: var(--border-hover);
   }
   .icon-setting.active {
     background-color: var(--primary);
+    border-color: var(--primary-border);
   }
   .icon-setting:hover.active {
     background-color: var(--primary-hover);
+    border-color: var(--primary-border-hover);
   }
   .icon-setting.collapsed {
     flex: 1;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 50cqw;
   }
 </style>

@@ -27,7 +27,7 @@
 <Layer class="app" {zindex}>
   <Router>
     <div class="app-shell" class:collapsed>
-      <aside class="shell-side">
+      <aside class="shell-side" class:collapsed>
         <CollapsibleHeader routePageHome={routePageHome} bind:collapsed />
         <CollapsibleNavigation routePagesNav={routePagesNav} {collapsed} />
         <CollapsibleFooter routePageSettings={routePageSettings} {collapsed} />
@@ -48,10 +48,10 @@
     overflow: hidden;
 
     display: grid;
-    grid-template: 1fr / 13rem 1fr;
+    grid-template: 1fr / calc(13rem + var(--space)) 1fr;
   }
   .app-shell.collapsed {
-    grid-template-columns: 3rem 1fr;
+    grid-template-columns: calc(3rem + var(--space)) 1fr;
   }
 
   .shell-side {
@@ -60,14 +60,18 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-right: 2px solid var(--border);
     background: var(--panel);
+    padding: var(--space);
+    gap: var(--space-lg);
+  }
+  .shell-side.collapsed {
     padding: var(--space-sm);
-    gap: var(--space);
   }
 
   .app-content {
     flex-grow: 1;
-    padding: var(--space);
+    padding: var(--space-lg);
     overflow: auto;
   }
 </style>

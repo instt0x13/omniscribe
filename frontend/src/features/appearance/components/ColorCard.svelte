@@ -99,7 +99,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: var(--space);
+    padding: 0.3rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
     transition: background 0.06s linear, color 0.06s linear;
@@ -130,7 +130,7 @@
     margin: 0;
     padding: 0;
     border: none;
-    border-radius: var(--space-sm);
+    border-radius: var(--radius-sm);
     background: var(--track);
     box-shadow: var(--shadow-sm);
     cursor: pointer;

@@ -103,7 +103,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: var(--space);
+    padding: 0.3rem;
     overflow: hidden;
     background: var(--surface);
     border-radius: var(--radius);
