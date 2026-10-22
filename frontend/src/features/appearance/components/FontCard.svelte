@@ -35,7 +35,7 @@
       </span>
     </div>
     <span class="font-card__values">
-      {fontSize.value}<span class="font-card__unit">{fontSize.meta.unit}</span>
+      {previewSize}<span class="font-card__unit">{fontSize.meta.unit}</span>
     </span>
   </div>
 
