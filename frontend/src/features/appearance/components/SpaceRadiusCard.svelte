@@ -4,38 +4,79 @@
   const space  = theme.space;  // px
   const radius = theme.radius; // px
 
-  // отступ: узкий → широкий (горизонтально)
-  const spaceTrack = $derived(
-    `linear-gradient(to right,
-      hsl(var(--hue) calc(var(--sat) * 0.4) 50% / 0.15),
-      hsl(var(--hue) var(--sat) 50% / 0.9))`
-  );
+  // Локальное состояние для "призрачного" размера во время перетаскивания
+  let previewSpace = $state(space.value);
 
-  // округление: острый → скруглённый (вертикально)
-  const radiusTrack = $derived(
-    `linear-gradient(to right,
-      hsl(var(--hue) calc(var(--sat) * 0.4) 50% / 0.15),
-      hsl(var(--hue) var(--sat) 50% / 0.9))`
-  );
+  // Синхронизируем локальный стейт, если тема изменилась извне
+  $effect(() => {
+    previewSpace = space.value;
+  });
+
+  // Обработчик движения ползунка (только визуал)
+  const handleInput = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    previewSpace = Number(target.value);
+  };
+
+  // Обработчик отпускания ползунка (применение к теме)
+  const handleChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    space.value = Number(target.value);
+  };
 </script>
 
-<div class="space-card">
+<div class="space-card" style="--preview-space: {previewSpace}{space.meta.unit}">
   <!-- превью -->
   <div class="space-card__preview">
-    <span class="space-card__title">Отступ</span>
+    <span class="space-card__value">
+      {previewSpace}<span class="space-card__unit">{space.meta.unit}</span>
+    </span>
 
     <div class="space-card__demo">
-      <div class="space-card__demo-inner">Aa</div>
+      <span class="space-card__value">
+        {radius.value}<span class="space-card__unit">{radius.meta.unit}</span>
+      </span>
     </div>
-
-    <span class="space-card__values">
-      {space.value}<span class="space-card__unit">{space.meta.unit}</span>
-      {radius.value}<span class="space-card__unit">{radius.meta.unit}</span>
-    </span>
   </div>
 
-  <!-- округление: вертикальный ползунок справа -->
+  <!-- отступ: вертикальный ползунок справа -->
   <div class="space-card__vertical">
+    <button
+      type="button"
+      class="space-card__btn space-card__btn-top"
+      onclick={() => space.value += space.meta.step}
+      aria-label="Увеличить отступ"
+    >+</button>
+
+    <input
+      class="space-card__range"
+      type="range"
+      min={space.meta.min}
+      max={space.meta.max}
+      step={space.meta.step}
+      value={previewSpace} 
+      oninput={handleInput}
+      onchange={handleChange}
+      aria-label="Отступ"
+    />
+
+    <button
+      type="button"
+      class="space-card__btn space-card__btn-bottom"
+      onclick={() => space.value -= space.meta.step}
+      aria-label="Уменьшить отступ"
+    >−</button>
+  </div>
+
+  <!-- округление: горизонтальный ползунок снизу -->
+  <div class="space-card__horizontal">
+    <button
+      type="button"
+      class="space-card__btn space-card__btn-left"
+      onclick={() => radius.value -= radius.meta.step}
+      aria-label="Уменьшить округление"
+    >−</button>
+
     <input
       class="space-card__range"
       type="range"
@@ -43,22 +84,16 @@
       max={radius.meta.max}
       step={radius.meta.step}
       bind:value={radius.value}
-      style:--track={radiusTrack}
       aria-label="Округление"
     />
-  </div>
 
-  <!-- отступ: горизонтальный ползунок снизу -->
-  <input
-    class="space-card__range space-card__horizontal"
-    type="range"
-    min={space.meta.min}
-    max={space.meta.max}
-    step={space.meta.step}
-    bind:value={space.value}
-    style:--track={spaceTrack}
-    aria-label="Отступ"
-  />
+    <button
+      type="button"
+      class="space-card__btn space-card__btn-right"
+      onclick={() => radius.value += radius.meta.step}
+      aria-label="Увеличить округление"
+    >+</button>
+  </div>
 </div>
 
 <style>
@@ -71,59 +106,50 @@
 
   /* ─── превью ───────────────────────────────── */
   .space-card__preview {
+    position: relative;
     grid-area: 1 / 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: calc(var(--space) / 2);
-    /* внутренний отступ = --space, демонстрирует значение */
-    padding: var(--space);
-    /* скругление карточки = --radius */
+    align-items: end;
+    gap: 0.1rem;
+    padding-top: calc(var(--preview-space) * 1.5);
+    padding-left: calc(var(--preview-space) * 0.5);
+    padding-bottom: var(--preview-space);
     border-radius: var(--radius);
-    background: var(--surface-hover);
+    background: var(--surface);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
     transition: padding 0.06s linear, border-radius 0.06s linear;
   }
 
-  .space-card__title {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  .space-card__values {
+  .space-card__value {
     display: flex;
-    gap: 0.4rem;
-    font-size: 0.85rem;
+    gap: 0.2rem;
+    font-size: 1rem;
     font-variant-numeric: tabular-nums;
     opacity: 0.85;
+    padding-right: 0.5rem;
   }
 
   .space-card__unit {
     margin-left: 0.1rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     opacity: 0.6;
   }
 
-  /* ─── демо-блок: показывает --space + --radius ─ */
+  /* ─── демо-блок ─ */
   .space-card__demo {
-    flex: 1;
+    flex-grow: 1;
+    width: 100%;
+    min-width: 0;
     min-height: 0;
     display: flex;
     overflow: hidden;
-  }
-
-  .space-card__demo-inner {
-    flex: 1;
-    min-width: 0;
-    min-height: 0;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    /* скругление = --radius */
-    border-radius: var(--radius);
-    background: var(--primary);
-    color: var(--primary-text);
+    justify-content: end;
+    border-radius: var(--radius) 0 0 var(--radius);
+    background: var(--surface-hover);
+    color: var(--text);
     font-weight: 600;
     line-height: 1;
     transition: border-radius 0.06s linear;
@@ -136,18 +162,12 @@
     margin: 0;
     padding: 0;
     border: none;
-    border-radius: calc(var(--radius) / 2);
-    background: var(--track);
-    box-shadow: var(--shadow-sm);
+    background: transparent;
     cursor: pointer;
+    z-index: 1; /* Чтобы ползунок был поверх фона, но под кнопками если что */
   }
 
-  .space-card__range::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
-    height: 100%;
-    background: transparent;
-    border: none;
-  }
+  .space-card__range::-webkit-slider-runnable-track,
   .space-card__range::-moz-range-track {
     height: 100%;
     background: transparent;
@@ -174,26 +194,87 @@
     box-shadow: var(--shadow-sm);
   }
 
-  /* ─── горизонтальный (отступ) ──────────────── */
-  .space-card__horizontal {
-    grid-area: 2 / 1;
-    width: var(--size);
+  /* ─── Кнопки ───────────────────────────────── */
+  .space-card__btn {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: calc(var(--radius) / 2);
+    color: var(--text);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    z-index: 2;
+    width: var(--bar);
     height: var(--bar);
   }
 
-  /* ─── вертикальный (округление) ────────────── */
-  .space-card__vertical {
-    grid-area: 1 / 2;
+  /* ─── горизонтальный (Радиус) ─────────────── */
+  .space-card__horizontal {
     position: relative;
+    grid-area: 2 / 1;
+    width: var(--size);
+    height: var(--bar);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(to right, var(--surface), var(--surface-hover));
+    box-shadow: var(--shadow-sm);
+  }
+
+  .space-card__horizontal .space-card__range {
+    position: absolute;
+    width: calc(var(--size) * 0.7);
+    height: var(--bar);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .space-card__btn-left {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .space-card__btn-right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* ─── вертикальный (Отступ) ───────────────── */
+  .space-card__vertical {
+    position: relative;
+    grid-area: 1 / 2;
     width: var(--bar);
     height: var(--size);
+    border-radius: var(--radius-sm);
+    background: linear-gradient(to top, var(--surface), var(--surface-hover));
+    box-shadow: var(--shadow-sm);
   }
+
   .space-card__vertical .space-card__range {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: var(--size);
+    width: calc(var(--size) * 0.7);
     height: var(--bar);
     transform: translate(-50%, -50%) rotate(-90deg);
+  }
+
+  .space-card__btn-top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .space-card__btn-bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 </style>
