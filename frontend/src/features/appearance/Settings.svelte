@@ -31,17 +31,13 @@
     </SelectionGroup>
   </div>
 
-  <hr />
-
   <div class="settings__carts">
       <ColorCard role="accent" />
       <ColorCard role="primary" />
-      <FontCard />
       <OpacityIntensityCard />
+      <FontCard />
       <SpaceRadiusCard />
   </div>
-
-  <hr />
 
   <Button onclick={() => theme.reset()}>Сбросить настройки темы</Button>
 </section>
@@ -51,7 +47,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-lg);
   }
 
   .settings__modes {
@@ -59,18 +55,18 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    gap: 0.5rem;
+    gap: var(--space);
   }
 
   .settings__carts {
     --size: 6rem;
     --bar: 1rem;
-    --gap: var(--space);
+    --gap: var(--space-sm);
     
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    gap: 0.5rem;
+    gap: var(--space);
   }
 </style>

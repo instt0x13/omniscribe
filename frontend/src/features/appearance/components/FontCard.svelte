@@ -154,7 +154,7 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, var(--surface), var(--surface-hover));
-    border-radius: calc(var(--radius) / 2);
+    border-radius: var(--radius-sm);
     pointer-events: none;
   }
 
@@ -255,7 +255,7 @@
     height: 100%;
     padding: 0 0.9rem 0 0.35rem;
     border: none;
-    border-radius: calc(var(--radius) / 2);
+    border-radius: var(--radius-sm);
     background: var(--surface);
     color: var(--text);
     box-shadow: var(--shadow-sm);
@@ -282,7 +282,7 @@
     justify-content: center;
     padding: 0;
     border: none;
-    border-radius: calc(var(--radius) / 2);
+    border-radius: var(--radius-sm);
     background: var(--surface);
     color: var(--text);
     box-shadow: var(--shadow-sm);

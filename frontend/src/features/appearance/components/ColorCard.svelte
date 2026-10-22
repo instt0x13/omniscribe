@@ -130,7 +130,7 @@
     margin: 0;
     padding: 0;
     border: none;
-    border-radius: calc(var(--radius) / 2);
+    border-radius: var(--space-sm);
     background: var(--track);
     box-shadow: var(--shadow-sm);
     cursor: pointer;

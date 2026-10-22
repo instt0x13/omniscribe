@@ -201,7 +201,7 @@
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: calc(var(--radius) / 2);
+    border-radius: var(--radius-sm);
     color: var(--text);
     box-shadow: var(--shadow-sm);
     font-size: 0.75rem;
