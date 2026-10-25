@@ -81,14 +81,14 @@
         </div>
         <Button
           title="Скопировать"
-          variant="icon"
+          variant="primary"
           onclick={() => handleCopy(note.content)}
         >
           📋
         </Button>
         <Button
           title="Удалить"
-          variant="icon"
+          variant="primary"
           onclick={() => requestDelete(note.id)}
         >
           🗑️

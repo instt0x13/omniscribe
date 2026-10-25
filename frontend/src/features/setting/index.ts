@@ -1,1 +1,1 @@
-export { default as Route } from "./Route.svelte"
+export { default as Page } from "./Page.svelte"

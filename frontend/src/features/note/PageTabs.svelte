@@ -58,7 +58,7 @@
   <aside class="notes-sidebar">
     <div class="sidebar-header">
       <h3>Все заметки</h3>
-      <Button variant="icon" onclick={() => openNote()} title="Создать">
+      <Button variant="primary" onclick={() => openNote()} title="Создать">
         +
       </Button>
     </div>

@@ -1,2 +1,2 @@
-export { default as RouteList } from "./RouteList.svelte";
-export { default as RouteTabs } from "./RouteTabs.svelte";
+export { default as PageList } from "./PageList.svelte";
+export { default as PageTabs } from "./PageTabs.svelte";

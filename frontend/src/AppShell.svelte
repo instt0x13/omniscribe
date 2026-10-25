@@ -16,28 +16,28 @@
       path: "/note/list",
       title: "Список",
       icon: "📑",
-      component: Note.RouteList,
+      component: Note.PageList,
     },
     {
       id: "noteTabs",
       path: "/note/tabs",
       title: "Вкладки",
       icon: "🗂️",
-      component: Note.RouteTabs,
+      component: Note.PageTabs,
     },
     {
       id: "test",
       path: "/test",
       title: "ест",
       icon: "Т",
-      component: Test.Route,
+      component: Test.Page,
     },
     {
       id:"settings",
       path: "/settings",
       title: "Настройки",
       icon: "⚙️",
-      component: Setting.Route,
+      component: Setting.Page,
       props: {
         sections: [
           { title: "Оформление", component: Appearance.Settings },
