@@ -2,14 +2,12 @@
   import type { Snippet } from 'svelte';
   import type { HTMLButtonAttributes } from 'svelte/elements';
 
-  type Variant = 'default' | 'primary';
+  type Variant = 'default' | 'accent' | 'primary';
   type Size = 'md' | 'sm' | 'lg';
 
   interface Props extends HTMLButtonAttributes {
     variant?: Variant;
     size?: Size;
-    iconLeft?: Snippet;
-    iconRight?: Snippet;
     children: Snippet;
   }
 
@@ -18,8 +16,6 @@
     size = 'md',
     type = 'button',
     class: className = '',
-    iconLeft,
-    iconRight,
     children,
     ...rest
   }: Props = $props();
@@ -28,14 +24,13 @@
 <button
   {type}
   class="btn {className}"
+  class:btn--accent={variant === 'accent'}
   class:btn--primary={variant === 'primary'}
   class:btn--sm={size === 'sm'}
   class:btn--lg={size === 'lg'}
   {...rest}
 >
-  {#if iconLeft}<span class="btn__icon">{@render iconLeft()}</span>{/if}
   {@render children()}
-  {#if iconRight}<span class="btn__icon">{@render iconRight()}</span>{/if}
 </button>
 
 <style>
@@ -44,7 +39,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
-    padding: 0.5rem 0.8rem;
+    padding: 0.35rem 0.8rem;
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
@@ -78,6 +73,14 @@
   }
 
   /* варианты */
+  .btn--accent {
+    background: var(--accent);
+    border: 1px solid var(--accent-border);
+  }
+  .btn--accent:hover  {
+    background: var(--accent-hover);
+    border: 1px solid var(--accent-border-hover);
+  }
   .btn--primary {
     background: var(--primary);
     border: 1px solid var(--primary-border);
@@ -91,17 +94,12 @@
   /* размеры */
   .btn--sm {
     gap: 0.4rem;
-    padding: 0.25rem 0.4rem;
-    font-size: 0.875em;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.85em;
   }
   .btn--lg {
     gap: 1.2rem;
-    padding: 1rem 1.2rem;
-    font-size: 1.125em;
-  }
-
-  .btn__icon {
-    display: inline-flex;
-    align-items: center;
+    padding: 0.6rem 1.2rem;
+    font-size: 1.15em;
   }
 </style>
