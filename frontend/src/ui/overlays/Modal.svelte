@@ -55,7 +55,7 @@
   }
 
   dialog::backdrop {
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--backdrop);
   }
 
   .modal-wrapper {
@@ -67,7 +67,7 @@
 
   /* Базовые стили для внешних зон */
   .modal-zone {
-    color: var(--backdrop-text);
+    color: var(--on-backdrop);
     position: absolute;
     display: flex;
     align-items: center;
@@ -100,8 +100,9 @@
   }
 
   .modal-content {
-    background: var(--panel);
+    background: var(--panel-solid);
     padding: 1.5rem;
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     width: max-content;
     max-height: 85vh;

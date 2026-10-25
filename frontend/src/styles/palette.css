@@ -116,7 +116,8 @@
 
   /* ---------- Прочее ---------- */
 
-  --backdrop: hsl(0 0% 0% / calc(0.7 - var(--mode) * 0.3));
+  --backdrop: hsl(0 0% 0% / calc(0.8 - var(--mode) * 0.2));
+  --on-backdrop: hsl(var(--hue) var(--text-s) 90% / calc(0.35 + var(--alpha) * 0.65));
 
   --scrollbar: hsl(var(--hue) calc(var(--sat) * 0.4) 50%);
   --scrollbar-thumb:       hsl(from var(--scrollbar) h s l / 0.5);

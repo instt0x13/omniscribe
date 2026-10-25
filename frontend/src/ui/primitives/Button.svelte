@@ -92,6 +92,7 @@
     border: 1px solid var(--primary-border-hover);
   }
   .btn--ghost {
+    color: currentColor;
     background: transparent;
     border: none;
   }
