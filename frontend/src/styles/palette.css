@@ -76,8 +76,8 @@
 
   /* ---------- Акцент ---------- */
 
-  --accent:              hsl( var(--hue) var(--sat) var(--primary-l) / var(--surface-a) );
-  --accent-hover:        hsl( var(--hue) var(--sat) var(--primary-l-hover) / var(--surface-a) );
+  --accent:              hsl( var(--hue) min(var(--sat), 45%) var(--primary-l) / var(--surface-a) );
+  --accent-hover:        hsl( var(--hue) min(var(--sat), 45%) var(--primary-l-hover) / var(--surface-a) );
   --accent-border:       hsl( var(--hue) var(--border-s) var(--primary-border-l) / var(--alpha) );
   --accent-border-hover: hsl( var(--hue) var(--border-s) var(--primary-border-l-hover) / var(--alpha) );
 
