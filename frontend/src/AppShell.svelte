@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Background, App, Note, Setting, Appearance, Modal } from "$features";
+  import { Background, App, Note, Setting, Appearance, Modal, Test } from "$features";
   import { theme } from "$services";
   import type { RoutePage } from "$types";
 
@@ -24,6 +24,13 @@
       title: "Вкладки",
       icon: "🗂️",
       component: Note.RouteTabs,
+    },
+    {
+      id: "test",
+      path: "/test",
+      title: "ест",
+      icon: "Т",
+      component: Test.Route,
     },
     {
       id:"settings",
