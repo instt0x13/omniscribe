@@ -1,15 +1,19 @@
 <script lang="ts">
   import { settings } from "$services";
   import { Layer } from "$ui";
-  import { backgrounds, SETTING_NAME, type Background } from "./background.config";
+  import { backgrounds, SETTING_NAME, type BackgroundId } from "./background.config";
 
   interface Props {
-    zindex: number
+    zindex: number;
   }
   let { zindex }: Props = $props();
 
-  const background = $derived(settings.get(SETTING_NAME));
-  const BgComponent = $derived(backgrounds[background as Background]?.component ?? null);
+  const backgroundId = $derived(settings.get(SETTING_NAME) as BackgroundId);
+  
+  // Ищем компонент в массиве по id
+  const BgComponent = $derived(
+    backgrounds.find((b) => b.id === backgroundId)?.component ?? null
+  );
 </script>
 
 {#if BgComponent}

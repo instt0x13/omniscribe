@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GhostButton, Icon } from "$ui";
+  import { Button, Icon } from "$ui";
 
   import Modal from "./Modal.svelte";
 
@@ -18,12 +18,12 @@
   </div>
   {#snippet top()}
     <div class="confirm-buttons">
-      <GhostButton label="Согласиться" onclick={onconfirm}>
+      <Button variant="ghost" title="Согласиться" onclick={onconfirm}>
         <Icon name="check" />
-      </GhostButton>
-      <GhostButton label="Отказаться" onclick={oncancel}>
+      </Button>
+      <Button variant="ghost" title="Отказаться" onclick={oncancel}>
         <Icon name="chevronRight" />
-      </GhostButton>
+      </Button>
     </div>
   {/snippet}
 </Modal>

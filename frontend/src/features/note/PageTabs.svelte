@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, ChoiceList, GhostButton, GhostText, Icon, ModalConfirm } from "$ui";
+  import { Button, Icon, ModalConfirm } from "$ui";
   import type { Note } from "./noteTypes";
   import { NoteEditorSession } from "./classes/NoteEditorSession.svelte";
   import { NotesStore } from "./classes/NotesStore.svelte";

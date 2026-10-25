@@ -5,14 +5,15 @@ import Shader from "./backgrounds/Shader.svelte";
 
 export const SETTING_NAME = "background-type:";
 
-export const backgrounds = {
-  none: { title: "Без фона", component: null},
-  gradientBlobs: { title: "Метасферы", component: GradientBlobs},
-  particles: { title: "Звёздная пыль", component: Particles},
-  shader: { title: "Живой дым", component: Shader},
-} as const satisfies Record<string, { 
-  title: string, 
-  component: Component | null
-}>;
+export const backgrounds = [
+  { id: "none", title: "Без фона", component: null },
+  { id: "gradientBlobs", title: "Метасферы", component: GradientBlobs },
+  { id: "particles", title: "Звёздная пыль", component: Particles },
+  { id: "shader", title: "Живой дым", component: Shader },
+] as const;
 
-export type Background = keyof typeof backgrounds;
+// Тип для одного элемента фона
+export type BackgroundItem = typeof backgrounds[number];
+
+// Тип для ID (ключей)
+export type BackgroundId = BackgroundItem["id"];

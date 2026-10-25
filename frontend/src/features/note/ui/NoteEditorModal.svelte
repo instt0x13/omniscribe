@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Modal, Icon, GhostButton } from "$ui";
+  import { Modal, Icon, Button } from "$ui";
   import { NoteEditorSession } from "../classes/NoteEditorSession.svelte";
   import NoteCard from "./NoteEditor.svelte";
 
@@ -22,30 +22,30 @@
       <div class="modal-top-right">
         {#if session.isInEditMode}
           {#if session.isDirty && session.isValid}
-          <GhostButton label="Сохранить" onclick={onsave}>
+          <Button variant="ghost" title="Сохранить" onclick={onsave}>
             <Icon name="check" />
-          </GhostButton>
+          </Button>
           {/if}
           {#if session.isDirty}
-            <GhostButton label="Отмена" onclick={oncancel}>
+            <Button variant="ghost" title="Отмена" onclick={oncancel}>
               Отмена
-            </GhostButton>
+            </Button>
           {:else if session.entity.isNew}
-            <GhostButton label="Выйти" onclick={onclose}>
+            <Button variant="ghost" title="Выйти" onclick={onclose}>
               <Icon name="close" />
-            </GhostButton>
+            </Button>
           {:else}
-            <GhostButton label="Назад" onclick={() => (session.isManuallyEditing = false)}>
+            <Button variant="ghost" title="Назад" onclick={() => (session.isManuallyEditing = false)}>
               <Icon name="chevronRight" />
-            </GhostButton>
+            </Button>
           {/if}
         {:else}
-          <GhostButton label="Редактировать" onclick={() => (session.isManuallyEditing = true)}>
+          <Button variant="ghost" title="Редактировать" onclick={() => (session.isManuallyEditing = true)}>
             <Icon name="edit"/>
-          </GhostButton>
-          <GhostButton label="Выйти" onclick={onclose}>
+          </Button>
+          <Button variant="ghost" title="Выйти" onclick={onclose}>
             <Icon name="close" />
-          </GhostButton>
+          </Button>
         {/if}
       </div>
     </div>
