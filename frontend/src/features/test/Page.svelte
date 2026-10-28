@@ -12,10 +12,10 @@
       <Button variant="default" size="lg">Большая</Button>
     </div>
     <div class="test-buttons">
-      <h3>accent</h3>
-      <Button variant="accent" size="md">Обычная</Button>
-      <Button variant="accent" size="sm">Маленькая</Button>
-      <Button variant="accent" size="lg">Большая</Button>
+      <h3>ghost</h3>
+      <Button variant="ghost" size="md">Обычная</Button>
+      <Button variant="ghost" size="sm">Маленькая</Button>
+      <Button variant="ghost" size="lg">Большая</Button>
     </div>
     <div class="test-buttons">
       <h3>primary</h3>

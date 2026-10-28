@@ -2,7 +2,7 @@
   import type { Snippet } from 'svelte';
   import type { HTMLButtonAttributes } from 'svelte/elements';
 
-  type Variant = 'default' | 'accent' | 'primary' | "ghost";
+  type Variant = 'default' | 'primary' | "ghost";
   type Size = 'md' | 'sm' | 'lg';
 
   interface Props extends HTMLButtonAttributes {
@@ -24,7 +24,6 @@
 <button
   {type}
   class="btn {className}"
-  class:btn--accent={variant === 'accent'}
   class:btn--primary={variant === 'primary'}
   class:btn--ghost={variant === 'ghost'}
   class:btn--sm={size === 'sm'}
@@ -74,14 +73,6 @@
   }
 
   /* варианты */
-  .btn--accent {
-    background: var(--accent);
-    border: 1px solid var(--accent-border);
-  }
-  .btn--accent:hover  {
-    background: var(--accent-hover);
-    border: 1px solid var(--accent-border-hover);
-  }
   .btn--primary {
     background: var(--primary);
     border: 1px solid var(--primary-border);
