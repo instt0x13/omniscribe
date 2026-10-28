@@ -32,18 +32,18 @@
 
   /* ---------- Яркость  ---------- */
 
-  --bg-l:             calc(var(--lightness) - 6%);
-  --surface-l:        calc(var(--lightness) + var(--dir) * 4%);
-  --surface-l-hover:  calc(var(--lightness) + var(--dir) * 13%);
-  --border-l:         calc(var(--lightness) + var(--dir) * 8%);
+  --bg-l:             calc(var(--lightness) + var(--dir) * 5%);
+  --surface-l:        calc(var(--lightness) + var(--dir) * 10%);
+  --surface-l-hover:  calc(var(--lightness) + var(--dir) * 20%);
+  --border-l:         calc(var(--lightness) + var(--dir) * 15%);
   --border-l-hover:   calc(var(--lightness) + var(--dir) * 25%);
-  --text-l:           calc(var(--lightness) + var(--dir) * 70%);
+  --text-l:           calc(var(--lightness) + var(--dir) * 80%);
   --text-l-muted:     calc(var(--lightness) + var(--dir) * 50%);
   --text-l-subtle:    calc(var(--lightness) + var(--dir) * 40%);
-  --primary-l:        calc(var(--lightness) + var(--dir) * 25%);
-  --primary-l-hover:  calc(var(--lightness) + var(--dir) * 40%);
-  --primary-border-l:         calc(var(--lightness) + var(--dir) * 30%);
-  --primary-border-l-hover:   calc(var(--lightness) + var(--dir) * 50%);
+  --primary-l:        calc(var(--lightness) + var(--dir) * 20%);
+  --primary-l-hover:  calc(var(--lightness) + var(--dir) * 30%);
+  --primary-border-l:         calc(var(--lightness) + var(--dir) * 25%);
+  --primary-border-l-hover:   calc(var(--lightness) + var(--dir) * 35%);
 
   /* ---------- Насыщенность ---------- */
 
