@@ -41,7 +41,12 @@
 
   <!-- вертикальный ползунок на всю правую колонку -->
   <div class="font-card__slider">
-    <span class="font-card__label-min">a</span>
+    <button
+      type="button"
+      class="font-card__btn-slider font-card__btn-top"
+      onclick={() => fontSize.value += fontSize.meta.step}
+      aria-label="Увеличить отступ"
+    >A</button>
     
     <input
       class="font-card__range"
@@ -55,7 +60,12 @@
       aria-label="Размер шрифта"
     />
     
-    <span class="font-card__label-max">A</span>
+    <button
+      type="button"
+      class="font-card__btn-slider font-card__btn-bottom"
+      onclick={() => fontSize.value -= fontSize.meta.step}
+      aria-label="Увеличить отступ"
+    >a</button>
   </div>
 
   <!-- нижняя строка: select + [−] [+] -->
@@ -162,8 +172,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: var(--size);   /* после rotate(-90deg) — это визуальная высота */
-    height: var(--bar);   /* после rotate(-90deg) — это визуальная ширина */
+    width: calc(var(--size) * 0.7);   /* после rotate(-90deg) — это визуальная высота */
+    height: var(--bar);               /* после rotate(-90deg) — это визуальная ширина */
     transform: translate(-50%, -50%) rotate(-90deg);
     margin: 0;
     padding: 0;
@@ -202,26 +212,34 @@
     box-shadow: var(--shadow-sm);
   }
   
-  /* ─── Метки размера шрифта ─────────────────────── */
-  .font-card__label-min,
-  .font-card__label-max {
+  /* ─── Кнопки слайдера размера шрифта ───────────────────────────────── */
+  .font-card__btn-slider {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-weight: 600;
-    color: var(--text-subtle);
-    pointer-events: none; /* Чтобы не перекрывали клик по треку */
-    opacity: 0.7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    z-index: 2;
+    width: var(--bar);
+    height: var(--bar);
   }
 
-  .font-card__label-min {
-    bottom: 0;
-    font-size: 0.55rem;
-  }
-
-  .font-card__label-max {
+  .font-card__btn-top {
     top: 0;
     font-size: 0.85rem;
+  }
+
+  .font-card__btn-bottom {
+    bottom: 0;
+    font-size: 0.55rem;
   }
 
   /* ─── Нижняя строка: select + [−] [+] ────────────── */
