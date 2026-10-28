@@ -17,10 +17,10 @@
   /* ---------- Скаляры ---------- */
 
   /* Светлота при intensity = 0 (всё стянуто к серому) */
-  --base: calc(30% + var(--mode) * 40%);
+  --base: calc(9% + var(--mode) * 77%);
 
   /* Светлота при intensity = 1 (максимальный разброс) */
-  --edge: calc(3% + var(--mode) * 97%);
+  --edge: calc(1% + var(--mode) * 99%);
 
   /* Итоговая светлота фона */
   --lightness: calc(
@@ -40,10 +40,10 @@
   --text-l:           calc(var(--lightness) + var(--dir) * 80%);
   --text-l-muted:     calc(var(--lightness) + var(--dir) * 50%);
   --text-l-subtle:    calc(var(--lightness) + var(--dir) * 40%);
-  --primary-l:        calc(var(--lightness) + var(--dir) * 20%);
+  --primary-l:        calc(var(--lightness) + var(--dir) * 22%);
   --primary-l-hover:  calc(var(--lightness) + var(--dir) * 30%);
-  --primary-border-l:         calc(var(--lightness) + var(--dir) * 25%);
-  --primary-border-l-hover:   calc(var(--lightness) + var(--dir) * 35%);
+  --primary-border-l:         calc(var(--lightness) + var(--dir) * 24%);
+  --primary-border-l-hover:   calc(var(--lightness) + var(--dir) * 32%);
 
   /* ---------- Насыщенность ---------- */
 
