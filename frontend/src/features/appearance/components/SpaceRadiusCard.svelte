@@ -200,10 +200,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
     border: none;
     border-radius: var(--radius-sm);
     color: var(--text);
-    box-shadow: var(--shadow-sm);
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1;
