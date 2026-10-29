@@ -8,12 +8,14 @@
   interface Props extends HTMLButtonAttributes {
     variant?: Variant;
     size?: Size;
+    square?: boolean;  // новый проп
     children?: Snippet;
   }
 
   let {
     variant = 'default',
     size = 'md',
+    square = false,  // по умолчанию не квадратная
     type = 'button',
     class: className = '',
     children,
@@ -28,6 +30,7 @@
   class:btn--ghost={variant === 'ghost'}
   class:btn--sm={size === 'sm'}
   class:btn--lg={size === 'lg'}
+  class:btn--square={square}  // добавляем класс для квадрата
   {...rest}
 >
   {@render children?.()}
@@ -101,5 +104,29 @@
     gap: 1.2rem;
     padding: 0.6rem 1.2rem;
     font-size: 1.15em;
+  }
+
+  /* квадратный режим */
+  .btn--square {
+    aspect-ratio: 1 / 1;
+    padding: 0;  /* убираем паддинги чтобы контент центрировался */
+    overflow: hidden;
+  }
+  
+  /* комбинируем с размерами для правильной высоты */
+  .btn--square.btn--sm {
+    font-size: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+  }
+  .btn--square {
+    font-size: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .btn--square.btn--lg {
+    font-size: 2.5rem;
+    width: 3rem;
+    height: 3rem;
   }
 </style>
