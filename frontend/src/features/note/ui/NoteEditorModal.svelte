@@ -22,7 +22,7 @@
       <div class="modal-top-right">
         {#if session.isInEditMode}
           {#if session.isDirty && session.isValid}
-          <Button variant="ghost" title="Сохранить" onclick={onsave}>
+          <Button square variant="ghost" title="Сохранить" onclick={onsave}>
             <Icon name="check" />
           </Button>
           {/if}
@@ -31,19 +31,19 @@
               Отмена
             </Button>
           {:else if session.entity.isNew}
-            <Button variant="ghost" title="Выйти" onclick={onclose}>
+            <Button square variant="ghost" title="Выйти" onclick={onclose}>
               <Icon name="close" />
             </Button>
           {:else}
-            <Button variant="ghost" title="Назад" onclick={() => (session.isManuallyEditing = false)}>
+            <Button square variant="ghost" title="Назад" onclick={() => (session.isManuallyEditing = false)}>
               <Icon name="chevronRight" />
             </Button>
           {/if}
         {:else}
-          <Button variant="ghost" title="Редактировать" onclick={() => (session.isManuallyEditing = true)}>
+          <Button square variant="ghost" title="Редактировать" onclick={() => (session.isManuallyEditing = true)}>
             <Icon name="edit"/>
           </Button>
-          <Button variant="ghost" title="Выйти" onclick={onclose}>
+          <Button square variant="ghost" title="Выйти" onclick={onclose}>
             <Icon name="close" />
           </Button>
         {/if}
@@ -60,5 +60,9 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+  }
+  .modal-top-right {
+    display: flex;
+    gap: 0.3rem;
   }
 </style>

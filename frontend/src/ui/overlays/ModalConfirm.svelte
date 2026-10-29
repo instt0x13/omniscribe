@@ -18,10 +18,10 @@
   </div>
   {#snippet top()}
     <div class="confirm-buttons">
-      <Button variant="ghost" title="Согласиться" onclick={onconfirm}>
+      <Button square variant="ghost" title="Согласиться" onclick={onconfirm}>
         <Icon name="check" />
       </Button>
-      <Button variant="ghost" title="Отказаться" onclick={oncancel}>
+      <Button square variant="ghost" title="Отказаться" onclick={oncancel}>
         <Icon name="chevronRight" />
       </Button>
     </div>
