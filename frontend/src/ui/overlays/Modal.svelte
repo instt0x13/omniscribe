@@ -105,8 +105,8 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     width: max-content;
-    max-height: 85vh;
-    max-width: 68vw;
+    max-height: 80vh;
+    max-width: 70vw;
     display: flex;
     flex-direction: column;
     gap: 1rem;
