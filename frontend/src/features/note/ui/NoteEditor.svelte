@@ -8,7 +8,7 @@
   marked.setOptions({ gfm: true, breaks: true });
 </script>
 
-<div class="note-card">
+<div class="prose note-card">
   <div class="card-header">
     {#if session.isInEditMode}
       <input bind:value={session.entity.title} class="title-input" placeholder="Заголовок..." />

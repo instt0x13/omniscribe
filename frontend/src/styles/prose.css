@@ -3,17 +3,44 @@
    Типографика контента. Всё — внутри .prose.
    ============================================ */
 
-/* ---------- Заголовки ---------- */
+/* ---------- База ---------- */
 .prose {
-  line-height: var(--line-height);
+  line-height: 1.5; /* Фиксируем для читаемости, как договаривались */
 }
 
-.prose h1 { font-size: calc(var(--font-size) * 2);    margin-block: calc(var(--space) * 8) calc(var(--space) * 4); }
-.prose h2 { font-size: calc(var(--font-size) * 1.6);  margin-block: calc(var(--space) * 7) calc(var(--space) * 3); }
-.prose h3 { font-size: calc(var(--font-size) * 1.35); margin-block: calc(var(--space) * 6) calc(var(--space) * 3); }
-.prose h4 { font-size: calc(var(--font-size) * 1.15); margin-block: calc(var(--space) * 5) calc(var(--space) * 2); }
-.prose h5 { font-size: var(--font-size);              margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
-.prose h6 { font-size: calc(var(--font-size) * 0.9);  margin-block: calc(var(--space) * 4) calc(var(--space) * 2); }
+/* ---------- Заголовки ---------- */
+/* Размеры шрифта зависят от --font-size (настройки пользователя), 
+   а отступы фиксируем в rem для предсказуемой верстки */
+
+.prose h1 { 
+  font-size: 2em;    
+  margin-block: 2.5rem 1.5rem; 
+}
+
+.prose h2 { 
+  font-size: 1.6em;  
+  margin-block: 2rem 1.25rem; 
+}
+
+.prose h3 { 
+  font-size: 1.35em; 
+  margin-block: 1.75rem 1rem; 
+}
+
+.prose h4 { 
+  font-size: 1.15em; 
+  margin-block: 1.5rem 0.75rem; 
+}
+
+.prose h5 { 
+  font-size: 1em;              
+  margin-block: 1.25rem 0.5rem; 
+}
+
+.prose h6 { 
+  font-size: 0.9em;  
+  margin-block: 1.25rem 0.5rem; 
+}
 
 .prose h1 + *,
 .prose h2 + *,
@@ -27,15 +54,15 @@
 /* ---------- Абзацы ---------- */
 
 .prose p {
-  margin-block: calc(var(--space) * 3);
+  margin-block: 1rem;
 }
 
 /* ---------- Списки ---------- */
 
 .prose ul,
 .prose ol {
-  margin-block: calc(var(--space) * 3);
-  padding-left: calc(var(--space) * 6);
+  margin-block: 1rem;
+  padding-left: 1.5rem;
 }
 
 .prose ul { list-style: disc; }
@@ -45,11 +72,11 @@
 .prose ol ol,
 .prose ul ol,
 .prose ol ul {
-  margin-block: calc(var(--space) * 1);
+  margin-block: 0.5rem;
 }
 
 .prose li {
-  margin-block: calc(var(--space) * 1);
+  margin-block: 0.25rem;
 }
 
 .prose li::marker {
@@ -59,25 +86,25 @@
 /* ---------- Определения ---------- */
 
 .prose dl {
-  margin-block: calc(var(--space) * 3);
+  margin-block: 1rem;
 }
 
 .prose dt {
   font-weight: 600;
   color: var(--text);
-  margin-top: calc(var(--space) * 3);
+  margin-top: 1rem;
 }
 
 .prose dd {
-  margin-left: calc(var(--space) * 6);
+  margin-left: 1.5rem;
   color: var(--muted);
 }
 
 /* ---------- Цитаты ---------- */
 
 .prose blockquote {
-  margin: calc(var(--space) * 4) 0;
-  padding: calc(var(--space) * 2) calc(var(--space) * 4);
+  margin: 1.5rem 0;
+  padding: 0.75rem 1.25rem;
   border-left: 3px solid var(--primary);
   background: var(--surface);
   border-radius: 0 var(--radius) var(--radius) 0;
@@ -87,7 +114,7 @@
 
 .prose blockquote cite {
   display: block;
-  margin-top: calc(var(--space) * 2);
+  margin-top: 0.5rem;
   font-size: 0.9em;
   font-style: normal;
   color: var(--subtle);
@@ -100,7 +127,7 @@
 /* ---------- Изображения и медиа ---------- */
 
 .prose figure {
-  margin: calc(var(--space) * 4) 0;
+  margin: 1.5rem 0;
 }
 
 .prose figure img {
@@ -109,7 +136,7 @@
 }
 
 .prose figcaption {
-  margin-top: calc(var(--space) * 2);
+  margin-top: 0.5rem;
   font-size: 0.9em;
   color: var(--muted);
   text-align: center;
@@ -123,7 +150,7 @@
 
 .prose table {
   width: 100%;
-  margin-block: calc(var(--space) * 4);
+  margin-block: 1.5rem;
   font-size: 0.95em;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -132,7 +159,7 @@
 
 .prose caption {
   caption-side: bottom;
-  padding: calc(var(--space) * 2);
+  padding: 0.5rem;
   font-size: 0.9em;
   color: var(--muted);
   text-align: left;
@@ -143,13 +170,13 @@
   color: var(--text);
   font-weight: 600;
   text-align: left;
-  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
+  padding: 0.625rem 0.75rem;
   border-bottom: 1px solid var(--border-strong);
   white-space: nowrap;
 }
 
 .prose td {
-  padding: calc(var(--space) * 2.5) calc(var(--space) * 3);
+  padding: 0.625rem 0.75rem;
   border-bottom: 1px solid var(--border);
   color: var(--text);
   vertical-align: top;
@@ -170,8 +197,8 @@
 .prose address {
   font-style: normal;
   color: var(--muted);
-  margin-block: calc(var(--space) * 3);
-  line-height: var(--line-height);
+  margin-block: 1rem;
+  line-height: 1.5;
 }
 
 .prose time {
@@ -183,5 +210,5 @@
 .prose hr {
   border: none;
   border-top: 1px solid var(--border);
-  margin: calc(var(--space) * 8) 0;
+  margin: 2.5rem 0;
 }
