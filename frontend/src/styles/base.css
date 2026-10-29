@@ -57,7 +57,7 @@ body {
   min-height: 100dvh;
   font-family: var(--font-family);
   font-size: var(--font-size);
-  line-height: var(--line-height);
+  line-height: 1;
   background: var(--bg);
   color: var(--text);
   transition: background var(--transition), color var(--transition);

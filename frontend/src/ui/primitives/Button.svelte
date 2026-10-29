@@ -47,9 +47,7 @@
     color: var(--text);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    font-size: var(--font-size);
     font-weight: 500;
-    line-height: var(--line-height);
     cursor: pointer;
     user-select: none;
     transition:

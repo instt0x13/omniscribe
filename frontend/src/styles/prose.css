@@ -4,6 +4,9 @@
    ============================================ */
 
 /* ---------- Заголовки ---------- */
+.prose {
+  line-height: var(--line-height);
+}
 
 .prose h1 { font-size: calc(var(--font-size) * 2);    margin-block: calc(var(--space) * 8) calc(var(--space) * 4); }
 .prose h2 { font-size: calc(var(--font-size) * 1.6);  margin-block: calc(var(--space) * 7) calc(var(--space) * 3); }
