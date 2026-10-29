@@ -41,8 +41,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
-    padding: 0.35rem 0.8rem;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
@@ -95,13 +95,13 @@
   /* размеры */
   .btn--sm {
     gap: 0.4rem;
-    padding: 0.2rem 0.6rem;
-    font-size: 0.85em;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8em;
   }
   .btn--lg {
-    gap: 1.2rem;
+    gap: 0.6rem;
     padding: 0.6rem 1.2rem;
-    font-size: 1.15em;
+    font-size: 1.2em;
   }
 
   /* квадратный режим */
@@ -113,18 +113,15 @@
   
   /* комбинируем с размерами для правильной высоты */
   .btn--square.btn--sm {
-    font-size: 1.5rem;
-    width: 2rem;
-    height: 2rem;
+    font-size: 1.2rem;
+    height: calc(1.6rem + 2px);
   }
   .btn--square {
-    font-size: 2rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    font-size: 1.5rem;
+    height: calc(2rem + 2px);
   }
   .btn--square.btn--lg {
-    font-size: 2.5rem;
-    width: 3rem;
-    height: 3rem;
+    font-size: 1.8rem;
+    height: calc(2.4rem + 2px);
   }
 </style>
