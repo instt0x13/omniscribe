@@ -81,14 +81,14 @@
         </div>
         <Button
           title="Скопировать"
-          variant="primary"
+          square variant="ghost"
           onclick={() => handleCopy(note.content)}
         >
           📋
         </Button>
         <Button
           title="Удалить"
-          variant="primary"
+          square variant="ghost"
           onclick={() => requestDelete(note.id)}
         >
           🗑️
@@ -134,6 +134,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.1rem;
     padding: 0.75rem 1rem;
     background: var(--panel);
     border: 1px solid var(--border);
